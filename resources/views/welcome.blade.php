@@ -38,7 +38,10 @@
 </head>
 <body class="bg-white text-gray-800 antialiased">
 
-    {{-- ======= HERO + NAVBAR + SEARCH (all one dark green block) ======= --}}
+    {{-- ======= NAVBAR ======= --}}
+    @include('components.navbar')
+
+    {{-- ======= HERO + SEARCH ======= --}}
     @include('components.hero')
 
     {{-- ======= STATS BAR ======= --}}
