@@ -28,6 +28,13 @@ Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\
     })->name('customer');
 });
 
+// ── Professional Dashboard ────────────────────────────────────────────────────
+Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\ProfessionalMiddleware::class])->group(function () {
+    Route::get('/professional', function () {
+        return view('dashboard.professional');
+    })->name('professional');
+});
+
 // ── Admin Auth & Dashboard ────────────────────────────────────────────────
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
