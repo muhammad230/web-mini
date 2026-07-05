@@ -1,25 +1,27 @@
-<nav style="background:transparent; display:flex; align-items:center; justify-content:space-between; padding:14px 56px; position:absolute; top:0; left:0; right:0; z-index:100;">
-
-    {{-- LOGO --}}
-    <a href="#" style="display:flex; align-items:center; gap:8px; text-decoration:none;">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z" fill="#e07b39"/>
-            <path d="M9 21v-5h6v5" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
-        </svg>
-        <span style="font-size:1.2rem; font-weight:700; color:#ffffff; letter-spacing:-0.2px; line-height:1;">Fix<span style="color:#e07b39;">It</span></span>
+<nav class="w-full px-6 md:px-12 py-6 flex items-center justify-between absolute top-0 left-0 z-50">
+    {{-- Logo --}}
+    <a href="{{ route('home') }}" class="flex items-center gap-2">
+        <span class="text-4xl">🏠</span>
+        <span class="text-white text-3xl font-bold">Fix<span class="text-[#E8823C]">It</span></span>
     </a>
 
-    {{-- NAV LINKS --}}
-    <div style="display:flex; align-items:center; gap:44px;">
-        <a href="#how-it-works" style="font-size:0.9rem; font-weight:500; color:#ffffff; text-decoration:none;">How it works</a>
-        <a href="#browse"       style="font-size:0.9rem; font-weight:500; color:#ffffff; text-decoration:none;">Browse services</a>
-        <a href="#professionals" style="font-size:0.9rem; font-weight:500; color:#ffffff; text-decoration:none;">For professionals</a>
-    </div>
+    {{-- Nav Links --}}
+    <ul class="hidden md:flex items-center gap-8 text-white font-medium">
+        <li><a href="#how-it-works" class="hover:text-[#E8823C] transition-colors">How it works</a></li>
+        <li><a href="#browse" class="hover:text-[#E8823C] transition-colors">Browse services</a></li>
+        <li><a href="#professionals" class="hover:text-[#E8823C] transition-colors">For professionals</a></li>
+    </ul>
 
-    {{-- AUTH --}}
-    <div style="display:flex; align-items:center; gap:28px;">
-        <a href="#" style="font-size:0.9rem; font-weight:500; color:#ffffff; text-decoration:none;">Log in</a>
-        <a href="#" style="font-size:0.9rem; font-weight:600; color:#fff; background:#e07b39; padding:9px 22px; border-radius:8px; text-decoration:none;">Sign up</a>
+    {{-- Auth Buttons --}}
+    <div class="flex items-center gap-4">
+        @auth
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="text-white font-medium hover:text-[#E8823C] transition-colors">Log out</button>
+            </form>
+        @else
+            <a href="{{ route('login') }}" class="text-white font-medium hover:text-[#E8823C] transition-colors">Log in</a>
+            <a href="{{ route('register') }}" class="bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-6 py-2 rounded-lg transition-colors">Sign up</a>
+        @endauth
     </div>
-
 </nav>

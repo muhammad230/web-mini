@@ -1,0 +1,119 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
+
+class PublicAuthController extends Controller
+{
+    // ── Login page ──────────────────────────────────────────────────
+    public function showLogin()
+    {
+        if (Auth::check()) {
+            return $this->redirectAfterLogin(Auth::user());
+        }
+        return view('auth.login');
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        $key = 'login:' . Str::lower($request->email) . '|' . $request->ip();
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $seconds = RateLimiter::availableIn($key);
+            return back()->withErrors(['email' => "Too many attempts. Try again in {$seconds}s."])->withInput($request->only('email'));
+        }
+
+        if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+            RateLimiter::clear($key);
+            $request->session()->regenerate();
+            return $this->redirectAfterLogin(Auth::user());
+        }
+
+        RateLimiter::hit($key);
+        return back()->withErrors(['email' => 'Invalid email or password.'])->withInput($request->only('email'));
+    }
+
+    // ── Register page ────────────────────────────────────────────────
+    public function showRegister(Request $request)
+    {
+        if (Auth::check()) {
+            return $this->redirectAfterLogin(Auth::user());
+        }
+        $tab = $request->query('role', 'customer');
+        return view('auth.register', compact('tab'));
+    }
+
+    public function register(Request $request)
+    {
+        $role = $request->input('role', 'customer');
+
+        $rules = [
+            'name'     => 'required|string|max:100',
+            'email'    => 'required|email|unique:users,email',
+            'phone'    => 'required|string|max:20',
+            'password' => ['required', 'confirmed', Password::min(8)],
+            'role'     => 'required|in:customer,professional',
+        ];
+
+        if ($role === 'professional') {
+            $rules['trade']    = 'required|string|max:100';
+            $rules['location'] = 'required|string|max:150';
+        }
+
+        $request->validate($rules);
+
+        $user = User::create([
+            'name'                => $request->name,
+            'email'               => $request->email,
+            'phone'               => $request->phone,
+            'password'            => Hash::make($request->password),
+            'role'                => $role,
+            'trade'               => $role === 'professional' ? $request->trade : null,
+            'location'            => $role === 'professional' ? $request->location : null,
+            'verification_status' => $role === 'professional' ? 'pending' : 'verified',
+        ]);
+
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        return redirect()->route('welcome.pending');
+    }
+
+    // ── Logout ───────────────────────────────────────────────────────
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('home');
+    }
+
+    // ── Pending screen ───────────────────────────────────────────────
+    public function pending()
+    {
+        if (!Auth::check()) return redirect()->route('login');
+        return view('auth.pending', ['user' => Auth::user()]);
+    }
+
+    // ── Helpers ──────────────────────────────────────────────────────
+    private function redirectAfterLogin(User $user): \Illuminate\Http\RedirectResponse
+    {
+        return match ($user->role) {
+            'admin'        => redirect()->route('admin.dashboard'),
+            default        => redirect()->route('welcome.pending'),
+        };
+    }
+}

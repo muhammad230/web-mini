@@ -24,12 +24,23 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $roles = ['customer', 'professional'];
+        $role = $roles[array_rand($roles)];
+        
+        $trades = ['Plumbing', 'Electrical', 'Carpentry', 'Painting', 'AC Repair', 'Cleaning', 'Appliance Repair', 'Handyman'];
+        $cities = ['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Faisalabad'];
+
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
+            'phone' => fake()->phoneNumber(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'role' => $role,
+            'trade' => $role === 'professional' ? $trades[array_rand($trades)] : null,
+            'location' => $role === 'professional' ? $cities[array_rand($cities)] : null,
+            'verification_status' => $role === 'professional' ? 'pending' : 'verified',
         ];
     }
 
