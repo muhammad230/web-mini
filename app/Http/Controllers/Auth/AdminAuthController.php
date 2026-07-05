@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -58,5 +59,34 @@ class AdminAuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('admin.login');
+    }
+
+    public function approvePro($userId)
+    {
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
+            return redirect()->route('admin.login');
+        }
+
+        $user = User::findOrFail($userId);
+        if ($user->role === 'professional') {
+            $user->verification_status = 'verified';
+            $user->save();
+        }
+
+        return back()->with('success', 'Professional approved successfully!');
+    }
+
+    public function rejectPro($userId)
+    {
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
+            return redirect()->route('admin.login');
+        }
+
+        $user = User::findOrFail($userId);
+        // Optionally delete or just mark as rejected
+        $user->verification_status = 'rejected';
+        $user->save();
+
+        return back()->with('success', 'Professional rejected!');
     }
 }

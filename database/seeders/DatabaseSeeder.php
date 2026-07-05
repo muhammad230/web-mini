@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'verification_status' => 'verified',
         ]);
 
-        // Create Test Professional
+        // Create Test Professional (Verified)
         User::factory()->create([
             'name' => 'Muhammad Jamil',
             'email' => 'pro@fixit.com',
@@ -46,6 +46,18 @@ class DatabaseSeeder extends Seeder
             'trade' => 'Plumbing',
             'location' => 'Karachi',
             'verification_status' => 'verified',
+        ]);
+
+        // Create a pending professional for testing approvals
+        User::factory()->create([
+            'name' => 'Sarah Ahmed',
+            'email' => 'sarah@fixit.com',
+            'password' => Hash::make('password123'),
+            'phone' => '+1234567893',
+            'role' => 'professional',
+            'trade' => 'Electrical',
+            'location' => 'Karachi',
+            'verification_status' => 'pending',
         ]);
 
         // Create some random users

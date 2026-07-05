@@ -120,10 +120,10 @@ class PublicAuthController extends Controller
         return match ($user->role) {
             'admin'        => redirect()->route('admin.dashboard'),
             'customer'     => redirect()->route('dashboard.customer'),
-            'professional' => $user->verification_status === 'approved' 
+            'professional' => $user->verification_status === 'verified' 
                 ? redirect()->route('dashboard.professional')
                 : redirect()->route('welcome.pending'),
-            default        => redirect()->route('welcome.pending'),
+            default        => redirect()->route('home'),
         };
     }
 }

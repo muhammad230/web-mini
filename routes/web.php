@@ -41,9 +41,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-    Route::middleware([App\Http\Middleware\AdminMiddleware::class])->group(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard.index');
-        })->name('dashboard');
-    });
+        Route::middleware([App\Http\Middleware\AdminMiddleware::class])->group(function () {
+            Route::get('/dashboard', function () {
+                $pendingPros = \App\Models\User::where('role', 'professional')
+                    ->where('verification_status', 'pending')
+                    ->get();
+                return view('dashboard.index', compact('pendingPros'));
+            })->name('dashboard');
+
+            Route::post('/pro/{user}/approve', [\App\Http\Controllers\Auth\AdminAuthController::class, 'approvePro'])->name('pro.approve');
+            Route::post('/pro/{user}/reject',  [\App\Http\Controllers\Auth\AdminAuthController::class, 'rejectPro'])->name('pro.reject');
+        });
 });

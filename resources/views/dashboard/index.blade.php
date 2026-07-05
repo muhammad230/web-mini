@@ -336,30 +336,30 @@
             </div>
             <table>
                 <thead><tr>
-                    <th>Professional</th><th>Trade</th><th>Submitted</th><th>Documents</th><th>Actions</th>
+                    <th>Professional</th><th>Trade</th><th>Submitted</th><th>Actions</th>
                 </tr></thead>
                 <tbody>
-                    <tr>
-                        <td><div style="display:flex;align-items:center;gap:10px;"><img src="https://randomuser.me/api/portraits/men/22.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;"><div><div style="font-weight:600;color:#111827;">Kamran Malik</div><div style="font-size:0.72rem;color:#9ca3af;">kamran@email.com</div></div></div></td>
-                        <td><span class="trade-tag" style="background:#e8f4f1;color:#16302A;">Plumbing</span></td>
-                        <td>Jul 4, 2026</td>
-                        <td><span class="kpi-badge badge-up">Complete</span></td>
-                        <td><button style="background:#E8823C;color:#fff;border:none;padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;margin-right:6px;">Approve</button><button style="background:#fff;color:#6b7280;border:1.5px solid #e5e7eb;padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;">Reject</button></td>
-                    </tr>
-                    <tr>
-                        <td><div style="display:flex;align-items:center;gap:10px;"><img src="https://randomuser.me/api/portraits/women/33.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;"><div><div style="font-weight:600;color:#111827;">Nadia Hussain</div><div style="font-size:0.72rem;color:#9ca3af;">nadia@email.com</div></div></div></td>
-                        <td><span class="trade-tag" style="background:#fff8e6;color:#a16207;">Electrical</span></td>
-                        <td>Jul 3, 2026</td>
-                        <td><span class="kpi-badge badge-down">Incomplete</span></td>
-                        <td><button style="background:#E8823C;color:#fff;border:none;padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;margin-right:6px;">Approve</button><button style="background:#fff;color:#6b7280;border:1.5px solid #e5e7eb;padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;">Reject</button></td>
-                    </tr>
-                    <tr>
-                        <td><div style="display:flex;align-items:center;gap:10px;"><img src="https://randomuser.me/api/portraits/men/44.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;"><div><div style="font-weight:600;color:#111827;">Usman Tariq</div><div style="font-size:0.72rem;color:#9ca3af;">usman@email.com</div></div></div></td>
-                        <td><span class="trade-tag" style="background:#fef3ee;color:#c2410c;">Carpentry</span></td>
-                        <td>Jul 2, 2026</td>
-                        <td><span class="kpi-badge badge-up">Complete</span></td>
-                        <td><button style="background:#E8823C;color:#fff;border:none;padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;margin-right:6px;">Approve</button><button style="background:#fff;color:#6b7280;border:1.5px solid #e5e7eb;padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;">Reject</button></td>
-                    </tr>
+                    @if($pendingPros->count() > 0)
+                        @foreach($pendingPros as $pro)
+                            <tr>
+                                <td><div style="display:flex;align-items:center;gap:10px;"><div style="width:34px;height:34px;border-radius:50%;background:#E8823C;display:flex;align-items:center;justify-content:center;color:white;font-weight:600;">{{ substr($pro->name, 0, 1) }}</div><div><div style="font-weight:600;color:#111827;">{{ $pro->name }}</div><div style="font-size:0.72rem;color:#9ca3af;">{{ $pro->email }}</div></div></div></td>
+                                <td><span class="trade-tag" style="background:#fff8e6;color:#a16207;">{{ $pro->trade }}</span></td>
+                                <td>{{ $pro->created_at->format('M d, Y') }}</td>
+                                <td>
+                                    <form method="POST" action="{{ route('admin.pro.approve', $pro->id) }}" style="display:inline;">
+                                        @csrf
+                                        <button type="submit" style="background:#E8823C;color:#fff;border:none;padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;margin-right:6px;">Approve</button>
+                                    </form>
+                                    <form method="POST" action="{{ route('admin.pro.reject', $pro->id) }}" style="display:inline;">
+                                        @csrf
+                                        <button type="submit" style="background:#fff;color:#6b7280;border:1.5px solid #e5e7eb;padding:6px 14px;border-radius:7px;font-weight:600;cursor:pointer;">Reject</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr><td colspan="4" style="text-align:center;padding:30px;color:#9ca3af;">No pending approvals right now!</td></tr>
+                    @endif
                 </tbody>
             </table>
         </div>
