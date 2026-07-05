@@ -1,57 +1,101 @@
-<section class="text-white py-16 px-6 md:px-12 relative overflow-hidden" style="background-image: url('https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=A%20warm%2C%20digitally%20painted%20illustration%20of%20a%20cozy%20modern%20living%20room%20interior%2C%20dark%20teal%2Fforest%20green%20wall%20background%2C%20a%20green%20velvet%20sofa%20with%20orange%20and%20mustard-yellow%20throw%20pillows%2C%20a%20round%20wooden%20coffee%20table%2C%20a%20potted%20plant%2C%20two%20framed%20abstract%20art%20pieces%20on%20the%20wall%2C%20a%20hanging%20pendant%20lamp%2C%20soft%20warm%20lighting.%20Scattered%20around%20the%20base%20of%20the%20sofa%20are%20home%20repair%20tools%20%E2%80%94%20a%20hammer%2C%20wrench%2C%20screwdriver%2C%20small%20toolbox%20%E2%80%94%20in%20orange%20and%20black%20colors.%20Flat%20illustration%20%2F%20semi-realistic%20digital%20painting%20style%2C%20warm%20autumn%20color%20palette%20(teal%2C%20orange%2C%20mustard%2C%20cream)%2C%20soft%20shadows%2C%20clean%20vector-ish%20rendering%2C%20no%20photorealism%2C%20no%20text%2C%20no%20watermark.%20Square-ish%20aspect%20ratio%2C%20web%20hero%20banner%20illustration%20style.&image_size=square_hd'); background-size: cover; background-position: center;">
-    {{-- Dark overlay for text readability --}}
-    <div class="absolute inset-0 bg-gradient-to-r from-[#1a2e2a]/90 to-[#1a2e2a]/70"></div>
-    
-    <div class="max-w-6xl mx-auto relative z-10">
-        {{-- Left Content --}}
-        <div class="max-w-xl">
-            <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
-                Get Your Home<br>
-                Jobs Done <span class="text-[#e07b39]">Fast &<br>Reliably</span>
-            </h1>
-            <p class="text-gray-200 text-sm md:text-base max-w-md mb-8 leading-relaxed">
-                Connect with vetted local professionals for plumbing, electrical, carpentry, and more. Book in minutes, get the job done right.
-            </p>
+<section class="relative overflow-hidden" style="background-color:#1c3a32;">
 
-            {{-- Search Box --}}
-            <div class="bg-white rounded-xl shadow-lg p-5 max-w-xl">
-                <div class="flex flex-col sm:flex-row gap-3 mb-3">
-                    <div class="flex-1">
-                        <label class="text-gray-500 text-xs mb-1 block">What do you need done?</label>
-                        <div class="flex items-center border border-gray-200 rounded-md px-3 py-2 bg-gray-50">
-                            <span class="text-gray-400 mr-2 text-sm">🏠</span>
-                            <select class="flex-1 bg-transparent text-gray-600 text-sm outline-none">
-                                <option>Select a service</option>
-                                <option>Plumbing</option>
-                                <option>Electrical</option>
-                                <option>Carpentry</option>
-                                <option>Painting</option>
-                                <option>AC Repair</option>
-                                <option>Cleaning</option>
-                                <option>Appliance Repair</option>
-                                <option>Handyman</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <label class="text-gray-500 text-xs mb-1 block">Your location</label>
-                        <div class="flex items-center border border-gray-200 rounded-md px-3 py-2 bg-gray-50">
-                            <span class="text-gray-400 mr-2 text-sm">📍</span>
-                            <input type="text" placeholder="Enter your city or zip code" class="flex-1 bg-transparent text-gray-600 text-sm outline-none">
-                        </div>
-                    </div>
-                    <div class="flex items-end">
-                        <button class="bg-[#e07b39] hover:bg-[#c96a2a] text-white font-semibold px-6 py-2.5 rounded-md text-sm transition-colors h-[42px] mt-auto">
-                            Search
-                        </button>
+    {{-- Full background image — fills entire section --}}
+    <img
+        src="{{ asset('images/ChatGPT Image Jul 5, 2026, 05_16_55 PM.png') }}"
+        alt=""
+        aria-hidden="true"
+        class="absolute inset-0 w-full h-full object-cover object-right"
+        style="opacity:1;"
+    />
+
+    {{-- Left-to-right dark overlay: opaque dark green on left, fades out toward right --}}
+    <div class="absolute inset-0" style="background: linear-gradient(90deg, #1c3a32 0%, #1c3a32 32%, rgba(28,58,50,0.88) 50%, rgba(28,58,50,0.3) 72%, rgba(28,58,50,0.05) 100%);"></div>
+
+    {{-- Content wrapper --}}
+    <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-16">
+
+        {{-- Hero text — left half only --}}
+        <div class="pt-16 pb-56" style="max-width:520px;">
+            <h1 class="font-extrabold text-white leading-snug mb-5" style="font-size:2.75rem; line-height:1.15;">
+                Get Your Home<br>
+                Jobs Done <span style="color:#e8a84c;">Fast &amp;<br>Reliably</span>
+            </h1>
+            <p class="text-gray-300 leading-relaxed" style="font-size:0.9rem; max-width:340px;">
+                Connect with vetted local professionals for plumbing,<br>
+                electrical, carpentry, and more. Book in minutes,<br>
+                get the job done right.
+            </p>
+        </div>
+
+    </div>
+
+    {{-- ── SEARCH CARD ── sits at bottom, bleeds 50% below section --}}
+    <div class="absolute left-0 right-0 z-20 px-6 md:px-16" style="bottom:-88px;">
+        <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl" style="padding:28px 32px 24px;">
+
+            {{-- Row 1: service + location + button --}}
+            <div class="flex flex-col md:flex-row gap-4 items-end mb-5">
+
+                {{-- Service --}}
+                <div class="flex-1 min-w-0">
+                    <p class="text-gray-800 text-xs font-semibold mb-2">What do you need done?</p>
+                    <div class="flex items-center border border-gray-200 rounded-lg px-3 bg-white" style="height:46px;">
+                        <svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                        <select class="flex-1 bg-transparent text-gray-500 text-sm outline-none appearance-none cursor-pointer pr-2">
+                            <option value="">Select a service</option>
+                            <option>Plumbing</option>
+                            <option>Electrical</option>
+                            <option>Carpentry</option>
+                            <option>Painting</option>
+                            <option>AC Repair</option>
+                            <option>Cleaning</option>
+                            <option>Appliance Repair</option>
+                            <option>Handyman</option>
+                        </select>
+                        <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                        </svg>
                     </div>
                 </div>
-                <div class="text-center">
-                    <button class="inline-flex items-center gap-2 text-gray-600 text-sm border border-gray-300 rounded-full px-5 py-2 hover:border-[#e07b39] hover:text-[#e07b39] transition-colors">
-                        <span>📋</span> Post a job for free
-                    </button>
+
+                {{-- Location --}}
+                <div class="flex-1 min-w-0">
+                    <p class="text-gray-800 text-xs font-semibold mb-2">Your location</p>
+                    <div class="flex items-center border border-gray-200 rounded-lg px-3 bg-white" style="height:46px;">
+                        <svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <input type="text" placeholder="Enter your city or zip code"
+                            class="flex-1 bg-transparent text-gray-700 text-sm outline-none placeholder-gray-400">
+                    </div>
                 </div>
+
+                {{-- Search button --}}
+                <button
+                    class="flex-shrink-0 bg-[#e07b39] hover:bg-[#c96a2a] text-white font-semibold text-sm rounded-lg transition-colors"
+                    style="height:46px; padding:0 28px;">
+                    Search
+                </button>
             </div>
+
+            {{-- Row 2: Post a job --}}
+            <div class="flex justify-center">
+                <button class="inline-flex items-center gap-2 text-gray-700 text-sm font-medium border border-gray-300 rounded-lg px-7 py-2.5 hover:border-[#e07b39] hover:text-[#e07b39] transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                    Post a job for free
+                </button>
+            </div>
+
         </div>
     </div>
+
 </section>
+
+{{-- Spacer = search card height (≈175px) + some breathing room --}}
+<div style="height:110px; background:#f5f4ef;"></div>
