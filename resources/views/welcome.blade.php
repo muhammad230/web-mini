@@ -38,10 +38,7 @@
 </head>
 <body class="bg-white text-gray-800 antialiased">
 
-    {{-- ======= NAVBAR ======= --}}
-    @include('components.navbar')
-
-    {{-- ======= HERO + SEARCH ======= --}}
+    {{-- ======= HERO + SEARCH (navbar embedded inside) ======= --}}
     @include('components.hero')
 
     {{-- ======= STATS BAR ======= --}}
