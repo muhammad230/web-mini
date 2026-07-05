@@ -1,18 +1,15 @@
-<section class="bg-[#1a2e2a] text-white py-16 px-6 md:px-12 relative overflow-hidden">
-    {{-- Decorative elements --}}
-    <div class="absolute top-0 left-0 w-full h-full opacity-5">
-        <div class="absolute top-20 left-10 w-40 h-40 rounded-full bg-[#e07b39]"></div>
-        <div class="absolute bottom-20 right-10 w-60 h-60 rounded-full bg-[#e07b39]"></div>
-    </div>
+<section class="text-white py-16 px-6 md:px-12 relative overflow-hidden" style="background-image: url('https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=A%20warm%2C%20digitally%20painted%20illustration%20of%20a%20cozy%20modern%20living%20room%20interior%2C%20dark%20teal%2Fforest%20green%20wall%20background%2C%20a%20green%20velvet%20sofa%20with%20orange%20and%20mustard-yellow%20throw%20pillows%2C%20a%20round%20wooden%20coffee%20table%2C%20a%20potted%20plant%2C%20two%20framed%20abstract%20art%20pieces%20on%20the%20wall%2C%20a%20hanging%20pendant%20lamp%2C%20soft%20warm%20lighting.%20Scattered%20around%20the%20base%20of%20the%20sofa%20are%20home%20repair%20tools%20%E2%80%94%20a%20hammer%2C%20wrench%2C%20screwdriver%2C%20small%20toolbox%20%E2%80%94%20in%20orange%20and%20black%20colors.%20Flat%20illustration%20%2F%20semi-realistic%20digital%20painting%20style%2C%20warm%20autumn%20color%20palette%20(teal%2C%20orange%2C%20mustard%2C%20cream)%2C%20soft%20shadows%2C%20clean%20vector-ish%20rendering%2C%20no%20photorealism%2C%20no%20text%2C%20no%20watermark.%20Square-ish%20aspect%20ratio%2C%20web%20hero%20banner%20illustration%20style.&image_size=square_hd'); background-size: cover; background-position: center;">
+    {{-- Dark overlay for text readability --}}
+    <div class="absolute inset-0 bg-gradient-to-r from-[#1a2e2a]/90 to-[#1a2e2a]/70"></div>
     
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
+    <div class="max-w-6xl mx-auto relative z-10">
         {{-- Left Content --}}
-        <div class="flex-1 z-10">
+        <div class="max-w-xl">
             <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
                 Get Your Home<br>
                 Jobs Done <span class="text-[#e07b39]">Fast &<br>Reliably</span>
             </h1>
-            <p class="text-gray-300 text-sm md:text-base max-w-md mb-8 leading-relaxed">
+            <p class="text-gray-200 text-sm md:text-base max-w-md mb-8 leading-relaxed">
                 Connect with vetted local professionals for plumbing, electrical, carpentry, and more. Book in minutes, get the job done right.
             </p>
 
@@ -53,23 +50,6 @@
                     <button class="inline-flex items-center gap-2 text-gray-600 text-sm border border-gray-300 rounded-full px-5 py-2 hover:border-[#e07b39] hover:text-[#e07b39] transition-colors">
                         <span>📋</span> Post a job for free
                     </button>
-                </div>
-            </div>
-        </div>
-
-        {{-- Right Image --}}
-        <div class="flex-1 flex justify-center md:justify-end">
-            <div class="relative w-full max-w-sm md:max-w-md">
-                <div class="rounded-2xl overflow-hidden h-72 md:h-96 shadow-2xl">
-                    <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=modern%20living%20room%20interior%20with%20green%20sofa%20and%20tools%20for%20home%20service&image_size=square_hd" alt="Beautiful Living Room" class="w-full h-full object-cover">
-                </div>
-                {{-- Floating tool icon --}}
-                <div class="absolute -bottom-4 -right-4 bg-[#e07b39] rounded-full w-16 h-16 flex items-center justify-center shadow-xl">
-                    <span class="text-2xl">🔨</span>
-                </div>
-                {{-- Floating lamp decoration --}}
-                <div class="absolute -top-8 -left-8">
-                    <div class="text-4xl">💡</div>
                 </div>
             </div>
         </div>

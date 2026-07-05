@@ -1,6 +1,6 @@
-<section id="browse" class="bg-[#f7f6f2] py-14 px-6 relative overflow-hidden">
+<section id="browse" class="bg-white py-14 px-6 relative overflow-hidden">
     {{-- Decorative dots background --}}
-    <div class="absolute top-10 left-10 w-20 h-20 opacity-30">
+    <div class="absolute top-10 left-10 w-20 h-20 opacity-10">
         <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
             <circle cx="10" cy="10" r="3" fill="#e07b39"/>
             <circle cx="30" cy="10" r="3" fill="#e07b39"/>
@@ -20,7 +20,7 @@
             <circle cx="70" cy="70" r="3" fill="#e07b39"/>
         </svg>
     </div>
-    <div class="absolute bottom-10 right-10 w-20 h-20 opacity-30">
+    <div class="absolute bottom-10 right-10 w-20 h-20 opacity-10">
         <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
             <circle cx="10" cy="10" r="3" fill="#e07b39"/>
             <circle cx="30" cy="10" r="3" fill="#e07b39"/>
@@ -56,7 +56,7 @@
             </a>
 
             {{-- Electrical --}}
-            <a href="#" class="bg-white rounded-xl p-5 flex items-start gap-3 shadow-sm hover:shadow-md hover:border-[#e07b39] border border-transparent transition-all group">
+            <a href="#" class="bg-[#fff5e6] rounded-xl p-5 flex items-start gap-3 shadow-sm hover:shadow-md hover:border-[#e07b39] border border-transparent transition-all group">
                 <div class="text-[#e07b39] group-hover:text-[#c96a2a] transition-colors text-3xl mt-0.5">⚡</div>
                 <div>
                     <div class="font-semibold text-[#e07b39] text-sm">Electrical</div>
