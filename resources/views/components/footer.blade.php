@@ -1,61 +1,102 @@
-<footer class="bg-[#1a2e2a] text-gray-400 py-12 px-6">
-    <div class="max-w-5xl mx-auto">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+<footer style="background:#1b3a30; padding:44px 56px 28px;">
+    <div style="max-width:960px; margin:0 auto;">
 
-            {{-- Brand --}}
-            <div class="col-span-2 md:col-span-1">
-                <div class="flex items-center gap-2 mb-3">
-                    <span class="text-[#e07b39] text-2xl">🔧</span>
-                    <span class="text-white text-xl font-bold">Fix<span class="text-[#e07b39]">It</span></span>
+        {{-- Top: 4 columns --}}
+        <div style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:40px; margin-bottom:36px;">
+
+            {{-- Brand column --}}
+            <div>
+                {{-- Logo --}}
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z" fill="#e07b39"/>
+                    </svg>
+                    <span style="font-size:1.1rem; font-weight:700; color:#fff;">Fix<span style="color:#e07b39;">It</span></span>
                 </div>
-                <p class="text-xs leading-relaxed mb-4">Connecting homeowners with reliable local professionals for all their home service needs.</p>
-                <div class="flex gap-3">
-                    <a href="#" class="w-8 h-8 bg-[#243d37] hover:bg-[#e07b39] rounded-full flex items-center justify-center text-xs transition-colors">f</a>
-                    <a href="#" class="w-8 h-8 bg-[#243d37] hover:bg-[#e07b39] rounded-full flex items-center justify-center text-xs transition-colors">in</a>
-                    <a href="#" class="w-8 h-8 bg-[#243d37] hover:bg-[#e07b39] rounded-full flex items-center justify-center text-xs transition-colors">tw</a>
-                    <a href="#" class="w-8 h-8 bg-[#243d37] hover:bg-[#e07b39] rounded-full flex items-center justify-center text-xs transition-colors">yt</a>
+                <p style="font-size:0.78rem; color:#8aaa9e; line-height:1.7; margin:0 0 18px; max-width:200px;">
+                    Connecting homeowners with reliable local professionals for all their home service needs.
+                </p>
+                {{-- Social icons --}}
+                <div style="display:flex; gap:10px;">
+                    {{-- Facebook --}}
+                    <a href="#" style="width:32px; height:32px; border-radius:50%; border:1.5px solid #2d5a4a;
+                                       display:flex; align-items:center; justify-content:center; text-decoration:none;"
+                       onmouseover="this.style.borderColor='#e07b39'" onmouseout="this.style.borderColor='#2d5a4a'">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#8aaa9e">
+                            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                        </svg>
+                    </a>
+                    {{-- Instagram --}}
+                    <a href="#" style="width:32px; height:32px; border-radius:50%; border:1.5px solid #2d5a4a;
+                                       display:flex; align-items:center; justify-content:center; text-decoration:none;"
+                       onmouseover="this.style.borderColor='#e07b39'" onmouseout="this.style.borderColor='#2d5a4a'">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8aaa9e" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+                            <circle cx="17.5" cy="6.5" r="1" fill="#8aaa9e"/>
+                        </svg>
+                    </a>
+                    {{-- Twitter --}}
+                    <a href="#" style="width:32px; height:32px; border-radius:50%; border:1.5px solid #2d5a4a;
+                                       display:flex; align-items:center; justify-content:center; text-decoration:none;"
+                       onmouseover="this.style.borderColor='#e07b39'" onmouseout="this.style.borderColor='#2d5a4a'">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#8aaa9e">
+                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                        </svg>
+                    </a>
+                    {{-- YouTube --}}
+                    <a href="#" style="width:32px; height:32px; border-radius:50%; border:1.5px solid #2d5a4a;
+                                       display:flex; align-items:center; justify-content:center; text-decoration:none;"
+                       onmouseover="this.style.borderColor='#e07b39'" onmouseout="this.style.borderColor='#2d5a4a'">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8aaa9e" stroke-width="2">
+                            <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
+                            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#8aaa9e" stroke="none"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
 
             {{-- Company --}}
             <div>
-                <h4 class="text-white font-semibold text-sm mb-4">Company</h4>
-                <ul class="space-y-2.5 text-xs">
-                    <li><a href="#" class="hover:text-[#e07b39] transition-colors">About us</a></li>
-                    <li><a href="#" class="hover:text-[#e07b39] transition-colors">Careers</a></li>
-                    <li><a href="#" class="hover:text-[#e07b39] transition-colors">Press</a></li>
-                </ul>
+                <h4 style="font-size:0.9rem; font-weight:700; color:#fff; margin:0 0 16px;">Company</h4>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <a href="#" style="font-size:0.8rem; color:#8aaa9e; text-decoration:none;">About us</a>
+                    <a href="#" style="font-size:0.8rem; color:#8aaa9e; text-decoration:none;">Careers</a>
+                    <a href="#" style="font-size:0.8rem; color:#8aaa9e; text-decoration:none;">Press</a>
+                </div>
             </div>
 
             {{-- For Customers --}}
             <div>
-                <h4 class="text-white font-semibold text-sm mb-4">For Customers</h4>
-                <ul class="space-y-2.5 text-xs">
-                    <li><a href="#" class="hover:text-[#e07b39] transition-colors">How it works</a></li>
-                    <li><a href="#" class="hover:text-[#e07b39] transition-colors">Browse services</a></li>
-                    <li><a href="#" class="hover:text-[#e07b39] transition-colors">Help center</a></li>
-                </ul>
+                <h4 style="font-size:0.9rem; font-weight:700; color:#fff; margin:0 0 16px;">For Customers</h4>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <a href="#" style="font-size:0.8rem; color:#8aaa9e; text-decoration:none;">How it works</a>
+                    <a href="#" style="font-size:0.8rem; color:#8aaa9e; text-decoration:none;">Browse services</a>
+                    <a href="#" style="font-size:0.8rem; color:#8aaa9e; text-decoration:none;">Help center</a>
+                </div>
             </div>
 
             {{-- For Pros --}}
             <div>
-                <h4 class="text-white font-semibold text-sm mb-4">For Pros</h4>
-                <ul class="space-y-2.5 text-xs">
-                    <li><a href="#" class="hover:text-[#e07b39] transition-colors">Join as a pro</a></li>
-                    <li><a href="#" class="hover:text-[#e07b39] transition-colors">Pro dashboard</a></li>
-                    <li><a href="#" class="hover:text-[#e07b39] transition-colors">Resources</a></li>
-                </ul>
+                <h4 style="font-size:0.9rem; font-weight:700; color:#fff; margin:0 0 16px;">For Pros</h4>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <a href="#" style="font-size:0.8rem; color:#8aaa9e; text-decoration:none;">Join as a pro</a>
+                    <a href="#" style="font-size:0.8rem; color:#8aaa9e; text-decoration:none;">Pro dashboard</a>
+                    <a href="#" style="font-size:0.8rem; color:#8aaa9e; text-decoration:none;">Resources</a>
+                </div>
             </div>
 
         </div>
 
-        <div class="border-t border-[#243d37] pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
-            <p class="text-xs">© 2026 Fixit. All rights reserved.</p>
-            <div class="flex gap-4 text-xs">
-                <a href="#" class="hover:text-[#e07b39] transition-colors">Privacy Policy</a>
-                <a href="#" class="hover:text-[#e07b39] transition-colors">Terms of Service</a>
-                <a href="#" class="hover:text-[#e07b39] transition-colors">Legal</a>
+        {{-- Bottom bar --}}
+        <div style="border-top:1px solid #2d5a4a; padding-top:20px;
+                    display:flex; align-items:center; justify-content:space-between;">
+            <p style="font-size:0.75rem; color:#8aaa9e; margin:0;">© 2026 FixIt. All rights reserved.</p>
+            <div style="display:flex; gap:20px;">
+                <a href="#" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Privacy Policy</a>
+                <a href="#" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Terms of Service</a>
+                <a href="#" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Legal</a>
             </div>
         </div>
+
     </div>
 </footer>

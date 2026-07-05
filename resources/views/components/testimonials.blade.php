@@ -1,63 +1,61 @@
-<section class="bg-white py-16 px-6 relative overflow-hidden">
-    {{-- Decorative dots background --}}
-    <div class="absolute top-20 right-20 w-20 h-20 opacity-20">
-        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            <circle cx="10" cy="10" r="3" fill="#e07b39"/>
-            <circle cx="30" cy="10" r="3" fill="#e07b39"/>
-            <circle cx="50" cy="10" r="3" fill="#e07b39"/>
-            <circle cx="70" cy="10" r="3" fill="#e07b39"/>
-            <circle cx="10" cy="30" r="3" fill="#e07b39"/>
-            <circle cx="30" cy="30" r="3" fill="#e07b39"/>
-            <circle cx="50" cy="30" r="3" fill="#e07b39"/>
-            <circle cx="70" cy="30" r="3" fill="#e07b39"/>
-            <circle cx="10" cy="50" r="3" fill="#e07b39"/>
-            <circle cx="30" cy="50" r="3" fill="#e07b39"/>
-            <circle cx="50" cy="50" r="3" fill="#e07b39"/>
-            <circle cx="70" cy="50" r="3" fill="#e07b39"/>
-            <circle cx="10" cy="70" r="3" fill="#e07b39"/>
-            <circle cx="30" cy="70" r="3" fill="#e07b39"/>
-            <circle cx="50" cy="70" r="3" fill="#e07b39"/>
-            <circle cx="70" cy="70" r="3" fill="#e07b39"/>
-        </svg>
-    </div>
-    
-    <div class="max-w-4xl mx-auto relative z-10">
-        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-10">What Our Customers Say</h2>
+<section style="background:#f2f1ec; padding:52px 56px 56px;">
+    <div style="max-width:960px; margin:0 auto;">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {{-- Title --}}
+        <div style="text-align:center; margin-bottom:36px;">
+            <h2 style="font-size:1.85rem; font-weight:800; color:#111827; margin:0 0 8px;">What Our Customers Say</h2>
+            <div style="width:48px; height:3px; background:#e07b39; border-radius:2px; margin:0 auto;"></div>
+        </div>
 
-            {{-- Testimonial 1 --}}
-            <div class="bg-[#f7f6f2] rounded-xl p-6 relative">
-                <div class="text-[#e07b39] text-5xl font-serif leading-none mb-3 opacity-60">"</div>
-                <div class="flex text-[#e07b39] text-sm mb-3">★★★★★</div>
-                <p class="text-gray-700 text-sm leading-relaxed mb-5 italic">
+        {{-- Two cards side by side --}}
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+
+            {{-- Card 1 --}}
+            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:28px 24px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+                {{-- Large quote mark --}}
+                <div style="font-size:3.5rem; line-height:1; color:#d4900a; font-family:Georgia,serif; margin-bottom:6px; opacity:0.85;">&ldquo;</div>
+                {{-- Stars --}}
+                <div style="display:flex; gap:3px; margin-bottom:12px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                {{-- Quote text --}}
+                <p style="font-size:0.88rem; color:#374151; line-height:1.7; margin:0 0 20px;">
                     "Muhammad fixed our leaking pipe quickly and professionally. Great service!"
                 </p>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-lg overflow-hidden">
-                        <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=professional%20male%20portrait%20avatar&image_size=square" alt="Ali Hossin" class="w-full h-full object-cover">
-                    </div>
+                {{-- Reviewer --}}
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <img src="https://randomuser.me/api/portraits/men/46.jpg" alt="Ali Hassan"
+                         style="width:40px; height:40px; border-radius:50%; object-fit:cover;"/>
                     <div>
-                        <div class="font-semibold text-gray-800 text-sm">Ali Hossin</div>
-                        <div class="text-xs text-gray-500">Plumbing Service</div>
+                        <div style="font-size:0.85rem; font-weight:600; color:#111827;">Ali Hassan</div>
+                        <div style="font-size:0.75rem; color:#9ca3af;">Plumbing Service</div>
                     </div>
                 </div>
             </div>
 
-            {{-- Testimonial 2 --}}
-            <div class="bg-[#f7f6f2] rounded-xl p-6 relative">
-                <div class="text-[#e07b39] text-5xl font-serif leading-none mb-3 opacity-60">"</div>
-                <div class="flex text-[#e07b39] text-sm mb-3">★★★★★</div>
-                <p class="text-gray-700 text-sm leading-relaxed mb-5 italic">
+            {{-- Card 2 --}}
+            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:28px 24px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+                <div style="font-size:3.5rem; line-height:1; color:#d4900a; font-family:Georgia,serif; margin-bottom:6px; opacity:0.85;">&ldquo;</div>
+                <div style="display:flex; gap:3px; margin-bottom:12px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <p style="font-size:0.88rem; color:#374151; line-height:1.7; margin:0 0 20px;">
                     "Sarah did an amazing job installing our new ceiling fans. Highly recommend!"
                 </p>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-amber-200 flex items-center justify-center text-lg overflow-hidden">
-                        <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=professional%20female%20portrait%20avatar&image_size=square" alt="Fatima Qureshi" class="w-full h-full object-cover">
-                    </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Fatima Qureshi"
+                         style="width:40px; height:40px; border-radius:50%; object-fit:cover;"/>
                     <div>
-                        <div class="font-semibold text-gray-800 text-sm">Fatima Qureshi</div>
-                        <div class="text-xs text-gray-500">Electrical Service</div>
+                        <div style="font-size:0.85rem; font-weight:600; color:#111827;">Fatima Qureshi</div>
+                        <div style="font-size:0.75rem; color:#9ca3af;">Electrical Service</div>
                     </div>
                 </div>
             </div>
