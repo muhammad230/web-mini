@@ -8,10 +8,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-});
-
 // ── Public Auth (Login, Register, Logout) ─────────────────────────────────
 Route::prefix('auth')->name('')->group(function () {
     Route::get('/login', [PublicAuthController::class, 'showLogin'])->name('login');
@@ -23,6 +19,13 @@ Route::prefix('auth')->name('')->group(function () {
     Route::post('/logout', [PublicAuthController::class, 'logout'])->name('logout')->middleware('auth');
 
     Route::get('/welcome', [PublicAuthController::class, 'pending'])->name('welcome.pending')->middleware('auth');
+});
+
+// ── Customer Dashboard ────────────────────────────────────────────────────
+Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\CustomerMiddleware::class])->group(function () {
+    Route::get('/customer', function () {
+        return view('dashboard.customer');
+    })->name('customer');
 });
 
 // ── Admin Auth & Dashboard ────────────────────────────────────────────────

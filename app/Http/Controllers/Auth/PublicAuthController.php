@@ -33,7 +33,9 @@ class PublicAuthController extends Controller
 
         if (RateLimiter::tooManyAttempts($key, 5)) {
             $seconds = RateLimiter::availableIn($key);
-            return back()->withErrors(['email' => "Too many attempts. Try again in {$seconds}s."])->withInput($request->only('email'));
+            return back()->withErrors([
+                'email' => "Too many attempts. Try again in {$seconds}s.",
+            ])->withInput($request->only('email'));
         }
 
         if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
@@ -89,6 +91,10 @@ class PublicAuthController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
+        // Customers go directly to dashboard, pros see pending screen
+        if ($user->isCustomer()) {
+            return redirect()->route('dashboard.customer');
+        }
         return redirect()->route('welcome.pending');
     }
 
@@ -113,6 +119,7 @@ class PublicAuthController extends Controller
     {
         return match ($user->role) {
             'admin'        => redirect()->route('admin.dashboard'),
+            'customer'     => redirect()->route('dashboard.customer'),
             default        => redirect()->route('welcome.pending'),
         };
     }
