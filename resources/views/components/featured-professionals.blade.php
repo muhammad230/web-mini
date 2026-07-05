@@ -1,95 +1,128 @@
-<section id="professionals" class="bg-[#f7f6f2] py-16 px-6 relative overflow-hidden">
-    {{-- Decorative dots background --}}
-    <div class="absolute bottom-10 left-10 w-20 h-20 opacity-20">
-        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            <circle cx="10" cy="10" r="3" fill="#e07b39"/>
-            <circle cx="30" cy="10" r="3" fill="#e07b39"/>
-            <circle cx="50" cy="10" r="3" fill="#e07b39"/>
-            <circle cx="70" cy="10" r="3" fill="#e07b39"/>
-            <circle cx="10" cy="30" r="3" fill="#e07b39"/>
-            <circle cx="30" cy="30" r="3" fill="#e07b39"/>
-            <circle cx="50" cy="30" r="3" fill="#e07b39"/>
-            <circle cx="70" cy="30" r="3" fill="#e07b39"/>
-            <circle cx="10" cy="50" r="3" fill="#e07b39"/>
-            <circle cx="30" cy="50" r="3" fill="#e07b39"/>
-            <circle cx="50" cy="50" r="3" fill="#e07b39"/>
-            <circle cx="70" cy="50" r="3" fill="#e07b39"/>
-            <circle cx="10" cy="70" r="3" fill="#e07b39"/>
-            <circle cx="30" cy="70" r="3" fill="#e07b39"/>
-            <circle cx="50" cy="70" r="3" fill="#e07b39"/>
-            <circle cx="70" cy="70" r="3" fill="#e07b39"/>
-        </svg>
-    </div>
-    
-    <div class="max-w-5xl mx-auto relative z-10">
-        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-10">Featured Professionals</h2>
+<section id="professionals" style="background:#f2f1ec; padding:52px 56px 60px;">
+    <div style="max-width:960px; margin:0 auto;">
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {{-- Title --}}
+        <div style="text-align:center; margin-bottom:40px;">
+            <h2 style="font-size:1.85rem; font-weight:800; color:#111827; margin:0 0 8px;">Featured Professionals</h2>
+            <div style="width:48px; height:3px; background:#e07b39; border-radius:2px; margin:0 auto;"></div>
+        </div>
 
-            {{-- Pro 1 --}}
-            <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-                <div class="flex items-start gap-4 mb-4">
-                    <div class="relative flex-shrink-0">
-                        <div class="w-14 h-14 rounded-full bg-gray-300 flex items-center justify-center text-2xl overflow-hidden">
-                            <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=professional%20plumber%20male%20portrait%20avatar&image_size=square" alt="Muhammad Jamil" class="w-full h-full object-cover">
+        {{-- 3 Cards --}}
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+
+            {{-- ── Card 1: Muhammad Jamil ── --}}
+            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:24px 20px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+                {{-- Top: photo + name/role/stars --}}
+                <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:14px;">
+                    {{-- Photo with checkmark --}}
+                    <div style="position:relative; flex-shrink:0;">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg"
+                             alt="Muhammad Jamil"
+                             style="width:72px; height:72px; border-radius:50%; object-fit:cover; display:block;" />
+                        {{-- Green check badge --}}
+                        <div style="position:absolute; bottom:2px; right:2px; width:20px; height:20px;
+                                    border-radius:50%; background:#1b3a30; border:2px solid #fff;
+                                    display:flex; align-items:center; justify-content:center;">
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                <path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
-                        <span class="absolute -bottom-1 -right-1 bg-[#1a2e2a] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">✓</span>
                     </div>
+                    {{-- Info --}}
                     <div>
-                        <h3 class="font-bold text-gray-800">Muhammad Jamil</h3>
-                        <p class="text-sm text-gray-500">Plumber</p>
-                        <div class="flex items-center gap-1 mt-1">
-                            <div class="flex text-[#e07b39] text-xs">★★★★★</div>
-                            <span class="text-xs text-gray-600 font-semibold">4.9</span>
+                        <div style="font-size:0.95rem; font-weight:700; color:#111827; margin-bottom:2px;">Muhammad Jamil</div>
+                        <div style="font-size:0.8rem; color:#6b7280; margin-bottom:6px;">Plumber</div>
+                        {{-- Stars --}}
+                        <div style="display:flex; align-items:center; gap:5px;">
+                            <div style="display:flex; gap:1px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4900a" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            </div>
+                            <span style="font-size:0.82rem; font-weight:600; color:#374151;">4.9</span>
                         </div>
                     </div>
                 </div>
-                <p class="text-xs text-gray-500 mb-3 leading-relaxed">12+ years experience. Specializes in pipe repairs and fixture installations.</p>
-                <p class="text-sm font-bold text-[#e07b39]">Starting from Rs. 800</p>
+                {{-- Description --}}
+                <p style="font-size:0.78rem; color:#6b7280; line-height:1.65; margin:0 0 14px;">
+                    12+ years experience. Specializes in pipe repairs and fixture installations.
+                </p>
+                {{-- Price --}}
+                <div style="font-size:0.85rem; font-weight:700; color:#e07b39;">Starting from Rs. 800</div>
             </div>
 
-            {{-- Pro 2 --}}
-            <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-                <div class="flex items-start gap-4 mb-4">
-                    <div class="relative flex-shrink-0">
-                        <div class="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center text-2xl overflow-hidden">
-                            <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=professional%20electrician%20female%20portrait%20avatar&image_size=square" alt="Sarah Ahmed" class="w-full h-full object-cover">
+            {{-- ── Card 2: Sarah Ahmed ── --}}
+            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:24px 20px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+                <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:14px;">
+                    <div style="position:relative; flex-shrink:0;">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg"
+                             alt="Sarah Ahmed"
+                             style="width:72px; height:72px; border-radius:50%; object-fit:cover; display:block;" />
+                        <div style="position:absolute; bottom:2px; right:2px; width:20px; height:20px;
+                                    border-radius:50%; background:#1b3a30; border:2px solid #fff;
+                                    display:flex; align-items:center; justify-content:center;">
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                <path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
-                        <span class="absolute -bottom-1 -right-1 bg-[#1a2e2a] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">✓</span>
                     </div>
                     <div>
-                        <h3 class="font-bold text-gray-800">Sarah Ahmed</h3>
-                        <p class="text-sm text-gray-500">Electrician</p>
-                        <div class="flex items-center gap-1 mt-1">
-                            <div class="flex text-[#e07b39] text-xs">★★★★★</div>
-                            <span class="text-xs text-gray-600 font-semibold">4.8</span>
+                        <div style="font-size:0.95rem; font-weight:700; color:#111827; margin-bottom:2px;">Sarah Ahmed</div>
+                        <div style="font-size:0.8rem; color:#6b7280; margin-bottom:6px;">Electrician</div>
+                        <div style="display:flex; align-items:center; gap:5px;">
+                            <div style="display:flex; gap:1px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4900a" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            </div>
+                            <span style="font-size:0.82rem; font-weight:600; color:#374151;">4.8</span>
                         </div>
                     </div>
                 </div>
-                <p class="text-xs text-gray-500 mb-3 leading-relaxed">8+ years experience. Expert in wiring, panel upgrades, and ceiling fans.</p>
-                <p class="text-sm font-bold text-[#e07b39]">Starting from Rs. 1,000</p>
+                <p style="font-size:0.78rem; color:#6b7280; line-height:1.65; margin:0 0 14px;">
+                    8+ years experience. Expert in wiring, panel upgrades, and ceiling fans.
+                </p>
+                <div style="font-size:0.85rem; font-weight:700; color:#e07b39;">Starting from Rs. 1,000</div>
             </div>
 
-            {{-- Pro 3 --}}
-            <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-                <div class="flex items-start gap-4 mb-4">
-                    <div class="relative flex-shrink-0">
-                        <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-2xl overflow-hidden">
-                            <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=professional%20carpenter%20male%20portrait%20avatar&image_size=square" alt="Rizwan Khan" class="w-full h-full object-cover">
+            {{-- ── Card 3: Rizwan Khan ── --}}
+            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:24px 20px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+                <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:14px;">
+                    <div style="position:relative; flex-shrink:0;">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg"
+                             alt="Rizwan Khan"
+                             style="width:72px; height:72px; border-radius:50%; object-fit:cover; display:block;" />
+                        <div style="position:absolute; bottom:2px; right:2px; width:20px; height:20px;
+                                    border-radius:50%; background:#1b3a30; border:2px solid #fff;
+                                    display:flex; align-items:center; justify-content:center;">
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                <path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
-                        <span class="absolute -bottom-1 -right-1 bg-[#1a2e2a] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">✓</span>
                     </div>
                     <div>
-                        <h3 class="font-bold text-gray-800">Rizwan Khan</h3>
-                        <p class="text-sm text-gray-500">Carpenter</p>
-                        <div class="flex items-center gap-1 mt-1">
-                            <div class="flex text-[#e07b39] text-xs">★★★★★</div>
-                            <span class="text-xs text-gray-600 font-semibold">4.7</span>
+                        <div style="font-size:0.95rem; font-weight:700; color:#111827; margin-bottom:2px;">Rizwan Khan</div>
+                        <div style="font-size:0.8rem; color:#6b7280; margin-bottom:6px;">Carpenter</div>
+                        <div style="display:flex; align-items:center; gap:5px;">
+                            <div style="display:flex; gap:1px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#d4900a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4900a" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            </div>
+                            <span style="font-size:0.82rem; font-weight:600; color:#374151;">4.7</span>
                         </div>
                     </div>
                 </div>
-                <p class="text-xs text-gray-500 mb-3 leading-relaxed">15+ years experience. Furniture assembly, custom woodworks, and repairs.</p>
-                <p class="text-sm font-bold text-[#e07b39]">Starting from Rs. 1,200</p>
+                <p style="font-size:0.78rem; color:#6b7280; line-height:1.65; margin:0 0 14px;">
+                    15+ years experience. Furniture assembly, custom woodwork, and repairs.
+                </p>
+                <div style="font-size:0.85rem; font-weight:700; color:#e07b39;">Starting from Rs. 1,200</div>
             </div>
 
         </div>
