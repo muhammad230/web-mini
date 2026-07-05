@@ -126,4 +126,4 @@
 </div>
 
 {{-- Spacer: clears the 100px card overhang, matches cream background --}}
-<div style="height:120px; background:#f2f1ec;"></div>
+<div style="height:80px; background:#f2f1ec;"></div>

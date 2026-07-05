@@ -1,4 +1,4 @@
-<section id="browse" style="background:#f2f1ec; padding:48px 56px 56px;">
+<section id="browse" style="background:#f2f1ec; padding:36px 56px 48px;">
     <div style="max-width:960px; margin:0 auto;">
 
         {{-- Title --}}

@@ -1,4 +1,4 @@
-<footer style="background:#1b3a30; padding:44px 56px 28px;">
+<footer style="background:#1b3a30; padding:44px 56px 28px; width:100%; box-sizing:border-box;">
     <div style="max-width:960px; margin:0 auto;">
 
         {{-- Top: 4 columns --}}

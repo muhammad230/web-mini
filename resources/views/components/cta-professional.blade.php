@@ -1,6 +1,7 @@
-<div style="background:#f2f1ec; padding:16px 56px 8px; box-sizing:border-box;">
+<section style="background:#f2f1ec; padding:0 56px 16px; box-sizing:border-box; width:100%;">
     <div style="background:#1b3a30; border-radius:14px; padding:24px 36px;
-                display:flex; align-items:center; justify-content:space-between; gap:24px;">
+                display:flex; align-items:center; justify-content:space-between; gap:24px;
+                max-width:960px; margin:0 auto;">
 
         {{-- Left: icon + text --}}
         <div style="display:flex; align-items:center; gap:18px;">
@@ -27,4 +28,4 @@
         </a>
 
     </div>
-</div>
+</section>

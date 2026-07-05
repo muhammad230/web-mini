@@ -1,4 +1,4 @@
-<section id="professionals" style="background:#f2f1ec; padding:52px 56px 60px;">
+<section id="professionals" style="background:#f2f1ec; padding:36px 56px 48px;">
     <div style="max-width:960px; margin:0 auto;">
 
         {{-- Title --}}
