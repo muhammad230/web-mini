@@ -36,7 +36,7 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-white text-gray-800 antialiased">
+<body style="margin:0; padding:0; font-family:'Inter',sans-serif; background:#fff; color:#1f2937;">
 
     {{-- ======= HERO + SEARCH (navbar embedded inside) ======= --}}
     @include('components.hero')
