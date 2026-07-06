@@ -14,7 +14,7 @@ class Review extends Model
 
     public function job()
     {
-        return $this->belongsTo(CustomerJob::class);
+        return $this->belongsTo(CustomerJob::class, 'job_id');
     }
 
     public function customer()
