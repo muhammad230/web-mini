@@ -31,12 +31,12 @@
 
     <!-- Navigation Tabs -->
     <nav class="flex items-center gap-1 overflow-x-auto">
-        <a href="#" class="px-2 py-2 rounded-lg tab-active text-xs sm:text-sm font-semibold whitespace-nowrap">Dashboard</a>
-        <a href="#" class="px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap">My Jobs</a>
-        <a href="#" class="px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap">Find a Pro</a>
-        <a href="#" class="px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap">Messages</a>
-        <a href="#" class="px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap">Payments</a>
-        <a href="#" class="px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap">Profile</a>
+        <a href="#dashboard" class="tab-link px-2 py-2 rounded-lg tab-active text-xs sm:text-sm font-semibold whitespace-nowrap" data-tab="dashboard">Dashboard</a>
+        <a href="#my-jobs" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap" data-tab="my-jobs">My Jobs</a>
+        <a href="#find-pro" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap" data-tab="find-pro">Find a Pro</a>
+        <a href="#messages" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap" data-tab="messages">Messages</a>
+        <a href="#payments" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap" data-tab="payments">Payments</a>
+        <a href="#profile" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap" data-tab="profile">Profile</a>
     </nav>
 
     <!-- Right Side -->
@@ -98,6 +98,8 @@
         <div class="mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 px-4 py-3 rounded-lg">{{ session('success') }}</div>
     @endif
 
+    <!-- Dashboard Tab -->
+    <div id="dashboard" class="tab-content">
     <!-- Welcome Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between mb-8">
         <div>
@@ -527,6 +529,167 @@
             </div>
         </div>
     </section>
+    </div>
+
+    <!-- My Jobs Tab -->
+    <div id="my-jobs" class="tab-content hidden">
+        <h1 class="text-3xl font-extrabold text-[#16302A] mb-8 heading-underline">My Jobs</h1>
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+            <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">All Jobs</h2>
+            <div class="space-y-4">
+                @php
+                    $allJobs = $activeJobs->merge($completedJobs);
+                @endphp
+                @if(count($allJobs) > 0)
+                    @foreach($allJobs as $job)
+                    <div class="border border-gray-200 rounded-xl p-4 hover:border-[#E8823C]/50 transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start gap-4">
+                                <div class="bg-[#e8f4f1] text-[#16302A] rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
+                                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l7-7 3 3-7 7-3-3z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2 2l7.586 7.586"/>
+                                        <circle cx="11" cy="11" r="2"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h3 class="font-semibold text-[#16302A]">{{ $job->trade_category }}</h3>
+                                        <span class="text-xs px-2 py-0.5 rounded-full 
+                                            @if($job->status == 'pending_match') bg-gray-100 text-gray-700 
+                                            @elseif($job->status == 'quotes_received') bg-blue-100 text-blue-700 
+                                            @elseif($job->status == 'scheduled') bg-yellow-100 text-yellow-700 
+                                            @elseif($job->status == 'in_progress') bg-purple-100 text-purple-700 
+                                            @elseif($job->status == 'completed') bg-green-100 text-green-700 
+                                            @else bg-red-100 text-red-700 
+                                            @endif
+                                            font-medium">
+                                            {{ ucwords(str_replace('_', ' ', $job->status)) }}
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mb-2">Posted on {{ $job->created_at->format('M d, Y') }}</p>
+                                    <p class="text-xs text-gray-600">{{ $job->description }}</p>
+                                </div>
+                            </div>
+                            <button class="text-[#E8823C] text-xs font-semibold hover:text-[#c96a2a]">View Details</button>
+                        </div>
+                    </div>
+                    @endforeach
+                @else
+                    <div class="text-center py-8 text-gray-500">
+                        <p class="mb-2">No jobs yet</p>
+                        <button onclick="document.getElementById('post-job-modal').classList.remove('hidden')" class="text-[#E8823C] text-sm font-semibold">Post your first job</button>
+                    </div>
+                @endif
+            </div>
+        </section>
+    </div>
+
+    <!-- Find a Pro Tab -->
+    <div id="find-pro" class="tab-content hidden">
+        <h1 class="text-3xl font-extrabold text-[#16302A] mb-8 heading-underline">Find a Professional</h1>
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <p class="text-gray-600">Find a Pro feature coming soon!</p>
+        </section>
+    </div>
+
+    <!-- Messages Tab -->
+    <div id="messages" class="tab-content hidden">
+        <h1 class="text-3xl font-extrabold text-[#16302A] mb-8 heading-underline">Messages</h1>
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <p class="text-gray-600">Messages feature coming soon!</p>
+        </section>
+    </div>
+
+    <!-- Payments Tab -->
+    <div id="payments" class="tab-content hidden">
+        <h1 class="text-3xl font-extrabold text-[#16302A] mb-8 heading-underline">Payments</h1>
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <p class="text-gray-600">Payments feature coming soon!</p>
+        </section>
+    </div>
+
+    <!-- Profile Tab -->
+    <div id="profile" class="tab-content hidden">
+        <h1 class="text-3xl font-extrabold text-[#16302A] mb-8 heading-underline">Profile & Settings</h1>
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-semibold text-[#16302A] mb-4">Personal Information</h3>
+                    <form method="POST" action="{{ route('dashboard.customer.profile.update') }}">
+                        @csrf
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">Full Name</label>
+                                <input type="text" name="name" value="{{ Auth::user()->name }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                            </div>
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">Email Address</label>
+                                <input type="email" name="email" value="{{ Auth::user()->email }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                            </div>
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">Phone Number</label>
+                                <input type="tel" name="phone" value="{{ Auth::user()->phone }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                            </div>
+                            <div class="flex justify-end gap-3 mt-4">
+                                <button type="submit" class="px-5 py-2.5 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold rounded-lg text-sm transition">Save Changes</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold text-[#16302A] mb-4">Saved Addresses</h3>
+                    
+                    <div class="space-y-3 mb-4">
+                        @if(count($addresses) > 0)
+                            @foreach($addresses as $address)
+                            <div class="border border-gray-200 rounded-lg p-3 flex items-center justify-between">
+                                <div>
+                                    <p class="text-xs font-semibold text-[#16302A]">{{ $address->label }}</p>
+                                    <p class="text-xs text-gray-600">{{ $address->address }}</p>
+                                </div>
+                                <button class="text-xs text-gray-500 hover:text-[#E8823C]">Edit</button>
+                            </div>
+                            @endforeach
+                        @endif
+                    </div>
+                    
+                    <button onclick="document.getElementById('add-address-modal').classList.remove('hidden')" class="text-sm text-[#E8823C] font-semibold flex items-center gap-1">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Add New Address
+                    </button>
+
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                        <h3 class="font-semibold text-[#16302A] mb-4">Change Password</h3>
+                        <form method="POST" action="{{ route('dashboard.customer.password.update') }}">
+                            @csrf
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1 block">Current Password</label>
+                                    <input type="password" name="current_password" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                                </div>
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1 block">New Password</label>
+                                    <input type="password" name="new_password" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                                </div>
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1 block">Confirm New Password</label>
+                                    <input type="password" name="new_password_confirmation" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                                </div>
+                                <div class="flex justify-end">
+                                    <button type="submit" class="text-sm text-[#E8823C] font-semibold">Update Password</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <!-- Post Job Modal -->
     <div id="post-job-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000]">
@@ -631,6 +794,36 @@
                 fixedFields.style.display = 'block';
             }
         }
+
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabLinks = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetTab = this.getAttribute('data-tab');
+
+                    // Update active tab styling
+                    tabLinks.forEach(l => {
+                        l.classList.remove('tab-active');
+                        l.classList.add('tab-inactive');
+                    });
+                    this.classList.add('tab-active');
+                    this.classList.remove('tab-inactive');
+
+                    // Show target tab content, hide others
+                    tabContents.forEach(content => {
+                        if (content.id === targetTab) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+        });
     </script>
 </main>
 
