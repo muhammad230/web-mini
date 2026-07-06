@@ -61,9 +61,14 @@ Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\
 
 // ── Professional Dashboard ────────────────────────────────────────────────────
 Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\ProfessionalMiddleware::class])->group(function () {
-    Route::get('/professional', function () {
-        return view('dashboard.professional');
-    })->name('professional');
+    Route::get('/professional',                        [\App\Http\Controllers\ProfessionalController::class, 'index'])->name('professional');
+    Route::post('/professional/availability',          [\App\Http\Controllers\ProfessionalController::class, 'toggleAvailability'])->name('professional.availability');
+    Route::post('/professional/leads/{job}/quote',     [\App\Http\Controllers\ProfessionalController::class, 'sendQuote'])->name('professional.leads.quote');
+    Route::post('/professional/leads/{job}/skip',      [\App\Http\Controllers\ProfessionalController::class, 'skipLead'])->name('professional.leads.skip');
+    Route::post('/professional/jobs/{job}/complete',   [\App\Http\Controllers\ProfessionalController::class, 'markComplete'])->name('professional.jobs.complete');
+    Route::post('/professional/jobs/{job}/reschedule', [\App\Http\Controllers\ProfessionalController::class, 'reschedule'])->name('professional.jobs.reschedule');
+    Route::post('/professional/profile',               [\App\Http\Controllers\ProfessionalController::class, 'updateProfile'])->name('professional.profile.update');
+    Route::post('/professional/password',              [\App\Http\Controllers\ProfessionalController::class, 'changePassword'])->name('professional.password.update');
 });
 
 // ── Admin Auth & Dashboard ────────────────────────────────────────────────
