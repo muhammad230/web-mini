@@ -105,14 +105,14 @@
                             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none transition-colors"
                         >
                             <option value="">Select your trade</option>
-                            <option value="Plumber" {{ old('trade') === 'Plumber' ? 'selected' : '' }}>Plumber</option>
-                            <option value="Electrician" {{ old('trade') === 'Electrician' ? 'selected' : '' }}>Electrician</option>
-                            <option value="Carpenter" {{ old('trade') === 'Carpenter' ? 'selected' : '' }}>Carpenter</option>
-                            <option value="Painter" {{ old('trade') === 'Painter' ? 'selected' : '' }}>Painter</option>
-                            <option value="Handyman" {{ old('trade') === 'Handyman' ? 'selected' : '' }}>Handyman</option>
+                            <option value="Plumbing"         {{ old('trade') === 'Plumbing'         ? 'selected' : '' }}>Plumbing</option>
+                            <option value="Electrical"       {{ old('trade') === 'Electrical'       ? 'selected' : '' }}>Electrical</option>
+                            <option value="Carpentry"        {{ old('trade') === 'Carpentry'        ? 'selected' : '' }}>Carpentry</option>
+                            <option value="Painting"         {{ old('trade') === 'Painting'         ? 'selected' : '' }}>Painting</option>
+                            <option value="Handyman"         {{ old('trade') === 'Handyman'         ? 'selected' : '' }}>Handyman</option>
                             <option value="Appliance Repair" {{ old('trade') === 'Appliance Repair' ? 'selected' : '' }}>Appliance Repair</option>
-                            <option value="AC Repair" {{ old('trade') === 'AC Repair' ? 'selected' : '' }}>AC Repair</option>
-                            <option value="Cleaning" {{ old('trade') === 'Cleaning' ? 'selected' : '' }}>Cleaning</option>
+                            <option value="AC Repair"        {{ old('trade') === 'AC Repair'        ? 'selected' : '' }}>AC Repair</option>
+                            <option value="Cleaning"         {{ old('trade') === 'Cleaning'         ? 'selected' : '' }}>Cleaning</option>
                         </select>
                         @error('trade')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>

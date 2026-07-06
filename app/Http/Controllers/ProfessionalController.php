@@ -27,11 +27,10 @@ class ProfessionalController extends Controller
     // ── Main dashboard ─────────────────────────────────────────────
     public function index()
     {
-        $pro = Auth::user();
+        $pro    = Auth::user();
         $trades = $this->getProTrades($pro);
 
-        // ── New Leads: jobs matching this pro's trade + location ──
-        // that this pro has NOT already quoted on
+        // ── New Leads ────────────────────────────────────────────
         $quotedJobIds = DB::table('quotes')
             ->where('pro_id', $pro->id)
             ->pluck('job_id')
@@ -44,57 +43,66 @@ class ProfessionalController extends Controller
 
         $excludedIds = array_merge($quotedJobIds, $skippedJobIds);
 
-        $leadsQuery = DB::table('customer_jobs')
-            ->where('status', 'pending_match')
-            ->whereIn('trade_category', $trades);
+        // Only query leads if this pro has at least one trade
+        $newLeads = collect();
+        if (!empty($trades)) {
+            $leadsQuery = DB::table('customer_jobs')
+                ->where('status', 'pending_match')
+                ->whereIn('trade_category', $trades);
 
-        // Location match: if pro has service_area, filter by it
-        if (!empty($pro->service_area)) {
-            $leadsQuery->where(function($q) use ($pro) {
-                $q->where('location', 'like', '%' . $pro->service_area . '%')
-                  ->orWhere('location', 'like', '%' . $pro->location . '%');
-            });
-        } elseif (!empty($pro->location)) {
-            $leadsQuery->where('location', 'like', '%' . $pro->location . '%');
+            $serviceArea = $pro->service_area ?? null;
+            $location    = $pro->location    ?? null;
+
+            if ($serviceArea) {
+                $leadsQuery->where(function($q) use ($serviceArea, $location) {
+                    $q->where('location', 'like', '%' . $serviceArea . '%');
+                    if ($location) $q->orWhere('location', 'like', '%' . $location . '%');
+                });
+            } elseif ($location) {
+                $leadsQuery->where('location', 'like', '%' . $location . '%');
+            }
+
+            if (!empty($excludedIds)) {
+                $leadsQuery->whereNotIn('id', $excludedIds);
+            }
+
+            $newLeads = $leadsQuery
+                ->orderByDesc('created_at')
+                ->limit(20)
+                ->get()
+                ->map(function($job) {
+                    $fullName = DB::table('users')
+                        ->where('id', $job->customer_id)
+                        ->value('name') ?? 'Customer';
+                    $job->customer_first_name = explode(' ', $fullName)[0];
+                    $job->time_ago            = $this->timeAgo($job->created_at ?? '');
+                    $job->budget_min          = $job->budget_min ?? 0;
+                    $job->budget_max          = $job->budget_max ?? 0;
+                    return $job;
+                });
         }
-
-        if (!empty($excludedIds)) {
-            $leadsQuery->whereNotIn('id', $excludedIds);
-        }
-
-        $newLeads = $leadsQuery
-            ->orderByDesc('created_at')
-            ->limit(20)
-            ->get()
-            ->map(function($job) {
-                $job->customer_first_name = DB::table('users')
-                    ->where('id', $job->customer_id)
-                    ->value('name');
-                $job->customer_first_name = explode(' ', $job->customer_first_name)[0];
-                $job->time_ago = $this->timeAgo($job->created_at);
-                return $job;
-            });
 
         // ── Quick Stats ──────────────────────────────────────────
+        $avgRating = DB::table('reviews')
+            ->where('pro_id', $pro->id)
+            ->avg('rating');
+
         $stats = [
-            'new_leads'       => $newLeads->count(),
-            'active_jobs'     => DB::table('customer_jobs')
+            'new_leads'      => $newLeads->count(),
+            'active_jobs'    => DB::table('customer_jobs')
                                     ->where('assigned_pro_id', $pro->id)
                                     ->whereIn('status', ['scheduled', 'in_progress'])
                                     ->count(),
-            'jobs_completed'  => DB::table('customer_jobs')
+            'jobs_completed' => DB::table('customer_jobs')
                                     ->where('assigned_pro_id', $pro->id)
                                     ->where('status', 'completed')
                                     ->count(),
-            'total_earnings'  => (float)($pro->total_earnings ?? 0),
-            'avg_rating'      => DB::table('reviews')
-                                    ->where('pro_id', $pro->id)
-                                    ->avg('rating') ?? 0,
-            'review_count'    => DB::table('reviews')
+            'total_earnings' => (float)($pro->total_earnings ?? 0),
+            'avg_rating'     => $avgRating ? round((float)$avgRating, 1) : 0,
+            'review_count'   => DB::table('reviews')
                                     ->where('pro_id', $pro->id)
                                     ->count(),
         ];
-        $stats['avg_rating'] = round($stats['avg_rating'], 1);
 
         // ── Active / Scheduled Jobs ──────────────────────────────
         $activeJobs = DB::table('customer_jobs')
@@ -107,31 +115,35 @@ class ProfessionalController extends Controller
 
         // ── Earnings ─────────────────────────────────────────────
         $now = now();
+        $thisMonth = (float)DB::table('customer_jobs')
+            ->join('quotes', function($j) use ($pro) {
+                $j->on('quotes.job_id', '=', 'customer_jobs.id')
+                  ->where('quotes.pro_id', $pro->id)
+                  ->where('quotes.status', 'accepted');
+            })
+            ->where('customer_jobs.assigned_pro_id', $pro->id)
+            ->where('customer_jobs.status', 'completed')
+            ->whereYear('customer_jobs.updated_at',  $now->year)
+            ->whereMonth('customer_jobs.updated_at', $now->month)
+            ->sum('quotes.amount');
+
+        $payoutHistory = DB::table('customer_jobs')
+            ->join('quotes', function($j) use ($pro) {
+                $j->on('quotes.job_id', '=', 'customer_jobs.id')
+                  ->where('quotes.pro_id', $pro->id)
+                  ->where('quotes.status', 'accepted');
+            })
+            ->join('users', 'users.id', '=', 'customer_jobs.customer_id')
+            ->where('customer_jobs.assigned_pro_id', $pro->id)
+            ->where('customer_jobs.status', 'completed')
+            ->select('customer_jobs.*', 'quotes.amount as earned', 'users.name as customer_name')
+            ->orderByDesc('customer_jobs.updated_at')
+            ->limit(10)
+            ->get();
+
         $earnings = [
-            'this_month' => DB::table('customer_jobs')
-                ->join('quotes', function($j) use ($pro) {
-                    $j->on('quotes.job_id', '=', 'customer_jobs.id')
-                      ->where('quotes.pro_id', $pro->id)
-                      ->where('quotes.status', 'accepted');
-                })
-                ->where('customer_jobs.assigned_pro_id', $pro->id)
-                ->where('customer_jobs.status', 'completed')
-                ->whereYear('customer_jobs.updated_at', $now->year)
-                ->whereMonth('customer_jobs.updated_at', $now->month)
-                ->sum('quotes.amount'),
-            'payout_history' => DB::table('customer_jobs')
-                ->join('quotes', function($j) use ($pro) {
-                    $j->on('quotes.job_id', '=', 'customer_jobs.id')
-                      ->where('quotes.pro_id', $pro->id)
-                      ->where('quotes.status', 'accepted');
-                })
-                ->join('users', 'users.id', '=', 'customer_jobs.customer_id')
-                ->where('customer_jobs.assigned_pro_id', $pro->id)
-                ->where('customer_jobs.status', 'completed')
-                ->select('customer_jobs.*', 'quotes.amount as earned', 'users.name as customer_name')
-                ->orderByDesc('customer_jobs.updated_at')
-                ->limit(10)
-                ->get(),
+            'this_month'    => $thisMonth,
+            'payout_history'=> $payoutHistory,
         ];
 
         // ── Job History ──────────────────────────────────────────
@@ -148,9 +160,9 @@ class ProfessionalController extends Controller
             ->select(
                 'customer_jobs.*',
                 'users.name as customer_name',
-                'reviews.rating as review_rating',
+                'reviews.rating  as review_rating',
                 'reviews.comment as review_comment',
-                'quotes.amount as earned'
+                'quotes.amount   as earned'
             )
             ->orderByDesc('customer_jobs.updated_at')
             ->get();
@@ -163,10 +175,10 @@ class ProfessionalController extends Controller
             ->orderByDesc('reviews.created_at')
             ->get();
 
-        // ── Quoted leads (so pro can track them) ─────────────────
+        // ── Quoted Leads (tracking) ───────────────────────────────
         $quotedLeads = DB::table('customer_jobs')
             ->join('quotes', 'quotes.job_id', '=', 'customer_jobs.id')
-            ->join('users', 'users.id', '=', 'customer_jobs.customer_id')
+            ->join('users',  'users.id',      '=', 'customer_jobs.customer_id')
             ->where('quotes.pro_id', $pro->id)
             ->whereIn('customer_jobs.status', ['pending_match', 'quotes_received'])
             ->select('customer_jobs.*', 'quotes.amount as quote_price', 'quotes.status as quote_status', 'users.name as customer_name')
@@ -353,16 +365,18 @@ class ProfessionalController extends Controller
     }
 
     // ── Helper: human time ago ─────────────────────────────────────
-    private function timeAgo(string $datetime): string
+    private function timeAgo(?string $datetime): string
     {
+        if (empty($datetime)) return 'Recently';
         $now  = time();
         $then = strtotime($datetime);
-        $diff = $now - $then;
+        if ($then === false) return 'Recently';
+        $diff = max(0, $now - $then);
 
-        if ($diff < 60)        return 'Just now';
-        if ($diff < 3600)      return floor($diff / 60) . 'm ago';
-        if ($diff < 86400)     return floor($diff / 3600) . 'h ago';
-        if ($diff < 604800)    return floor($diff / 86400) . 'd ago';
+        if ($diff < 60)     return 'Just now';
+        if ($diff < 3600)   return floor($diff / 60) . 'm ago';
+        if ($diff < 86400)  return floor($diff / 3600) . 'h ago';
+        if ($diff < 604800) return floor($diff / 86400) . 'd ago';
         return date('M j', $then);
     }
 }

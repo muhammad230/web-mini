@@ -103,7 +103,7 @@
     <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-4">
         <div class="flex items-center gap-4 flex-wrap">
             <h1 class="text-3xl font-extrabold text-[#16302A] mb-2 heading-underline">
-                Welcome back, {{ explode(' ', Auth::user()->name)[0] }} 👋
+                Welcome back, {{ explode(' ', $pro->name)[0] }} 👋
             </h1>
             <span class="inline-flex items-center gap-1 bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">
                 <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -120,6 +120,31 @@
             </form>
         </div>
     </div>
+
+    {{-- ── Profile completion banner for brand-new pros ── --}}
+    @php $profileComplete = !empty($pro->trade) && !empty($pro->location); @endphp
+    @if(!$profileComplete)
+    <div class="mb-6 bg-amber-50 border border-amber-200 rounded-2xl px-6 py-4 flex items-start gap-4">
+        <svg class="flex-shrink-0 mt-0.5 text-amber-500 w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+        </svg>
+        <div class="flex-1">
+            <p class="font-semibold text-amber-800 text-sm mb-1">Complete your profile to start receiving leads</p>
+            <p class="text-amber-700 text-xs">
+                @if(empty($pro->trade))
+                    Your <strong>trade/specialty</strong> is not set — leads are matched by trade, so you won't see any until you set it.
+                @elseif(empty($pro->location))
+                    Your <strong>location</strong> is not set — leads are filtered by location, so set yours to start matching.
+                @endif
+                Scroll down to <strong>Profile & Portfolio</strong> to complete your setup.
+            </p>
+        </div>
+        <a href="#profile-section"
+           class="flex-shrink-0 bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors">
+            Complete Profile
+        </a>
+    </div>
+    @endif
 
     <!-- Quick Stats Cards -->
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
@@ -433,221 +458,15 @@
             </div>
         @endif
     </section>
-                                <div class="bg-[#e8f4f1] text-[#16302A] rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
-                                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l7-7 3 3-7 7-3-3z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2 2l7.586 7.586"/>
-                                        <circle cx="11" cy="11" r="2"/>
-                                    </svg>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="font-semibold text-[#16302A] text-sm">Ali needs a Plumber</h4>
-                                    <p class="text-xs text-gray-600 mt-1 line-clamp-2">Leaking pipe in kitchen, needs immediate repair. Located in DHA Phase 6, Karachi.</p>
-                                    <div class="flex items-center gap-4 mt-2 text-xs text-gray-500">
-                                        <span>📍 2.5 km away</span>
-                                        <span>💰 Rs. 800 - 1,500</span>
-                                        <span>⏰ 2 hours ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-4 py-2 rounded-lg text-xs transition">Send Quote</button>
-                                <button class="border border-gray-300 text-gray-600 font-semibold px-4 py-2 rounded-lg text-xs hover:bg-gray-50 transition">Skip</button>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Lead 2 -->
-                    <div class="border border-gray-200 rounded-xl p-4 hover:border-[#E8823C]/50 transition">
-                        <div class="flex items-start justify-between gap-4 flex-wrap">
-                            <div class="flex items-start gap-3 flex-1">
-                                <div class="bg-[#fff8e6] text-[#D9A441] rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
-                                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                    </svg>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="font-semibold text-[#16302A] text-sm">Fatima needs an Electrician</h4>
-                                    <p class="text-xs text-gray-600 mt-1 line-clamp-2">Fan installation in bedroom, need a pro who can do it today evening.</p>
-                                    <div class="flex items-center gap-4 mt-2 text-xs text-gray-500">
-                                        <span>📍 1.8 km away</span>
-                                        <span>💰 Rs. 1,000 - 1,800</span>
-                                        <span>⏰ 4 hours ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-4 py-2 rounded-lg text-xs transition">Send Quote</button>
-                                <button class="border border-gray-300 text-gray-600 font-semibold px-4 py-2 rounded-lg text-xs hover:bg-gray-50 transition">Skip</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Lead 3 -->
-                    <div class="border border-gray-200 rounded-xl p-4 hover:border-[#E8823C]/50 transition">
-                        <div class="flex items-start justify-between gap-4 flex-wrap">
-                            <div class="flex items-start gap-3 flex-1">
-                                <div class="bg-[#fef3ee] text-[#E8823C] rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
-                                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.7 6.3L9 12l5.7 5.7M17.7 3.3L6 15v6h6l11.7-11.7c.4-.4.4-1 0-1.4l-4.6-4.6c-.4-.4-1-.4-1.4 0z"/>
-                                    </svg>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="font-semibold text-[#16302A] text-sm">Hassan needs a Carpenter</h4>
-                                    <p class="text-xs text-gray-600 mt-1 line-clamp-2">Custom shelf installation in living room. Wood provided by customer.</p>
-                                    <div class="flex items-center gap-4 mt-2 text-xs text-gray-500">
-                                        <span>📍 3.2 km away</span>
-                                        <span>💰 Rs. 2,000 - 3,500</span>
-                                        <span>⏰ Yesterday</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-4 py-2 rounded-lg text-xs transition">Send Quote</button>
-                                <button class="border border-gray-300 text-gray-600 font-semibold px-4 py-2 rounded-lg text-xs hover:bg-gray-50 transition">Skip</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Right Column - Active Jobs + Earnings -->
-        <div class="space-y-6">
-            <!-- Active Jobs -->
-            <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Active Jobs</h2>
-                
-                <div class="space-y-4">
-                    <div class="border-l-4 border-[#E8823C] pl-4 pb-4">
-                        <h4 class="font-semibold text-[#16302A] text-sm">Kitchen Pipe Repair</h4>
-                        <p class="text-xs text-gray-600 mt-1">Customer: Ali • Tomorrow, 10:00 AM</p>
-                        <p class="text-xs text-gray-500">DHA Phase 6, Karachi</p>
-                        <div class="flex items-center gap-2 mt-2">
-                            <span class="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full font-medium">Scheduled</span>
-                        </div>
-                        <div class="flex gap-2 mt-3">
-                            <button class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Message</button>
-                            <button class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Reschedule</button>
-                        </div>
-                    </div>
-
-                    <div class="border-l-4 border-green-500 pl-4">
-                        <h4 class="font-semibold text-[#16302A] text-sm">Fan Installation</h4>
-                        <p class="text-xs text-gray-600 mt-1">Customer: Fatima • Today, 6:00 PM</p>
-                        <p class="text-xs text-gray-500">Clifton, Karachi</p>
-                        <div class="flex items-center gap-2 mt-2">
-                            <span class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full font-medium">In Progress</span>
-                        </div>
-                        <div class="flex gap-2 mt-3">
-                            <button class="text-xs bg-[#E8823C] text-white px-3 py-1.5 rounded-lg font-medium">Mark Complete</button>
-                            <button class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Message</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Earnings Panel -->
-            <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Earnings</h2>
-                
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div class="bg-[#F5F1EA] rounded-xl p-4 text-center">
-                        <p class="text-xs text-gray-500 font-medium mb-1">This Month</p>
-                        <p class="text-xl font-bold text-[#16302A]">Rs. 5,200</p>
-                    </div>
-                    <div class="bg-[#F5F1EA] rounded-xl p-4 text-center">
-                        <p class="text-xs text-gray-500 font-medium mb-1">Pending</p>
-                        <p class="text-xl font-bold text-[#D9A441]">Rs. 1,800</p>
-                    </div>
-                </div>
-
-                <button class="w-full bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition mb-4">Withdraw Funds</button>
-
-                <h4 class="text-sm font-semibold text-gray-700 mb-3">Payout History</h4>
-                <div class="space-y-2 text-xs">
-                    <div class="flex items-center justify-between py-2 border-b border-gray-100">
-                        <div>
-                            <p class="font-medium text-gray-800">Jul 3, 2026</p>
-                            <p class="text-gray-500">Kitchen Pipe Repair</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-bold text-gray-800">Rs. 1,200</p>
-                            <span class="text-green-600 font-medium">Paid</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between py-2">
-                        <div>
-                            <p class="font-medium text-gray-800">Jun 28, 2026</p>
-                            <p class="text-gray-500">Tap Fixing</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-bold text-gray-800">Rs. 800</p>
-                            <span class="text-green-600 font-medium">Paid</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
-
-    <!-- Job History -->
-    <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
-        <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Job History</h2>
-        
-        <div class="overflow-x-auto">
-            <table class="w-full text-xs sm:text-sm">
-                <thead>
-                    <tr class="border-b border-gray-200">
-                        <th class="text-left py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Customer</th>
-                        <th class="text-left py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Service</th>
-                        <th class="text-left py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Date</th>
-                        <th class="text-left py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Earned</th>
-                        <th class="text-left py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Rating</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    <tr>
-                        <td class="py-3 px-4 font-medium text-gray-800">Ali Hassan</td>
-                        <td class="py-3 px-4 text-gray-700">Plumbing</td>
-                        <td class="py-3 px-4 text-gray-600">Jul 3, 2026</td>
-                        <td class="py-3 px-4 font-bold text-gray-800">Rs. 1,200</td>
-                        <td class="py-3 px-4">
-                            <div class="flex items-center gap-0.5 text-[#D9A441]">
-                                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="py-3 px-4 font-medium text-gray-800">Sarah Ahmed</td>
-                        <td class="py-3 px-4 text-gray-700">Electrical</td>
-                        <td class="py-3 px-4 text-gray-600">Jun 28, 2026</td>
-                        <td class="py-3 px-4 font-bold text-gray-800">Rs. 1,500</td>
-                        <td class="py-3 px-4">
-                            <div class="flex items-center gap-0.5 text-[#D9A441]">
-                                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    {{-- ── PROFILE SECTION ── --}}
-    <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Profile & Portfolio</h2>
+    {{-- ── PROFILE & PORTFOLIO SECTION ── --}}
+    <section id="profile-section" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+        <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Profile &amp; Portfolio</h2>
         <form method="POST" action="{{ route('dashboard.professional.profile.update') }}" enctype="multipart/form-data">
             @csrf
+            @if(session('success'))
+                <div class="mb-4 px-4 py-3 bg-green-50 border border-green-200 text-green-700 rounded-xl text-sm">{{ session('success') }}</div>
+            @endif
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div>
                     <h3 class="font-semibold text-[#16302A] mb-4">Basic Information</h3>
@@ -657,54 +476,60 @@
                             <input type="text" value="{{ $pro->name }}" disabled class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-500">
                         </div>
                         <div>
-                            <label class="text-xs font-medium text-gray-500 mb-1 block">Email Address</label>
+                            <label class="text-xs font-medium text-gray-500 mb-1 block">Email</label>
                             <input type="email" value="{{ $pro->email }}" disabled class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-500">
                         </div>
                         <div>
                             <label class="text-xs font-medium text-gray-500 mb-1 block">Bio</label>
-                            <textarea name="bio" rows="3" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">{{ $pro->bio ?? '' }}</textarea>
+                            <textarea name="bio" rows="3" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] outline-none">{{ $pro->bio ?? '' }}</textarea>
                         </div>
                         <div>
-                            <label class="text-xs font-medium text-gray-500 mb-1 block">Trade/Specialty <span class="text-red-500">*</span> <span class="text-gray-400">(affects which leads you see)</span></label>
-                            <input type="text" name="trade" value="{{ $pro->trade ?? '' }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                            <label class="text-xs font-medium text-gray-500 mb-1 block">Trade / Specialty <span class="text-red-400">*</span> <span class="text-gray-400 font-normal">(drives lead matching)</span></label>
+                            <select name="trade" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] outline-none">
+                                <option value="">Select your trade</option>
+                                @foreach(['Plumbing','Electrical','Carpentry','Painting','AC Repair','Cleaning','Appliance Repair','Handyman'] as $t)
+                                    <option value="{{ $t }}" {{ $pro->trade === $t ? 'selected' : '' }}>{{ $t }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div>
                             <label class="text-xs font-medium text-gray-500 mb-1 block">Years of Experience</label>
-                            <input type="number" name="years_experience" value="{{ $pro->years_experience ?? '' }}" min="0" max="50" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                            <input type="number" name="years_experience" value="{{ $pro->years_experience ?? '' }}" min="0" max="50" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] outline-none">
                         </div>
                         <div>
                             <label class="text-xs font-medium text-gray-500 mb-1 block">Starting Price (Rs.)</label>
-                            <input type="number" name="starting_price" value="{{ $pro->starting_price ?? '' }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                            <input type="number" name="starting_price" value="{{ $pro->starting_price ?? '' }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] outline-none">
                         </div>
                         <div>
-                            <label class="text-xs font-medium text-gray-500 mb-1 block">Service Area/Location <span class="text-gray-400">(affects lead matching)</span></label>
-                            <input type="text" name="location" value="{{ $pro->location ?? '' }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                            <label class="text-xs font-medium text-gray-500 mb-1 block">Service Area / Location <span class="text-gray-400 font-normal">(drives lead matching)</span></label>
+                            <input type="text" name="location" value="{{ $pro->location ?? '' }}" placeholder="e.g. Karachi, DHA" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] outline-none">
                         </div>
                     </div>
                 </div>
                 <div>
-                    <h3 class="font-semibold text-[#16302A] mb-4">Portfolio & Certifications</h3>
-                    <div class="mb-6">
+                    <h3 class="font-semibold text-[#16302A] mb-4">Photo &amp; Security</h3>
+                    <div class="mb-5">
                         <label class="text-xs font-medium text-gray-500 mb-2 block">Profile Photo</label>
+                        @if($pro->profile_photo)
+                            <img src="{{ asset('storage/' . $pro->profile_photo) }}" class="w-16 h-16 rounded-full object-cover mb-2">
+                        @endif
                         <input type="file" name="profile_photo" accept="image/*" class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#E8823C] file:text-white file:font-semibold file:text-xs hover:file:bg-[#c96a2a]">
-                        <p class="text-xs text-gray-400 mt-1">Max 2MB. JPG, PNG accepted.</p>
+                        <p class="text-xs text-gray-400 mt-1">Max 2MB. JPG or PNG.</p>
                     </div>
-                    <div class="mb-6">
-                        <label class="text-xs font-medium text-gray-500 mb-2 block">Work Photos (Portfolio)</label>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center bg-[#F5F1EA]">
-                            <p class="text-xs text-gray-500">Portfolio uploads coming soon</p>
+                    <div class="mb-5">
+                        <label class="text-xs font-medium text-gray-500 mb-2 block">Portfolio / Work Photos</label>
+                        <div class="border-2 border-dashed border-gray-200 rounded-lg p-5 text-center bg-[#F5F1EA]">
+                            <p class="text-xs text-gray-400">Portfolio uploads coming soon</p>
                         </div>
                     </div>
-                    <div class="mb-6">
-                        <label class="text-xs font-medium text-gray-500 mb-2 block">Certifications/Documents</label>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center bg-[#F5F1EA]">
-                            <p class="text-xs text-gray-600">Document uploads coming soon</p>
-                        </div>
-                    </div>
+
                     {{-- Change password --}}
-                    <h3 class="font-semibold text-[#16302A] mb-3 mt-2">Change Password</h3>
+                    <h3 class="font-semibold text-[#16302A] mb-3">Change Password</h3>
                     <form method="POST" action="{{ route('dashboard.professional.password.update') }}" class="space-y-3">
                         @csrf
+                        @if($errors->has('current_password'))
+                            <p class="text-red-500 text-xs">{{ $errors->first('current_password') }}</p>
+                        @endif
                         <input type="password" name="current_password" placeholder="Current password" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#E8823C]">
                         <input type="password" name="password" placeholder="New password (min 8 chars)" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#E8823C]">
                         <input type="password" name="password_confirmation" placeholder="Confirm new password" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#E8823C]">
@@ -718,6 +543,7 @@
             </div>
         </form>
     </section>
+
 {{-- ── SEND QUOTE MODAL ── --}}
 <div id="quoteModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md">
