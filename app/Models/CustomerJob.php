@@ -31,7 +31,7 @@ class CustomerJob extends Model
 
     public function quotes()
     {
-        return $this->hasMany(Quote::class);
+        return $this->hasMany(Quote::class, 'job_id');
     }
 
     public function review()
