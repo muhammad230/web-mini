@@ -12,7 +12,7 @@
         .heading-underline::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 40px; height: 3px; background: #E8823C; border-radius: 2px; }
         .tab-active { background: #E8823C; color: white; }
         .tab-inactive { color: white; font-weight: 500; }
-        .tab-inactive:hover { background: rgba(232, 130, 60, 0.2); }
+        .tab-inactive:hover { background: rgba(232,130,60,0.2); }
     </style>
 </head>
 <body class="min-h-screen">
@@ -72,7 +72,7 @@
                 </a>
                 <a href="#" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426-1.756-2.924-1.756-3.35 0a1.724 1.724 0 001.066-2.573c-1.543.94-3.31-.826-2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                         <circle cx="12" cy="12" r="3"/>
                     </svg>
                     Settings
@@ -94,6 +94,9 @@
 
 <!-- Main Content -->
 <main class="max-w-7xl mx-auto px-6 py-8">
+    @if(session('success'))
+        <div class="mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 px-4 py-3 rounded-lg">{{ session('success') }}</div>
+    @endif
 
     <!-- Welcome Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between mb-8">
@@ -103,7 +106,7 @@
             </h1>
             <p class="text-gray-600 text-sm mt-4">Here's what's happening with your FixIt jobs</p>
         </div>
-        <button class="mt-4 md:mt-0 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-6 py-3 rounded-xl transition flex items-center gap-2">
+        <button onclick="document.getElementById('post-job-modal').classList.remove('hidden')" class="mt-4 md:mt-0 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-6 py-3 rounded-xl transition flex items-center gap-2">
             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
@@ -121,7 +124,7 @@
                     </svg>
                 </div>
                 <div>
-                    <div class="text-2xl font-bold text-[#16302A]">2</div>
+                    <div class="text-2xl font-bold text-[#16302A]">{{ count($activeJobs) }}</div>
                     <div class="text-xs text-gray-500 font-medium">Active Jobs</div>
                 </div>
             </div>
@@ -135,7 +138,7 @@
                     </svg>
                 </div>
                 <div>
-                    <div class="text-2xl font-bold text-[#16302A]">7</div>
+                    <div class="text-2xl font-bold text-[#16302A]">{{ count($completedJobs) }}</div>
                     <div class="text-xs text-gray-500 font-medium">Completed Jobs</div>
                 </div>
             </div>
@@ -145,11 +148,11 @@
             <div class="flex items-center gap-3">
                 <div class="bg-[#D9A441]/10 text-[#D9A441] rounded-full w-12 h-12 flex items-center justify-center">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
                 <div>
-                    <div class="text-2xl font-bold text-[#16302A]">Rs. 8,450</div>
+                    <div class="text-2xl font-bold text-[#16302A]">Rs. {{ number_format($totalSpent, 0) }}</div>
                     <div class="text-xs text-gray-500 font-medium">Total Spent</div>
                 </div>
             </div>
@@ -163,7 +166,7 @@
                     </svg>
                 </div>
                 <div>
-                    <div class="text-2xl font-bold text-[#16302A]">4</div>
+                    <div class="text-2xl font-bold text-[#16302A]">{{ count($savedPros) }}</div>
                     <div class="text-xs text-gray-500 font-medium">Saved Pros</div>
                 </div>
             </div>
@@ -180,52 +183,46 @@
                 <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Active Job Requests</h2>
                 
                 <div class="space-y-4">
-                    <!-- Job Card 1 -->
-                    <div class="border border-gray-200 rounded-xl p-4 hover:border-[#E8823C]/50 transition">
-                        <div class="flex items-start justify-between">
-                            <div class="flex items-start gap-4">
-                                <div class="bg-[#e8f4f1] text-[#16302A] rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
-                                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l7-7 3 3-7 7-3-3z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2 2l7.586 7.586"/>
-                                        <circle cx="11" cy="11" r="2"/>
-                                    </svg>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h3 class="font-semibold text-[#16302A]">Leaking Pipe Repair</h3>
-                                        <span class="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-medium">Quotes Received</span>
+                    @if(count($activeJobs) > 0)
+                        @foreach($activeJobs as $job)
+                        <div class="border border-gray-200 rounded-xl p-4 hover:border-[#E8823C]/50 transition">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-start gap-4">
+                                    <div class="bg-[#e8f4f1] text-[#16302A] rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
+                                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l7-7 3 3-7 7-3-3z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2 2l7.586 7.586"/>
+                                            <circle cx="11" cy="11" r="2"/>
+                                        </svg>
                                     </div>
-                                    <p class="text-xs text-gray-500 mb-2">Posted on Jul 4, 2026</p>
-                                    <p class="text-xs text-gray-600">3 quotes received from local plumbers</p>
-                                </div>
-                            </div>
-                            <button class="text-[#E8823C] text-xs font-semibold hover:text-[#c96a2a]">View Details</button>
-                        </div>
-                    </div>
-
-                    <!-- Job Card 2 -->
-                    <div class="border border-gray-200 rounded-xl p-4 hover:border-[#E8823C]/50 transition">
-                        <div class="flex items-start justify-between">
-                            <div class="flex items-start gap-4">
-                                <div class="bg-[#fff8e6] text-[#D9A441] rounded-xl w-12 h-12 flex items-center justify-center flex-shrink-0">
-                                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                    </svg>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h3 class="font-semibold text-[#16302A]">Ceiling Fan Installation</h3>
-                                        <span class="text-xs px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 font-medium">Scheduled</span>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <h3 class="font-semibold text-[#16302A]">{{ $job->trade_category }}</h3>
+                                            <span class="text-xs px-2 py-0.5 rounded-full 
+                                                @if($job->status == 'pending_match') bg-gray-100 text-gray-700 
+                                                @elseif($job->status == 'quotes_received') bg-blue-100 text-blue-700 
+                                                @elseif($job->status == 'scheduled') bg-yellow-100 text-yellow-700 
+                                                @elseif($job->status == 'in_progress') bg-purple-100 text-purple-700 
+                                                @endif
+                                                font-medium">
+                                                {{ ucwords(str_replace('_', ' ', $job->status)) }}
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mb-2">Posted on {{ $job->created_at->format('M d, Y') }}</p>
+                                        <p class="text-xs text-gray-600">{{ $job->description }}</p>
                                     </div>
-                                    <p class="text-xs text-gray-500 mb-2">Posted on Jul 3, 2026</p>
-                                    <p class="text-xs text-gray-600">Assigned to: <span class="font-medium text-[#16302A]">Sarah Ahmed</span></p>
                                 </div>
+                                <button class="text-[#E8823C] text-xs font-semibold hover:text-[#c96a2a]">View Details</button>
                             </div>
-                            <button class="text-[#E8823C] text-xs font-semibold hover:text-[#c96a2a]">View Details</button>
                         </div>
-                    </div>
+                        @endforeach
+                    @else
+                        <div class="text-center py-8 text-gray-500">
+                            <p class="mb-2">No active jobs yet</p>
+                            <button onclick="document.getElementById('post-job-modal').classList.remove('hidden')" class="text-[#E8823C] text-sm font-semibold">Post your first job</button>
+                        </div>
+                    @endif
                 </div>
             </section>
 
@@ -234,70 +231,78 @@
                 <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Quotes Received</h2>
                 
                 <div class="space-y-4">
-                    <!-- Quote 1 -->
-                    <div class="border border-gray-200 rounded-xl p-4">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-12 h-12 rounded-full object-cover" alt="Pro">
-                                <div>
-                                    <h4 class="font-semibold text-[#16302A]">Muhammad Jamil</h4>
-                                    <p class="text-xs text-gray-500">Plumber • 4.9 ★ (142 jobs)</p>
+                    @if(count($quotesReceived) > 0)
+                        @foreach($quotesReceived as $quote)
+                        <div class="border border-gray-200 rounded-xl p-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-full bg-[#E8823C] flex items-center justify-center text-white font-bold">
+                                        {{ substr($quote->pro->name, 0, 1) }}
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-[#16302A]">{{ $quote->pro->name }}</h4>
+                                        <p class="text-xs text-gray-500">{{ $quote->pro->trade }} • 4.8 ★</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-lg font-bold text-[#16302A]">Rs. {{ number_format($quote->amount, 0) }}</p>
+                                    <p class="text-xs text-gray-500">Quote</p>
                                 </div>
                             </div>
-                            <div class="text-right">
-                                <p class="text-lg font-bold text-[#16302A]">Rs. 1,200</p>
-                                <p class="text-xs text-gray-500">Quote</p>
+                            @if($quote->message)
+                                <p class="text-xs text-gray-600 mt-3">{{ $quote->message }}</p>
+                            @endif
+                            <div class="flex gap-3 mt-4">
+                                <form method="POST" action="{{ route('dashboard.customer.quotes.accept', $quote) }}" style="display: inline-block; flex: 1;">
+                                    @csrf
+                                    <button type="submit" class="w-full bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold py-2 px-4 rounded-lg text-sm transition">Accept</button>
+                                </form>
+                                <form method="POST" action="{{ route('dashboard.customer.quotes.decline', $quote) }}" style="display: inline-block; flex: 1;">
+                                    @csrf
+                                    <button type="submit" class="w-full border border-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg text-sm hover:bg-gray-50 transition">Decline</button>
+                                </form>
                             </div>
                         </div>
-                        <div class="flex gap-3 mt-4">
-                            <button class="flex-1 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold py-2 px-4 rounded-lg text-sm transition">Accept</button>
-                            <button class="flex-1 border border-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg text-sm hover:bg-gray-50 transition">Decline</button>
+                        @endforeach
+                    @else
+                        <div class="text-center py-8 text-gray-500">
+                            <p>No quotes received yet</p>
                         </div>
-                    </div>
-
-                    <!-- Quote 2 -->
-                    <div class="border border-gray-200 rounded-xl p-4">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <img src="https://randomuser.me/api/portraits/men/22.jpg" class="w-12 h-12 rounded-full object-cover" alt="Pro">
-                                <div>
-                                    <h4 class="font-semibold text-[#16302A]">Kamran Malik</h4>
-                                    <p class="text-xs text-gray-500">Plumber • 4.7 ★ (89 jobs)</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-lg font-bold text-[#16302A]">Rs. 1,000</p>
-                                <p class="text-xs text-gray-500">Quote</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-3 mt-4">
-                            <button class="flex-1 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold py-2 px-4 rounded-lg text-sm transition">Accept</button>
-                            <button class="flex-1 border border-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg text-sm hover:bg-gray-50 transition">Decline</button>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </section>
-
         </div>
 
         <!-- Right Column -->
         <div class="space-y-6">
-
             <!-- Upcoming Bookings -->
             <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Upcoming Bookings</h2>
                 
                 <div class="space-y-4">
-                    <div class="border-l-4 border-[#E8823C] pl-4 pb-4">
-                        <p class="text-xs text-gray-500 mb-1">Tomorrow • 10:00 AM</p>
-                        <h4 class="font-semibold text-[#16302A]">Ceiling Fan Installation</h4>
-                        <p class="text-xs text-gray-600 mt-1">with Sarah Ahmed</p>
-                        <p class="text-xs text-gray-500 mt-1">DHA Phase 6, Karachi</p>
-                        <div class="flex gap-2 mt-3">
-                            <button class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Message Pro</button>
-                            <button class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Reschedule</button>
+                    @php
+                        $bookings = $activeJobs->filter(fn($j) => in_array($j->status, ['scheduled', 'in_progress']));
+                    @endphp
+                    @if($bookings->count() > 0)
+                        @foreach($bookings as $booking)
+                            <div class="border-l-4 border-[#E8823C] pl-4 pb-4">
+                                <p class="text-xs text-gray-500 mb-1">{{ $booking->schedule }}</p>
+                                <h4 class="font-semibold text-[#16302A]">{{ $booking->trade_category }}</h4>
+                                @if($booking->assignedPro)
+                                    <p class="text-xs text-gray-600 mt-1">with {{ $booking->assignedPro->name }}</p>
+                                @endif
+                                <p class="text-xs text-gray-500 mt-1">{{ $booking->location }}</p>
+                                <div class="flex gap-2 mt-3">
+                                    <button class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Message Pro</button>
+                                    <button class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Reschedule</button>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="text-center py-4 text-gray-500">
+                            <p>No upcoming bookings</p>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </section>
 
@@ -306,33 +311,26 @@
                 <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Saved Professionals</h2>
                 
                 <div class="space-y-3">
-                    <div class="flex items-center gap-3">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-10 h-10 rounded-full object-cover" alt="Pro">
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-semibold text-[#16302A] text-sm">Muhammad Jamil</h4>
-                            <p class="text-xs text-[#D9A441]">★ 4.9 • Plumbing</p>
+                    @if(count($savedPros) > 0)
+                        @foreach($savedPros as $pro)
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-[#16302A] flex items-center justify-center text-white font-bold">
+                                {{ substr($pro->name, 0, 1) }}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-semibold text-[#16302A] text-sm">{{ $pro->name }}</h4>
+                                <p class="text-xs text-[#D9A441]">★ 4.8 • {{ $pro->trade }}</p>
+                            </div>
+                            <button class="text-[#E8823C] text-xs font-semibold">Hire</button>
                         </div>
-                        <button class="text-[#E8823C] text-xs font-semibold">Hire</button>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <img src="https://randomuser.me/api/portraits/women/33.jpg" class="w-10 h-10 rounded-full object-cover" alt="Pro">
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-semibold text-[#16302A] text-sm">Sarah Ahmed</h4>
-                            <p class="text-xs text-[#D9A441]">★ 4.8 • Electrical</p>
+                        @endforeach
+                    @else
+                        <div class="text-center py-4 text-gray-500">
+                            <p>No saved pros yet</p>
                         </div>
-                        <button class="text-[#E8823C] text-xs font-semibold">Hire</button>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <img src="https://randomuser.me/api/portraits/men/44.jpg" class="w-10 h-10 rounded-full object-cover" alt="Pro">
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-semibold text-[#16302A] text-sm">Rizwan Khan</h4>
-                            <p class="text-xs text-[#D9A441]">★ 4.7 • Carpentry</p>
-                        </div>
-                        <button class="text-[#E8823C] text-xs font-semibold">Hire</button>
-                    </div>
+                    @endif
                 </div>
             </section>
-
         </div>
     </div>
 
@@ -353,55 +351,65 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
-                    <tr>
-                        <td class="py-4 px-4">
-                            <div class="flex items-center gap-2">
-                                <div class="bg-[#e8f4f1] text-[#16302A] rounded-lg w-8 h-8 flex items-center justify-center">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l7-7 3 3-7 7-3-3z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
-                                    </svg>
-                                </div>
-                                <span class="font-medium text-[#16302A] text-sm">Tap Repair</span>
-                            </div>
-                        </td>
-                        <td class="py-4 px-4 text-sm text-gray-700">Muhammad Jamil</td>
-                        <td class="py-4 px-4 text-sm text-gray-600">Jun 28, 2026</td>
-                        <td class="py-4 px-4 text-sm font-semibold text-[#16302A]">Rs. 800</td>
-                        <td class="py-4 px-4">
-                            <div class="flex items-center gap-0.5 text-[#D9A441]">
-                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                            </div>
-                        </td>
-                        <td class="py-4 px-4">
-                            <button class="text-xs text-[#E8823C] font-semibold hover:text-[#c96a2a]">Rebook</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="py-4 px-4">
-                            <div class="flex items-center gap-2">
-                                <div class="bg-[#fff8e6] text-[#D9A441] rounded-lg w-8 h-8 flex items-center justify-center">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                    </svg>
-                                </div>
-                                <span class="font-medium text-[#16302A] text-sm">Light Fixture Install</span>
-                            </div>
-                        </td>
-                        <td class="py-4 px-4 text-sm text-gray-700">Sarah Ahmed</td>
-                        <td class="py-4 px-4 text-sm text-gray-600">Jun 20, 2026</td>
-                        <td class="py-4 px-4 text-sm font-semibold text-[#16302A]">Rs. 1,500</td>
-                        <td class="py-4 px-4">
-                            <button class="text-xs bg-[#E8823C] text-white px-3 py-1.5 rounded-lg font-semibold">Leave a Review</button>
-                        </td>
-                        <td class="py-4 px-4">
-                            <button class="text-xs text-[#E8823C] font-semibold hover:text-[#c96a2a]">Rebook</button>
-                        </td>
-                    </tr>
+                    @if(count($completedJobs) > 0)
+                        @foreach($completedJobs as $job)
+                            <tr>
+                                <td class="py-4 px-4">
+                                    <div class="flex items-center gap-2">
+                                        <div class="bg-[#e8f4f1] text-[#16302A] rounded-lg w-8 h-8 flex items-center justify-center">
+                                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l7-7 3 3-7 7-3-3z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                                            </svg>
+                                        </div>
+                                        <span class="font-medium text-[#16302A] text-sm">{{ $job->trade_category }}</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-4 text-sm text-gray-700">
+                                    @if($job->assignedPro)
+                                        {{ $job->assignedPro->name }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td class="py-4 px-4 text-sm text-gray-600">
+                                    @if($job->completed_at)
+                                        {{ $job->completed_at->format('M d, Y') }}
+                                    @else
+                                        {{ $job->created_at->format('M d, Y') }}
+                                    @endif
+                                </td>
+                                <td class="py-4 px-4 text-sm font-semibold text-[#16302A]">
+                                    @if($job->amount_paid)
+                                        Rs. {{ number_format($job->amount_paid, 0) }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td class="py-4 px-4">
+                                    @if($job->review)
+                                        <div class="flex items-center gap-0.5 text-[#D9A441]">
+                                            @for ($i = 0; $i < $job->review->rating; $i++)
+                                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                            @endfor
+                                        </div>
+                                    @else
+                                        <button class="text-xs bg-[#E8823C] text-white px-3 py-1.5 rounded-lg font-semibold">Leave a Review</button>
+                                    @endif
+                                </td>
+                                <td class="py-4 px-4">
+                                    <form method="POST" action="{{ route('dashboard.customer.jobs.rebook', $job) }}" class="inline-block">
+                                        @csrf
+                                        <button type="submit" class="text-xs text-[#E8823C] font-semibold hover:text-[#c96a2a]">Rebook</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6" class="py-8 text-center text-gray-500">No completed jobs yet</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -412,35 +420,31 @@
         <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Your Reviews</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-[#F5F1EA] rounded-xl p-5 border border-gray-200">
-                <div class="flex items-center gap-0.5 text-[#D9A441] mb-3">
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            @if(count($reviewsGiven) > 0)
+                @foreach($reviewsGiven as $review)
+                <div class="bg-[#F5F1EA] rounded-xl p-5 border border-gray-200">
+                    <div class="flex items-center gap-0.5 text-[#D9A441] mb-3">
+                        @for ($i = 0; $i < $review->rating; $i++)
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        @endfor
+                        @for ($i = $review->rating; $i < 5; $i++)
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        @endfor
+                    </div>
+                    @if($review->comment)
+                        <p class="text-sm text-gray-700 mb-3">"{{ $review->comment }}"</p>
+                    @endif
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-semibold text-[#16302A]">for {{ $review->pro->name }}</p>
+                        <p class="text-xs text-gray-500">{{ $review->created_at->format('M d, Y') }}</p>
+                    </div>
                 </div>
-                <p class="text-sm text-gray-700 mb-3">"Excellent service! Muhammad fixed our leaking tap quickly and cleanly. Highly recommend!"</p>
-                <div class="flex items-center justify-between">
-                    <p class="text-xs font-semibold text-[#16302A]">for Muhammad Jamil</p>
-                    <p class="text-xs text-gray-500">Jun 28, 2026</p>
+                @endforeach
+            @else
+                <div class="col-span-2 text-center py-8 text-gray-500">
+                    <p>No reviews yet</p>
                 </div>
-            </div>
-
-            <div class="bg-[#F5F1EA] rounded-xl p-5 border border-gray-200">
-                <div class="flex items-center gap-0.5 text-[#D9A441] mb-3">
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                </div>
-                <p class="text-sm text-gray-700 mb-3">"Sarah was very professional! She arrived on time and did a perfect job with our lights."</p>
-                <div class="flex items-center justify-between">
-                    <p class="text-xs font-semibold text-[#16302A]">for Sarah Ahmed</p>
-                    <p class="text-xs text-gray-500">Jun 15, 2026</p>
-                </div>
-            </div>
+            @endif
         </div>
     </section>
 
@@ -451,37 +455,46 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
                 <h3 class="font-semibold text-[#16302A] mb-4">Personal Information</h3>
-                
-                <div class="space-y-4">
-                    <div>
-                        <label class="text-xs font-medium text-gray-500 mb-1 block">Full Name</label>
-                        <input type="text" value="{{ Auth::user()->name }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                <form method="POST" action="{{ route('dashboard.customer.profile.update') }}">
+                    @csrf
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-xs font-medium text-gray-500 mb-1 block">Full Name</label>
+                            <input type="text" name="name" value="{{ Auth::user()->name }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs font-medium text-gray-500 mb-1 block">Email Address</label>
+                            <input type="email" name="email" value="{{ Auth::user()->email }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs font-medium text-gray-500 mb-1 block">Phone Number</label>
+                            <input type="tel" name="phone" value="{{ Auth::user()->phone }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                        </div>
+                        <div class="flex justify-end gap-3 mt-4">
+                            <button type="submit" class="px-5 py-2.5 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold rounded-lg text-sm transition">Save Changes</button>
+                        </div>
                     </div>
-                    <div>
-                        <label class="text-xs font-medium text-gray-500 mb-1 block">Email Address</label>
-                        <input type="email" value="{{ Auth::user()->email }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
-                    </div>
-                    <div>
-                        <label class="text-xs font-medium text-gray-500 mb-1 block">Phone Number</label>
-                        <input type="tel" value="{{ Auth::user()->phone }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
-                    </div>
-                </div>
+                </form>
             </div>
 
             <div>
                 <h3 class="font-semibold text-[#16302A] mb-4">Saved Addresses</h3>
                 
                 <div class="space-y-3 mb-4">
-                    <div class="border border-gray-200 rounded-lg p-3 flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-[#16302A]">Home</p>
-                            <p class="text-xs text-gray-600">DHA Phase 6, Karachi, Pakistan</p>
+                    @if(count($addresses) > 0)
+                        @foreach($addresses as $address)
+                        <div class="border border-gray-200 rounded-lg p-3 flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-[#16302A]">{{ $address->label }}</p>
+                                <p class="text-xs text-gray-600">{{ $address->address }}</p>
+                            </div>
+                            <button class="text-xs text-gray-500 hover:text-[#E8823C]">Edit</button>
                         </div>
-                        <button class="text-xs text-gray-500 hover:text-[#E8823C]">Edit</button>
-                    </div>
+                        @endforeach
+                    @endif
                 </div>
                 
-                <button class="text-sm text-[#E8823C] font-semibold flex items-center gap-1">
+                <button onclick="document.getElementById('add-address-modal').classList.remove('hidden')" class="text-sm text-[#E8823C] font-semibold flex items-center gap-1">
                     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                     </svg>
@@ -490,17 +503,135 @@
 
                 <div class="mt-6 pt-6 border-t border-gray-200">
                     <h3 class="font-semibold text-[#16302A] mb-4">Change Password</h3>
-                    <button class="text-sm text-[#E8823C] font-semibold">Update Password</button>
+                    <form method="POST" action="{{ route('dashboard.customer.password.update') }}">
+                        @csrf
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">Current Password</label>
+                                <input type="password" name="current_password" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                            </div>
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">New Password</label>
+                                <input type="password" name="new_password" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                            </div>
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">Confirm New Password</label>
+                                <input type="password" name="new_password_confirmation" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit" class="text-sm text-[#E8823C] font-semibold">Update Password</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        
-        <div class="flex justify-end mt-6 gap-3">
-            <button class="px-5 py-2.5 border border-gray-300 text-gray-700 font-semibold rounded-lg text-sm hover:bg-gray-50">Cancel</button>
-            <button class="px-5 py-2.5 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold rounded-lg text-sm transition">Save Changes</button>
-        </div>
     </section>
 
+    <!-- Post Job Modal -->
+    <div id="post-job-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000]">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-[#16302A]">Post a New Job</h3>
+                <button onclick="document.getElementById('post-job-modal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <form method="POST" action="{{ route('dashboard.customer.jobs.store') }}">
+                @csrf
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-sm font-medium text-gray-700 mb-2 block">Trade / Category</label>
+                        <select name="trade_category" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none" required>
+                            <option value="">Select a trade</option>
+                            @foreach($trades as $trade)
+                                <option value="{{ $trade['name'] }}">{{ $trade['name'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700 mb-2 block">Description</label>
+                        <textarea name="description" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none" required placeholder="Describe the job you need done..."></textarea>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700 mb-2 block">Location</label>
+                        <input type="text" name="location" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none" placeholder="Enter the job location" required>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700 mb-2 block">Budget Type</label>
+                        <select name="budget_type" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none" onchange="toggleBudgetFields(this.value)">
+                            <option value="fixed">Fixed Budget</option>
+                            <option value="flexible">Flexible</option>
+                        </select>
+                    </div>
+                    <div id="fixed-budget-fields">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-sm font-medium text-gray-700 mb-2 block">Min Budget</label>
+                                <input type="number" name="budget_min" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none" placeholder="Min">
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium text-gray-700 mb-2 block">Max Budget</label>
+                                <input type="number" name="budget_max" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none" placeholder="Max">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700 mb-2 block">Preferred Schedule</label>
+                        <input type="text" name="schedule" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none" placeholder="ASAP or specific date/time" required>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3 mt-6">
+                    <button type="button" onclick="document.getElementById('post-job-modal').classList.add('hidden')" class="px-5 py-2.5 border border-gray-300 text-gray-700 font-semibold rounded-lg text-sm hover:bg-gray-50">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold rounded-lg text-sm transition">Post Job</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Address Modal -->
+    <div id="add-address-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000]">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-[#16302A]">Add New Address</h3>
+                <button onclick="document.getElementById('add-address-modal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <form method="POST" action="{{ route('dashboard.customer.addresses.store') }}">
+                @csrf
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-sm font-medium text-gray-700 mb-2 block">Label (e.g. Home, Work)</label>
+                        <input type="text" name="label" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none" required>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700 mb-2 block">Address</label>
+                        <textarea name="address" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none" required placeholder="Enter your full address"></textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3 mt-6">
+                    <button type="button" onclick="document.getElementById('add-address-modal').classList.add('hidden')" class="px-5 py-2.5 border border-gray-300 text-gray-700 font-semibold rounded-lg text-sm hover:bg-gray-50">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold rounded-lg text-sm transition">Add Address</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleBudgetFields(type) {
+            const fixedFields = document.getElementById('fixed-budget-fields');
+            if (type === 'flexible') {
+                fixedFields.style.display = 'none';
+            } else {
+                fixedFields.style.display = 'block';
+            }
+        }
+    </script>
 </main>
 
 </body>

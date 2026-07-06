@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\PublicAuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomerController;
 
 use App\Helpers\SiteContentHelper;
 use App\Http\Controllers\Admin\SiteContentController;
@@ -40,9 +41,22 @@ Route::prefix('auth')->name('')->group(function () {
 
 // ── Customer Dashboard ────────────────────────────────────────────────────
 Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\CustomerMiddleware::class])->group(function () {
-    Route::get('/customer', function () {
-        return view('dashboard.customer');
-    })->name('customer');
+    Route::get('/customer', [CustomerController::class, 'index'])->name('customer');
+    Route::post('/customer/jobs', [CustomerController::class, 'storeJob'])->name('customer.jobs.store');
+    Route::get('/customer/jobs/{job}', [CustomerController::class, 'showJob'])->name('customer.jobs.show');
+    Route::post('/customer/jobs/{job}/reschedule', [CustomerController::class, 'rescheduleJob'])->name('customer.jobs.reschedule');
+    Route::post('/customer/jobs/{job}/cancel', [CustomerController::class, 'cancelJob'])->name('customer.jobs.cancel');
+    Route::post('/customer/jobs/{job}/rebook', [CustomerController::class, 'rebookJob'])->name('customer.jobs.rebook');
+    Route::post('/customer/jobs/{job}/review', [CustomerController::class, 'leaveReview'])->name('customer.jobs.review');
+    Route::post('/customer/quotes/{quote}/accept', [CustomerController::class, 'acceptQuote'])->name('customer.quotes.accept');
+    Route::post('/customer/quotes/{quote}/decline', [CustomerController::class, 'declineQuote'])->name('customer.quotes.decline');
+    Route::post('/customer/profile', [CustomerController::class, 'updateProfile'])->name('customer.profile.update');
+    Route::post('/customer/password', [CustomerController::class, 'changePassword'])->name('customer.password.update');
+    Route::post('/customer/addresses', [CustomerController::class, 'storeAddress'])->name('customer.addresses.store');
+    Route::put('/customer/addresses/{address}', [CustomerController::class, 'updateAddress'])->name('customer.addresses.update');
+    Route::delete('/customer/addresses/{address}', [CustomerController::class, 'deleteAddress'])->name('customer.addresses.delete');
+    Route::post('/customer/pros/save', [CustomerController::class, 'savePro'])->name('customer.pros.save');
+    Route::post('/customer/pros/remove', [CustomerController::class, 'removeSavedPro'])->name('customer.pros.remove');
 });
 
 // ── Professional Dashboard ────────────────────────────────────────────────────

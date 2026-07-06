@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create Admin User
-        User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'Zain Admin',
             'email' => 'admin@fixit.com',
             'password' => Hash::make('password123'),
@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Create Test Customer
-        User::factory()->create([
+        $customer = User::factory()->create([
             'name' => 'Ali Hassan',
             'email' => 'customer@fixit.com',
             'password' => Hash::make('password123'),
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Create Test Professional (Verified)
-        User::factory()->create([
+        $pro1 = User::factory()->create([
             'name' => 'Muhammad Jamil',
             'email' => 'pro@fixit.com',
             'password' => Hash::make('password123'),
@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Create a pending professional for testing approvals
-        User::factory()->create([
+        $pro2 = User::factory()->create([
             'name' => 'Sarah Ahmed',
             'email' => 'sarah@fixit.com',
             'password' => Hash::make('password123'),
@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'professional',
             'trade' => 'Electrical',
             'location' => 'Karachi',
-            'verification_status' => 'pending',
+            'verification_status' => 'pending', // Keep pending so we have one for approval testing
         ]);
 
         // Create some random users

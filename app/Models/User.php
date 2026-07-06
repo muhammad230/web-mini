@@ -28,4 +28,46 @@ class User extends Authenticatable
     public function isAdmin(): bool        { return $this->role === 'admin'; }
     public function isCustomer(): bool     { return $this->role === 'customer'; }
     public function isProfessional(): bool { return $this->role === 'professional'; }
+
+    // Customer relationships
+    public function customerJobs()
+    {
+        return $this->hasMany(CustomerJob::class, 'customer_id');
+    }
+
+    public function savedProfessionals()
+    {
+        return $this->belongsToMany(User::class, 'saved_professionals', 'customer_id', 'pro_id')->withTimestamps();
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    public function reviewsGiven()
+    {
+        return $this->hasMany(Review::class, 'customer_id');
+    }
+
+    // Professional relationships
+    public function assignedJobs()
+    {
+        return $this->hasMany(CustomerJob::class, 'assigned_pro_id');
+    }
+
+    public function quotes()
+    {
+        return $this->hasMany(Quote::class, 'pro_id');
+    }
+
+    public function reviewsReceived()
+    {
+        return $this->hasMany(Review::class, 'pro_id');
+    }
+
+    public function savedByCustomers()
+    {
+        return $this->belongsToMany(User::class, 'saved_professionals', 'pro_id', 'customer_id')->withTimestamps();
+    }
 }
