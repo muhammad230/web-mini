@@ -62,5 +62,8 @@ class DatabaseSeeder extends Seeder
 
         // Create some random users
         User::factory(5)->create();
+
+        // Seed default website content
+        $this->call(SiteContentSeeder::class);
     }
 }

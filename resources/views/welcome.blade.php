@@ -39,31 +39,31 @@
 <body style="margin:0; padding:0; font-family:'Inter',sans-serif; background:#fff; color:#1f2937;">
 
     {{-- ======= HERO + SEARCH (navbar embedded inside) ======= --}}
-    @include('components.hero')
+    @include('components.hero', ['hero' => $hero, 'navData' => $navData])
 
     {{-- ======= STATS BAR ======= --}}
-    @include('components.stats')
+    @include('components.stats', ['statsBar' => $statsBar])
 
     {{-- ======= BROWSE BY TRADE ======= --}}
-    @include('components.browse-trades')
+    @include('components.browse-trades', ['trades' => $trades])
 
     {{-- ======= HOW IT WORKS ======= --}}
-    @include('components.how-it-works')
+    @include('components.how-it-works', ['howItWorks' => $howItWorks])
 
     {{-- ======= FEATURED PROFESSIONALS ======= --}}
-    @include('components.featured-professionals')
+    @include('components.featured-professionals', ['featuredPros' => $featuredPros])
 
     {{-- ======= TESTIMONIALS ======= --}}
-    @include('components.testimonials')
+    @include('components.testimonials', ['testimonials' => $testimonials])
 
     {{-- ======= CTA – JOIN AS PROFESSIONAL ======= --}}
-    @include('components.cta-professional')
+    @include('components.cta-professional', ['ctaBanner' => $ctaBanner])
 
     {{-- ======= CTA BOTTOM BANNER ======= --}}
     @include('components.cta-bottom')
 
     {{-- ======= FOOTER ======= --}}
-    @include('components.footer')
+    @include('components.footer', ['footerData' => $footerData])
 
 </body>
 </html>

@@ -7,7 +7,7 @@
         @include('components.navbar')
 
         {{-- Room photo fills the right side --}}
-        <img src="{{ asset('images/ChatGPT Image Jul 5, 2026, 05_16_55 PM.png') }}"
+        <img src="{{ asset($hero['hero_image'] ?? 'images/ChatGPT Image Jul 5, 2026, 05_16_55 PM.png') }}"
              alt="" aria-hidden="true"
              style="position:absolute; top:0; right:0; width:75%; height:100%;
                     object-fit:cover; object-position:center center;" />
@@ -26,13 +26,10 @@
         <div style="position:relative; z-index:10; padding:100px 56px 160px; max-width:560px;">
             <h1 style="margin:0 0 20px 0; font-size:3.1rem; font-weight:800;
                        color:#ffffff; line-height:1.13; letter-spacing:-0.5px;">
-                Get Your Home<br>
-                Jobs Done&nbsp;<span style="color:#e8a84c;">Fast&nbsp;&amp;<br>Reliably</span>
+                {!! $hero['heading_prefix'] ?? 'Get Your Home<br>Jobs Done&nbsp;' !!}<span style="color:#e8a84c;">{!! $hero['highlight_word'] ?? 'Fast&nbsp;&amp;<br>Reliably' !!}</span>
             </h1>
             <p style="margin:0; font-size:0.88rem; color:#c8d8d2; line-height:1.8; max-width:340px;">
-                Connect with vetted local professionals for plumbing,<br>
-                electrical, carpentry, and more. Book in minutes,<br>
-                get the job done right.
+                {!! $hero['subheading'] ?? 'Connect with vetted local professionals for plumbing,<br>electrical, carpentry, and more. Book in minutes,<br>get the job done right.' !!}
             </p>
         </div>
 
@@ -87,7 +84,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                         </svg>
-                        <input type="text" placeholder="Enter your city or zip code"
+                        <input type="text" placeholder="{{ $hero['search_placeholder'] ?? 'Enter your city or zip code' }}"
                                style="flex:1; border:none; outline:none; background:transparent;
                                       font-size:0.875rem; color:#374151;" />
                     </div>

@@ -3,7 +3,6 @@
                 display:flex; align-items:center; justify-content:space-between; gap:24px;
                 max-width:960px; margin:0 auto;">
 
-        {{-- Left: icon + text --}}
         <div style="display:flex; align-items:center; gap:18px;">
             <div style="flex-shrink:0;">
                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
@@ -14,17 +13,16 @@
                 </svg>
             </div>
             <div>
-                <h3 style="font-size:1.1rem; font-weight:700; color:#fff; margin:0 0 4px;">Are You a Home Service Professional?</h3>
-                <p style="font-size:0.82rem; color:#8aaa9e; margin:0;">Join FixIt and get access to hundreds of local job leads every month.</p>
+                <h3 style="font-size:1.1rem; font-weight:700; color:#fff; margin:0 0 4px;">{{ $ctaBanner['heading'] ?? 'Are You a Home Service Professional?' }}</h3>
+                <p style="font-size:0.82rem; color:#8aaa9e; margin:0;">{{ $ctaBanner['description'] ?? 'Join FixIt and get access to hundreds of local job leads every month.' }}</p>
             </div>
         </div>
 
-        {{-- Right: button --}}
         <a href="#" style="flex-shrink:0; background:#e07b39; color:#fff; font-size:0.875rem;
                            font-weight:600; padding:11px 26px; border-radius:8px; text-decoration:none;
                            white-space:nowrap;"
            onmouseover="this.style.background='#c96a2a'" onmouseout="this.style.background='#e07b39'">
-            Join as a professional
+            {{ $ctaBanner['button_text'] ?? 'Join as a professional' }}
         </a>
 
     </div>

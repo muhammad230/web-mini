@@ -7,9 +7,9 @@
 
     {{-- Nav Links --}}
     <ul class="hidden md:flex items-center gap-8 text-white font-medium">
-        <li><a href="#how-it-works" class="hover:text-[#E8823C] transition-colors">How it works</a></li>
-        <li><a href="#browse" class="hover:text-[#E8823C] transition-colors">Browse services</a></li>
-        <li><a href="#professionals" class="hover:text-[#E8823C] transition-colors">For professionals</a></li>
+        @foreach($navData['links'] ?? [] as $link)
+            <li><a href="{{ $link['url'] ?? '#' }}" class="hover:text-[#E8823C] transition-colors">{{ $link['label'] ?? '' }}</a></li>
+        @endforeach
     </ul>
 
     {{-- Auth Buttons --}}
