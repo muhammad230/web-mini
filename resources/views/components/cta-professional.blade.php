@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <a href="#" style="flex-shrink:0; background:#e07b39; color:#fff; font-size:0.875rem;
+        <a href="{{ route('register', ['role' => 'professional']) }}" style="flex-shrink:0; background:#e07b39; color:#fff; font-size:0.875rem;
                            font-weight:600; padding:11px 26px; border-radius:8px; text-decoration:none;
                            white-space:nowrap;"
            onmouseover="this.style.background='#c96a2a'" onmouseout="this.style.background='#e07b39'">

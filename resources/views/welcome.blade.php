@@ -39,7 +39,7 @@
 <body style="margin:0; padding:0; font-family:'Inter',sans-serif; background:#fff; color:#1f2937;">
 
     {{-- ======= HERO + SEARCH (navbar embedded inside) ======= --}}
-    @include('components.hero', ['hero' => $hero, 'navData' => $navData])
+    @include('components.hero', ['hero' => $hero, 'navData' => $navData, 'trades' => $trades])
 
     {{-- ======= STATS BAR ======= --}}
     @include('components.stats', ['statsBar' => $statsBar])

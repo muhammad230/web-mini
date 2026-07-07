@@ -15,13 +15,13 @@
 
         {{-- Right: two buttons --}}
         <div style="display:flex; gap:12px; flex-shrink:0;">
-            <a href="#" style="font-size:0.875rem; font-weight:600; color:#fff; background:transparent;
+            <a href="{{ route('job.post') }}" style="font-size:0.875rem; font-weight:600; color:#fff; background:transparent;
                                padding:10px 22px; border-radius:8px; text-decoration:none; border:2px solid #fff;
                                white-space:nowrap;"
                onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='transparent'">
                 Post a job for free
             </a>
-            <a href="#" style="font-size:0.875rem; font-weight:600; color:#fff; background:transparent;
+            <a href="#browse" style="font-size:0.875rem; font-weight:600; color:#fff; background:transparent;
                                padding:10px 22px; border-radius:8px; text-decoration:none; border:2px solid #fff;
                                white-space:nowrap;"
                onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='transparent'">

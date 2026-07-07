@@ -41,6 +41,8 @@
                     border-radius:18px; box-shadow:0 10px 50px rgba(0,0,0,0.16);
                     padding:26px 30px 22px;">
 
+            <form method="GET" action="{{ route('job.search') }}">
+
             {{-- Row 1: two inputs + button --}}
             <div style="display:flex; gap:16px; align-items:flex-end; margin-bottom:18px;">
 
@@ -54,17 +56,13 @@
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" style="flex-shrink:0;">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z"/>
                         </svg>
-                        <select style="flex:1; border:none; outline:none; background:transparent;
+                        <select name="trade" style="flex:1; border:none; outline:none; background:transparent;
                                        font-size:0.875rem; color:#6b7280; cursor:pointer; -webkit-appearance:none; appearance:none;">
                             <option value="">Select a service</option>
-                            <option>Plumbing</option>
-                            <option>Electrical</option>
-                            <option>Carpentry</option>
-                            <option>Painting</option>
-                            <option>AC Repair</option>
-                            <option>Cleaning</option>
-                            <option>Appliance Repair</option>
-                            <option>Handyman</option>
+                            @php $activeTrades = array_filter($trades['trades'] ?? [], fn($t) => $t['active'] ?? true); @endphp
+                            @foreach($activeTrades as $trade)
+                                <option value="{{ $trade['name'] }}">{{ $trade['name'] }}</option>
+                            @endforeach
                         </select>
                         {{-- chevron --}}
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.5" style="flex-shrink:0;">
@@ -84,14 +82,14 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                         </svg>
-                        <input type="text" placeholder="{{ $hero['search_placeholder'] ?? 'Enter your city or zip code' }}"
+                        <input type="text" name="location" placeholder="{{ $hero['search_placeholder'] ?? 'Enter your city or zip code' }}"
                                style="flex:1; border:none; outline:none; background:transparent;
                                       font-size:0.875rem; color:#374151;" />
                     </div>
                 </div>
 
                 {{-- Search button --}}
-                <button style="flex-shrink:0; border:none; cursor:pointer;
+                <button type="submit" style="flex-shrink:0; border:none; cursor:pointer;
                                background:#e07b39; color:#fff; font-weight:600;
                                font-size:0.9rem; height:48px; padding:0 28px;
                                border-radius:10px;"
@@ -102,19 +100,21 @@
 
             </div>
 
+            </form>
+
             {{-- Row 2: Post a job for free --}}
             <div style="display:flex; justify-content:center;">
-                <button style="display:inline-flex; align-items:center; gap:7px;
+                <a href="{{ route('job.post') }}" style="display:inline-flex; align-items:center; gap:7px;
                                font-size:0.875rem; font-weight:500; color:#4b5563;
                                background:#fff; border:1.5px solid #d1d5db;
-                               border-radius:10px; padding:10px 26px; cursor:pointer;"
+                               border-radius:10px; padding:10px 26px; cursor:pointer; text-decoration:none;"
                         onmouseover="this.style.borderColor='#e07b39'; this.style.color='#e07b39';"
                         onmouseout="this.style.borderColor='#d1d5db'; this.style.color='#4b5563';">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                     </svg>
                     Post a job for free
-                </button>
+                </a>
             </div>
 
         </div>

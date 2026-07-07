@@ -65,6 +65,61 @@ Route::get('/', function () {
     ));
 })->name('home');
 
+// ── Job Search & Post (from homepage CTAs) ──────────────────────────────
+Route::get('/job/search', function (\Illuminate\Http\Request $request) {
+    $trade = $request->query('trade', '');
+    $location = $request->query('location', '');
+    session(['pending_job' => ['trade' => $trade, 'location' => $location]]);
+
+    if (!Auth::check()) {
+        return redirect()->route('register', ['role' => 'customer']);
+    }
+
+    $user = Auth::user();
+    if ($user->isCustomer()) {
+        return redirect()->route('dashboard.customer');
+    }
+
+    return redirect()->route('home')->with('error', 'Please log in as a customer to post a job.');
+})->name('job.search');
+
+Route::get('/post-job', function () {
+    if (!Auth::check()) {
+        session(['pending_job' => ['intent' => 'post-job']]);
+        return redirect()->route('register', ['role' => 'customer']);
+    }
+
+    $user = Auth::user();
+    if ($user->isCustomer()) {
+        return redirect()->route('dashboard.customer');
+    }
+
+    return redirect()->route('home')->with('error', 'Please log in as a customer to post a job.');
+})->name('job.post');
+
+// ── Standalone job create page (for customers coming from search/pre-fill) ──
+Route::get('/jobs/create', function (\Illuminate\Http\Request $request) {
+    if (!Auth::check()) {
+        return redirect()->route('login');
+    }
+    $user = Auth::user();
+    if (!$user->isCustomer()) {
+        return redirect()->route('home')->with('error', 'Only customers can post jobs.');
+    }
+
+    $pending = session('pending_job', []);
+    $trade = $request->query('trade', $pending['trade'] ?? '');
+    $location = $request->query('location', $pending['location'] ?? '');
+
+    // Clear after reading
+    session()->forget('pending_job');
+
+    $tradesData = \App\Helpers\SiteContentHelper::get('browse_trades', \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['browse_trades']);
+    $trades = array_filter($tradesData['trades'] ?? [], fn($t) => $t['active'] ?? true);
+
+    return view('jobs.create', compact('trade', 'location', 'trades'));
+})->name('jobs.create');
+
 // ── Public Auth (Login, Register, Logout) ─────────────────────────────────
 Route::prefix('auth')->name('')->group(function () {
     Route::get('/login', [PublicAuthController::class, 'showLogin'])->name('login');
@@ -80,7 +135,7 @@ Route::prefix('auth')->name('')->group(function () {
 
 // ── Customer Dashboard ────────────────────────────────────────────────────
 Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\CustomerMiddleware::class])->group(function () {
-    Route::get('/customer', [CustomerController::class, 'index'])->name('customer');
+    Route::get('/customer', [CustomerController::class, 'index'])->name('customer')->middleware(\App\Http\Middleware\RedirectPendingJob::class);
     Route::post('/customer/jobs', [CustomerController::class, 'storeJob'])->name('customer.jobs.store');
     Route::get('/customer/jobs/{job}', [CustomerController::class, 'showJob'])->name('customer.jobs.show');
     Route::post('/customer/jobs/{job}/reschedule', [CustomerController::class, 'rescheduleJob'])->name('customer.jobs.reschedule');
