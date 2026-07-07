@@ -825,8 +825,9 @@
 
             tabLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault();
                     const targetTab = this.getAttribute('data-tab');
+                    if (!targetTab) return; // external link, allow normal navigation
+                    e.preventDefault();
 
                     // Update active tab styling
                     tabLinks.forEach(l => {

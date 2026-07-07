@@ -13,17 +13,15 @@ class MessageController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $conversations = collect();
 
-        if ($user->isCustomer()) {
-            $conversations = Conversation::where('customer_id', $user->id)
-                ->with(['professional', 'job', 'lastMessage'])
-                ->get();
-        } elseif ($user->isProfessional()) {
-            $conversations = Conversation::where('professional_id', $user->id)
-                ->with(['customer', 'job', 'lastMessage'])
-                ->get();
-        }
+        // Fetch all conversations where this user is either the customer or the professional
+        $conversations = Conversation::where(function($q) use ($user) {
+                $q->where('customer_id', $user->id)
+                  ->orWhere('professional_id', $user->id);
+            })
+            ->with(['customer', 'professional', 'job', 'lastMessage'])
+            ->latest()
+            ->get();
 
         return view('messages.index', compact('conversations'));
     }
