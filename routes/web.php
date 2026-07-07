@@ -110,6 +110,16 @@ Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\
     Route::post('/professional/password',              [\App\Http\Controllers\ProfessionalController::class, 'changePassword'])->name('professional.password.update');
 });
 
+// ── Messages (for Customers & Pros) ───────────────────────────────────────────
+Route::prefix('messages')->name('messages.')->middleware(['auth'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\MessageController::class, 'index'])->name('index');
+    Route::get('/{id}', [\App\Http\Controllers\MessageController::class, 'show'])->name('show');
+    Route::post('/{id}/send', [\App\Http\Controllers\MessageController::class, 'store'])->name('store');
+    Route::get('/job/{jobId}', [\App\Http\Controllers\MessageController::class, 'getOrCreate'])->name('job');
+    Route::get('/api/unread-count', [\App\Http\Controllers\MessageController::class, 'getUnreadCount'])->name('unread');
+    Route::get('/api/{conversationId}/messages', [\App\Http\Controllers\MessageController::class, 'getMessages'])->name('api.messages');
+});
+
 // ── Admin Auth & Dashboard ────────────────────────────────────────────────
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');

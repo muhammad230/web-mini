@@ -72,4 +72,30 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'saved_professionals', 'pro_id', 'customer_id')->withTimestamps();
     }
+
+    // Conversations
+    public function conversationsAsCustomer()
+    {
+        return $this->hasMany(Conversation::class, 'customer_id');
+    }
+
+    public function conversationsAsProfessional()
+    {
+        return $this->hasMany(Conversation::class, 'professional_id');
+    }
+
+    public function unreadMessagesCount()
+    {
+        $userId = $this->id;
+        if ($this->isCustomer()) {
+            return Message::whereHas('conversation', function ($q) use ($userId) {
+                $q->where('customer_id', $userId);
+            })->where('sender_role', 'professional')->where('is_read', false)->count();
+        } elseif ($this->isProfessional()) {
+            return Message::whereHas('conversation', function ($q) use ($userId) {
+                $q->where('professional_id', $userId);
+            })->where('sender_role', 'customer')->where('is_read', false)->count();
+        }
+        return 0;
+    }
 }

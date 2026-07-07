@@ -276,6 +276,27 @@
             </div>
         @endif
 
+        @if($conversation)
+            <div class="card">
+                <div class="card-title">Messages (Read‑Only)</div>
+                @if($conversation->messages->count() > 0)
+                    <div class="space-y-3">
+                        @foreach($conversation->messages as $msg)
+                            <div class="flex {{ $msg->sender_role == 'customer' ? 'justify-start' : 'justify-end' }}">
+                                <div class="max-w-[70%] p-3 rounded-xl {{ $msg->sender_role == 'customer' ? 'bg-gray-100' : 'bg-[#E8823C] text-white' }}">
+                                    <div class="text-xs font-semibold mb-1 opacity-80">{{ $msg->sender->name }} • {{ $msg->sender_role }}</div>
+                                    <div class="text-sm">{{ $msg->message_text }}</div>
+                                    <div class="text-xs mt-1 opacity-70">{{ $msg->created_at->format('M d, Y h:i A') }}</div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <span style="color:#9ca3af;">No messages yet for this job</span>
+                @endif
+            </div>
+        @endif
+
         @if($job->review)
             <div class="card">
                 <div class="card-title">Review</div>

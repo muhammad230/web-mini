@@ -130,8 +130,9 @@ class AdminController extends Controller
     public function jobDetail($id)
     {
         $job = CustomerJob::with('customer', 'assignedPro', 'quotes.pro', 'review')->findOrFail($id);
+        $conversation = \App\Models\Conversation::where('job_id', $id)->with('messages.sender')->first();
 
-        return view('dashboard.admin.job-detail', compact('job'));
+        return view('dashboard.admin.job-detail', compact('job', 'conversation'));
     }
 
     // Reviews & Ratings

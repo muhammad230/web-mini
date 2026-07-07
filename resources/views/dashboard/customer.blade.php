@@ -34,7 +34,7 @@
         <a href="#dashboard" class="tab-link px-2 py-2 rounded-lg tab-active text-xs sm:text-sm font-semibold whitespace-nowrap" data-tab="dashboard">Dashboard</a>
         <a href="#my-jobs" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap" data-tab="my-jobs">My Jobs</a>
         <a href="#find-pro" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap" data-tab="find-pro">Find a Pro</a>
-        <a href="#messages" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap" data-tab="messages">Messages</a>
+        <a href="{{ route('messages.index') }}" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap">Messages</a>
         <a href="#payments" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap" data-tab="payments">Payments</a>
         <a href="#profile" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap" data-tab="profile">Profile</a>
     </nav>
@@ -46,7 +46,9 @@
             <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
             </svg>
-            <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-[#E8823C] rounded-full border-2 border-[#16302A]"></span>
+            @if(Auth::user()->unreadMessagesCount() > 0)
+                <span class="absolute -top-1 -right-1 bg-[#E8823C] text-white text-xs font-bold px-2 py-0.5 rounded-full">{{ Auth::user()->unreadMessagesCount() }}</span>
+            @endif
         </button>
 
         <!-- Profile Dropdown -->
@@ -307,7 +309,7 @@
                                 @endif
                                 <p class="text-xs text-gray-500 mt-1">{{ $booking->location }}</p>
                                 <div class="flex gap-2 mt-3">
-                                    <button class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Message Pro</button>
+                                    <a href="{{ route('messages.job', $booking->id) }}" class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Message Pro</a>
                                     <button class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Reschedule</button>
                                 </div>
                             </div>
@@ -606,12 +608,21 @@
         </section>
     </div>
 
-    <!-- Messages Tab -->
+    <!-- Messages Tab: link to dedicated messages page -->
     <div id="messages" class="tab-content hidden">
-        <h1 class="text-3xl font-extrabold text-[#16302A] mb-8 heading-underline">Messages</h1>
-        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-            <p class="text-gray-600">Messages feature coming soon!</p>
-        </section>
+        <div class="flex flex-col items-center justify-center py-20 text-center">
+            <svg width="64" height="64" fill="none" stroke="#9ca3af" stroke-width="1.5" viewBox="0 0 24 24" class="mb-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <h2 class="text-xl font-semibold text-[#16302A] mb-2">Messages</h2>
+            <p class="text-gray-500 mb-6">View and manage all your conversations with professionals.</p>
+            <a href="{{ route('messages.index') }}" class="inline-flex items-center gap-2 bg-[#E8823C] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#c96a2a] transition">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                </svg>
+                Open Messages
+            </a>
+        </div>
     </div>
 
     <!-- Payments Tab -->

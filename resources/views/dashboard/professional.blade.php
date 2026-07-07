@@ -39,7 +39,7 @@
         <a href="#" class="px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap">Leads</a>
         <a href="#" class="px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap">My Jobs</a>
         <a href="#" class="px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap">Earnings</a>
-        <a href="#" class="px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap">Messages</a>
+        <a href="{{ route('messages.index') }}" class="px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap">Messages</a>
         <a href="#" class="px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap">Profile</a>
     </nav>
 
@@ -50,7 +50,9 @@
             <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
             </svg>
-            <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-[#E8823C] rounded-full border-2 border-[#16302A]"></span>
+            @if(Auth::user()->unreadMessagesCount() > 0)
+                <span class="absolute -top-1 -right-1 bg-[#E8823C] text-white text-xs font-bold px-2 py-0.5 rounded-full">{{ Auth::user()->unreadMessagesCount() }}</span>
+            @endif
         </button>
 
         <!-- Profile Dropdown -->
@@ -350,6 +352,7 @@
                             <p class="text-xs text-gray-500">{{ $job->location }}</p>
                             <span class="inline-block mt-2 text-xs px-2 py-1 rounded-full font-medium {{ $badgeBg }}">{{ $badgeLabel }}</span>
                             <div class="flex gap-2 mt-3 flex-wrap">
+                                <a href="{{ route('messages.job', $job->id) }}" class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Message Customer</a>
                                 @if($job->status === 'in_progress')
                                     <form method="POST" action="{{ route('dashboard.professional.jobs.complete', $job->id) }}">
                                         @csrf
