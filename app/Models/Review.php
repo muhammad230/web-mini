@@ -26,4 +26,10 @@ class Review extends Model
     {
         return $this->belongsTo(User::class, 'pro_id');
     }
+
+    // Alias for eager loading with ->with('professional')
+    public function professional()
+    {
+        return $this->belongsTo(User::class, 'pro_id');
+    }
 }

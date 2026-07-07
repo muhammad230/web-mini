@@ -13,11 +13,50 @@ Route::get('/', function () {
     $statsBar    = SiteContentHelper::get('stats_bar', \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['stats_bar']);
     $trades      = SiteContentHelper::get('browse_trades', \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['browse_trades']);
     $howItWorks  = SiteContentHelper::get('how_it_works', \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['how_it_works']);
-    $featuredPros = SiteContentHelper::get('featured_pros', \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['featured_pros']);
-    $testimonials = SiteContentHelper::get('testimonials', \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['testimonials']);
     $ctaBanner   = SiteContentHelper::get('cta_banner', \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['cta_banner']);
     $footerData  = SiteContentHelper::get('footer', \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['footer']);
     $navData     = SiteContentHelper::get('navigation', \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['navigation']);
+
+    // ── Featured Professionals — real DB data ──────────────────────
+    $fpConfig = SiteContentHelper::get('featured_pros', \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['featured_pros']);
+    if (($fpConfig['mode'] ?? 'auto') === 'manual' && !empty($fpConfig['featured_ids'])) {
+        $featuredProsData = \App\Models\User::whereIn('id', $fpConfig['featured_ids'])
+            ->where('role', 'professional')
+            ->where('verification_status', 'verified')
+            ->get();
+    } else {
+        $featuredProsData = \App\Models\User::where('role', 'professional')
+            ->where('verification_status', 'verified')
+            ->where('avg_rating', '>=', 4.0)
+            ->orderByDesc('avg_rating')
+            ->limit(3)
+            ->get();
+        // Fallback: if not enough high-rated pros, just take top 3
+        if ($featuredProsData->count() < 3) {
+            $featuredProsData = \App\Models\User::where('role', 'professional')
+                ->where('verification_status', 'verified')
+                ->orderByDesc('avg_rating')
+                ->limit(3)
+                ->get();
+        }
+    }
+
+    // ── Testimonials — real reviews from DB ────────────────────────
+    $testConfig = SiteContentHelper::get('testimonials', \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['testimonials']);
+    if (($testConfig['mode'] ?? 'auto') === 'manual' && !empty($testConfig['pinned_ids'])) {
+        $testimonialsData = \App\Models\Review::with(['customer', 'professional'])
+            ->whereIn('id', $testConfig['pinned_ids'])
+            ->get();
+    } else {
+        $testimonialsData = \App\Models\Review::with(['customer', 'professional'])
+            ->where('rating', '>=', 4)
+            ->latest()
+            ->limit(4)
+            ->get();
+    }
+
+    $featuredPros = array_merge($fpConfig, ['pros' => $featuredProsData]);
+    $testimonials = array_merge($testConfig, ['reviews' => $testimonialsData]);
 
     return view('welcome', compact(
         'hero', 'statsBar', 'trades', 'howItWorks',
