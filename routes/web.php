@@ -78,11 +78,93 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout')->middleware('auth');
 
         Route::middleware([App\Http\Middleware\AdminMiddleware::class])->group(function () {
-            Route::get('/dashboard', function () {
-                $pendingPros = \App\Models\User::where('role', 'professional')
-                    ->where('verification_status', 'pending')
+            Route::get('/dashboard', function (\Illuminate\Http\Request $request) {
+                // Basic stats
+                $verifiedPros = \App\Models\User::where('role', 'professional')->where('verification_status', 'approved')->count();
+                $totalCustomers = \App\Models\User::where('role', 'customer')->count();
+                $pendingPros = \App\Models\User::where('role', 'professional')->where('verification_status', 'pending')->get();
+                $pendingProsCount = $pendingPros->count();
+                
+                $currentMonth = now()->startOfMonth();
+                $lastMonth = now()->subMonth()->startOfMonth();
+                $jobsThisMonth = \App\Models\CustomerJob::where('created_at', '>=', $currentMonth)->count();
+                $completedJobs = \App\Models\CustomerJob::where('status', 'completed');
+                $platformRevenue = $completedJobs->sum('amount_paid');
+                $avgRating = \App\Models\Review::avg('rating');
+                
+                // Charts data
+                $last12Months = collect();
+                for ($i = 11; $i >= 0; $i--) {
+                    $monthDate = now()->subMonths($i)->startOfMonth();
+                    $monthName = $monthDate->format('M');
+                    $monthJobs = \App\Models\CustomerJob::where('status', 'completed')
+                        ->whereYear('created_at', $monthDate->year)
+                        ->whereMonth('created_at', $monthDate->month)
+                        ->count();
+                    $monthRevenue = \App\Models\CustomerJob::where('status', 'completed')
+                        ->whereYear('created_at', $monthDate->year)
+                        ->whereMonth('created_at', $monthDate->month)
+                        ->sum('amount_paid');
+                    $last12Months->push([
+                        'month' => $monthName,
+                        'jobs' => $monthJobs,
+                        'revenue' => $monthRevenue
+                    ]);
+                }
+                
+                // Bookings by trade
+                $tradesBookings = \App\Models\CustomerJob::select('trade_category', \DB::raw('count(*) as total'))
+                    ->groupBy('trade_category')
+                    ->where('created_at', '>=', $currentMonth)
+                    ->pluck('total', 'trade_category');
+                
+                // Recent jobs
+                $recentJobs = \App\Models\CustomerJob::with('customer', 'assignedPro')
+                    ->orderBy('created_at', 'desc')
+                    ->take(10)
                     ->get();
-                return view('dashboard.index', compact('pendingPros'));
+                
+                // Recent reviews
+                $recentReviews = \App\Models\Review::with('customer', 'pro', 'job')
+                    ->orderBy('created_at', 'desc')
+                    ->take(5)
+                    ->get();
+                
+                // Top pros
+                $topPros = \App\Models\User::where('role', 'professional')
+                    ->where('verification_status', 'approved')
+                    ->withCount(['assignedJobs as jobs_completed' => function ($q) {
+                        $q->where('status', 'completed');
+                    }])
+                    ->orderBy('avg_rating', 'desc')
+                    ->orderBy('jobs_completed', 'desc')
+                    ->take(5)
+                    ->get();
+                
+                // Search functionality
+                $searchResults = null;
+                if ($request->has('q')) {
+                    $q = $request->input('q');
+                    $searchResults = [
+                        'users' => \App\Models\User::where('name', 'like', "%{$q}%")
+                            ->orWhere('email', 'like', "%{$q}%")
+                            ->take(10)
+                            ->get(),
+                        'jobs' => \App\Models\CustomerJob::where('id', 'like', "%{$q}%")
+                            ->orWhere('trade_category', 'like', "%{$q}%")
+                            ->orWhere('description', 'like', "%{$q}%")
+                            ->with('customer', 'assignedPro')
+                            ->take(10)
+                            ->get()
+                    ];
+                }
+                
+                return view('dashboard.index', compact(
+                    'verifiedPros', 'totalCustomers', 'pendingPros', 'pendingProsCount',
+                    'jobsThisMonth', 'platformRevenue', 'avgRating',
+                    'last12Months', 'tradesBookings', 'recentJobs',
+                    'recentReviews', 'topPros', 'searchResults'
+                ));
             })->name('dashboard');
 
             Route::post('/pro/{user}/approve', [\App\Http\Controllers\Auth\AdminAuthController::class, 'approvePro'])->name('pro.approve');

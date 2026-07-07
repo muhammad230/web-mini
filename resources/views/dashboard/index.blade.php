@@ -247,10 +247,10 @@
             <button class="toggle-btn" onclick="toggleSidebar()">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
-            <div class="search-box">
+            <form method="GET" action="{{ route('admin.dashboard') }}" class="search-box" style="display:flex;align-items:center;gap:8px;">
                 <svg width="16" height="16" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
-                <input type="text" placeholder="Search jobs, users, professionals...">
-            </div>
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search jobs, users, professionals..." style="background:transparent;border:none;outline:none;width:100%;">
+            </form>
         </div>
         <div class="topbar-right">
             <button class="notif-btn">
@@ -271,49 +271,93 @@
     <!-- CONTENT -->
     <div class="content">
         <div class="page-title">Dashboard Overview</div>
-        <div class="page-sub">Welcome back, Zain. Here's what's happening today — July 5, 2026.</div>
+        <div class="page-sub">Welcome back, Zain. Here's what's happening today — {{ now()->format('M d, Y') }}.</div>
+
+        @if($searchResults)
+            <div class="table-card" style="margin-top:20px;">
+                <div class="table-header">
+                    <div>
+                        <div class="card-title">Search Results for "{{ request('q') }}"</div>
+                    </div>
+                </div>
+                @if($searchResults['users']->count() > 0)
+                    <h4 style="padding:10px 20px;margin:0;background:#faf9f6;color:#111827;">Users</h4>
+                    <table>
+                        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr></thead>
+                        <tbody>
+                            @foreach($searchResults['users'] as $user)
+                                <tr>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ ucfirst($user->role) }}</td>
+                                    <td>{{ ucfirst($user->verification_status) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
+                @if($searchResults['jobs']->count() > 0)
+                    <h4 style="padding:10px 20px;margin:0;background:#faf9f6;color:#111827;">Jobs</h4>
+                    <table>
+                        <thead><tr><th>Job ID</th><th>Customer</th><th>Professional</th><th>Trade</th><th>Status</th></tr></thead>
+                        <tbody>
+                            @foreach($searchResults['jobs'] as $job)
+                                <tr>
+                                    <td>#JB-{{ $job->id }}</td>
+                                    <td>{{ $job->customer ? $job->customer->name : 'N/A' }}</td>
+                                    <td>{{ $job->assignedPro ? $job->assignedPro->name : 'N/A' }}</td>
+                                    <td>{{ $job->trade_category ?: 'N/A' }}</td>
+                                    <td>{{ ucwords(str_replace('_', ' ', $job->status)) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
+                @if($searchResults['users']->count() == 0 && $searchResults['jobs']->count() == 0)
+                    <div style="padding:20px;text-align:center;color:#9ca3af;">No results found</div>
+                @endif
+            </div>
+        @endif
 
         <!-- KPI CARDS -->
         <div class="kpi-grid">
             <div class="kpi-card">
                 <div class="kpi-top">
                     <div class="kpi-icon" style="background:#e8f4f1;"><svg width="22" height="22" fill="none" stroke="#16302A" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
-                    <span class="kpi-badge badge-up">+12%</span>
                 </div>
-                <div class="kpi-value">5,240</div>
+                <div class="kpi-value">{{ number_format($verifiedPros) }}</div>
                 <div class="kpi-label">Verified Professionals</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-top">
                     <div class="kpi-icon" style="background:#fff8e6;"><svg width="22" height="22" fill="none" stroke="#D9A441" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
-                    <span class="kpi-badge badge-up">+8%</span>
                 </div>
-                <div class="kpi-value">18,930</div>
+                <div class="kpi-value">{{ number_format($totalCustomers) }}</div>
                 <div class="kpi-label">Total Customers</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-top">
                     <div class="kpi-icon" style="background:#fff0e8;"><svg width="22" height="22" fill="none" stroke="#E8823C" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
-                    <span class="kpi-badge badge-up">+23%</span>
                 </div>
-                <div class="kpi-value">3,812</div>
+                <div class="kpi-value">{{ number_format($jobsThisMonth) }}</div>
                 <div class="kpi-label">Jobs This Month</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-top">
                     <div class="kpi-icon" style="background:#eef6fb;"><svg width="22" height="22" fill="none" stroke="#3b82f6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-                    <span class="kpi-badge badge-up">+18%</span>
                 </div>
-                <div class="kpi-value">Rs. 2.4M</div>
+                <div class="kpi-value">Rs. {{ number_format($platformRevenue, 2) }}</div>
                 <div class="kpi-label">Platform Revenue</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-top">
                     <div class="kpi-icon" style="background:#fef3ee;"><svg width="22" height="22" fill="#D9A441" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                    <span class="kpi-badge badge-down">-2</span>
+                    @if($pendingProsCount > 0)
+                        <span class="kpi-badge badge-up">{{ $pendingProsCount }}</span>
+                    @endif
                 </div>
-                <div class="kpi-value">4.7</div>
-                <div class="kpi-label">Avg Rating / Pending: 34</div>
+                <div class="kpi-value">{{ round($avgRating ?: 0, 1) }}</div>
+                <div class="kpi-label">Avg Rating / Pending: {{ $pendingProsCount }}</div>
             </div>
         </div>
 
@@ -384,11 +428,32 @@
                     <th>Job ID</th><th>Customer</th><th>Professional</th><th>Trade</th><th>Status</th><th>Amount</th><th>Date</th>
                 </tr></thead>
                 <tbody>
-                    <tr><td style="font-weight:600;color:#E8823C;">#JB-4821</td><td>Ali Hassan</td><td>Muhammad Jamil</td><td><span class="trade-tag" style="background:#e8f4f1;color:#16302A;">Plumbing</span></td><td><span class="status-badge s-completed">Completed</span></td><td style="font-weight:600;">Rs. 1,200</td><td>Jul 5, 2026</td></tr>
-                    <tr><td style="font-weight:600;color:#E8823C;">#JB-4820</td><td>Fatima Qureshi</td><td>Sarah Ahmed</td><td><span class="trade-tag" style="background:#fff8e6;color:#a16207;">Electrical</span></td><td><span class="status-badge s-progress">In Progress</span></td><td style="font-weight:600;">Rs. 2,500</td><td>Jul 5, 2026</td></tr>
-                    <tr><td style="font-weight:600;color:#E8823C;">#JB-4819</td><td>Bilal Chaudhry</td><td>Rizwan Khan</td><td><span class="trade-tag" style="background:#fef3ee;color:#c2410c;">Carpentry</span></td><td><span class="status-badge s-pending">Pending</span></td><td style="font-weight:600;">Rs. 3,800</td><td>Jul 4, 2026</td></tr>
-                    <tr><td style="font-weight:600;color:#E8823C;">#JB-4818</td><td>Sana Mirza</td><td>Asad Raza</td><td><span class="trade-tag" style="background:#fef0f0;color:#b91c1c;">Painting</span></td><td><span class="status-badge s-cancelled">Cancelled</span></td><td style="font-weight:600;">Rs. 900</td><td>Jul 4, 2026</td></tr>
-                    <tr><td style="font-weight:600;color:#E8823C;">#JB-4817</td><td>Omar Sheikh</td><td>Tariq Butt</td><td><span class="trade-tag" style="background:#eef6fb;color:#1d4ed8;">AC Repair</span></td><td><span class="status-badge s-completed">Completed</span></td><td style="font-weight:600;">Rs. 1,800</td><td>Jul 3, 2026</td></tr>
+                    @if($recentJobs->count() > 0)
+                        @foreach($recentJobs as $job)
+                            @php
+                                $statusBadgeClass = 's-pending';
+                                switch($job->status) {
+                                    case 'completed': $statusBadgeClass = 's-completed'; break;
+                                    case 'in_progress': $statusBadgeClass = 's-progress'; break;
+                                    case 'cancelled': $statusBadgeClass = 's-cancelled'; break;
+                                    case 'scheduled': $statusBadgeClass = 's-progress'; break;
+                                    case 'quotes_received': $statusBadgeClass = 's-pending'; break;
+                                    case 'pending_match': $statusBadgeClass = 's-pending'; break;
+                                }
+                            @endphp
+                            <tr>
+                                <td style="font-weight:600;color:#E8823C;">#JB-{{ $job->id }}</td>
+                                <td>{{ $job->customer ? $job->customer->name : 'N/A' }}</td>
+                                <td>{{ $job->assignedPro ? $job->assignedPro->name : 'N/A' }}</td>
+                                <td><span class="trade-tag" style="background:#e8f4f1;color:#16302A;">{{ $job->trade_category ?: 'N/A' }}</span></td>
+                                <td><span class="status-badge {{ $statusBadgeClass }}">{{ ucwords(str_replace('_', ' ', $job->status)) }}</span></td>
+                                <td style="font-weight:600;">Rs. {{ number_format($job->amount_paid ?: 0, 2) }}</td>
+                                <td>{{ $job->created_at->format('M d, Y') }}</td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr><td colspan="7" style="text-align:center;color:#9ca3af;padding:20px;">No jobs yet</td></tr>
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -400,41 +465,55 @@
             <div class="chart-card" style="height:fit-content;">
                 <div class="card-title">Recent Reviews</div>
                 <div class="card-sub">Latest customer feedback</div>
-                <div class="review-card">
-                    <div style="font-size:2rem;color:#D9A441;line-height:1;margin-bottom:4px;font-family:Georgia;">&ldquo;</div>
-                    <div class="review-stars">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A441"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A441"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A441"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A441"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A441"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    </div>
-                    <div class="review-text">"Kamran fixed our leaking pipe so quickly! Excellent professional service."</div>
-                    <div class="review-author"><img src="https://randomuser.me/api/portraits/men/46.jpg" alt=""><div><div class="rname">Ali Hassan</div><div class="rservice">→ Muhammad Jamil · Plumbing</div></div></div>
-                </div>
-                <div class="review-card">
-                    <div style="font-size:2rem;color:#D9A441;line-height:1;margin-bottom:4px;font-family:Georgia;">&ldquo;</div>
-                    <div class="review-stars">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A441"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A441"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A441"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A441"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#D9A441" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    </div>
-                    <div class="review-text">"Sarah installed our fans perfectly. Highly recommend her!"</div>
-                    <div class="review-author"><img src="https://randomuser.me/api/portraits/women/65.jpg" alt=""><div><div class="rname">Fatima Qureshi</div><div class="rservice">→ Sarah Ahmed · Electrical</div></div></div>
-                </div>
+                @if($recentReviews->count() > 0)
+                    @foreach($recentReviews as $review)
+                        <div class="review-card">
+                            <div style="font-size:2rem;color:#D9A441;line-height:1;margin-bottom:4px;font-family:Georgia;">&ldquo;</div>
+                            <div class="review-stars">
+                                @for($i = 1; $i <= 5; $i++)
+                                    @if($i <= $review->rating)
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A441"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    @else
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#D9A441" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    @endif
+                                @endfor
+                            </div>
+                            <div class="review-text">{{ $review->comment }}</div>
+                            <div class="review-author">
+                                <img src="https://randomuser.me/api/portraits/men/{{ rand(1, 99) }}.jpg" alt="">
+                                <div>
+                                    <div class="rname">{{ $review->customer ? $review->customer->name : 'N/A' }}</div>
+                                    <div class="rservice">→ {{ $review->pro ? $review->pro->name : 'N/A' }} · {{ $review->job ? $review->job->trade_category : 'N/A' }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div style="padding:20px;color:#9ca3af;text-align:center;">No reviews yet</div>
+                @endif
             </div>
 
             <!-- Top Professionals -->
             <div class="chart-card" style="height:fit-content;">
                 <div class="card-title">Top Professionals</div>
                 <div class="card-sub">Leaderboard by jobs & rating</div>
-                <div class="pro-mini"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt=""><div><div class="pname">Muhammad Jamil</div><div class="ptrade">Plumber</div></div><div class="pro-mini-right"><div class="prating">★ 4.9</div><div class="pjobs">142 jobs</div></div></div>
-                <div class="pro-mini"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt=""><div><div class="pname">Sarah Ahmed</div><div class="ptrade">Electrician</div></div><div class="pro-mini-right"><div class="prating">★ 4.8</div><div class="pjobs">118 jobs</div></div></div>
-                <div class="pro-mini"><img src="https://randomuser.me/api/portraits/men/75.jpg" alt=""><div><div class="pname">Rizwan Khan</div><div class="ptrade">Carpenter</div></div><div class="pro-mini-right"><div class="prating">★ 4.7</div><div class="pjobs">97 jobs</div></div></div>
-                <div class="pro-mini"><img src="https://randomuser.me/api/portraits/men/55.jpg" alt=""><div><div class="pname">Asad Raza</div><div class="ptrade">Painter</div></div><div class="pro-mini-right"><div class="prating">★ 4.6</div><div class="pjobs">84 jobs</div></div></div>
-                <div class="pro-mini"><img src="https://randomuser.me/api/portraits/men/60.jpg" alt=""><div><div class="pname">Tariq Butt</div><div class="ptrade">AC Repair</div></div><div class="pro-mini-right"><div class="prating">★ 4.6</div><div class="pjobs">76 jobs</div></div></div>
+                @if($topPros->count() > 0)
+                    @foreach($topPros as $pro)
+                        <div class="pro-mini">
+                            <img src="https://randomuser.me/api/portraits/men/{{ rand(1, 99) }}.jpg" alt="">
+                            <div>
+                                <div class="pname">{{ $pro->name }}</div>
+                                <div class="ptrade">{{ $pro->trade ?: 'N/A' }}</div>
+                            </div>
+                            <div class="pro-mini-right">
+                                <div class="prating">★ {{ number_format($pro->avg_rating ?: 0, 1) }}</div>
+                                <div class="pjobs">{{ $pro->jobs_completed ?: 0 }} jobs</div>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div style="padding:20px;color:#9ca3af;text-align:center;">No pros yet</div>
+                @endif
             </div>
 
             <!-- Support Tickets -->
@@ -482,20 +561,21 @@ function toggleSidebar() {
 
 // Line Chart — Jobs & Revenue
 const lCtx = document.getElementById('lineChart').getContext('2d');
+const last12Months = @json($last12Months);
 new Chart(lCtx, {
     type: 'line',
     data: {
-        labels: ['Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul'],
+        labels: last12Months.map(m => m.month),
         datasets: [
             {
                 label: 'Jobs Completed',
-                data: [210,245,290,320,280,350,390,420,460,510,480,520],
+                data: last12Months.map(m => m.jobs),
                 borderColor: '#16302A', backgroundColor: 'rgba(22,48,42,0.08)',
                 borderWidth: 2.5, fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#16302A'
             },
             {
-                label: 'Revenue (Rs. 000)',
-                data: [180,210,260,295,240,310,360,400,430,490,450,490],
+                label: 'Revenue (Rs.)',
+                data: last12Months.map(m => m.revenue),
                 borderColor: '#E8823C', backgroundColor: 'rgba(232,130,60,0.08)',
                 borderWidth: 2.5, fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#E8823C'
             }
@@ -513,15 +593,28 @@ new Chart(lCtx, {
 
 // Bar Chart — Bookings by Trade
 const bCtx = document.getElementById('barChart').getContext('2d');
+const tradesBookings = @json($tradesBookings);
+const tradeLabels = Object.keys(tradesBookings);
+const tradeData = Object.values(tradesBookings);
+const colors = [
+    { bg: '#e8f4f1', border: '#16302A' },
+    { bg: '#fff8e6', border: '#D9A441' },
+    { bg: '#fef3ee', border: '#E8823C' },
+    { bg: '#fef0f0', border: '#ef4444' },
+    { bg: '#eef6fb', border: '#3b82f6' },
+    { bg: '#e8f4f1', border: '#16302A' },
+    { bg: '#f0eef8', border: '#7c3aed' },
+    { bg: '#faf3e8', border: '#92400e' }
+];
 new Chart(bCtx, {
     type: 'bar',
     data: {
-        labels: ['Plumbing','Electrical','Carpentry','Painting','AC Repair','Cleaning','Appliance','Handyman'],
+        labels: tradeLabels.length ? tradeLabels : ['No Data'],
         datasets: [{
             label: 'Bookings',
-            data: [520, 410, 380, 290, 450, 340, 310, 260],
-            backgroundColor: ['#e8f4f1','#fff8e6','#fef3ee','#fef0f0','#eef6fb','#e8f4f1','#f0eef8','#faf3e8'],
-            borderColor:      ['#16302A','#D9A441','#E8823C','#ef4444','#3b82f6','#16302A','#7c3aed','#92400e'],
+            data: tradeData.length ? tradeData : [0],
+            backgroundColor: tradeLabels.map((_, i) => colors[i % colors.length].bg),
+            borderColor: tradeLabels.map((_, i) => colors[i % colors.length].border),
             borderWidth: 1.5, borderRadius: 6
         }]
     },
