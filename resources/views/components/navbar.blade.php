@@ -1,8 +1,10 @@
 <nav class="w-full px-6 md:px-12 py-6 flex items-center justify-between absolute top-0 left-0 z-50">
     {{-- Logo --}}
-    <a href="{{ route('home') }}" class="flex items-center gap-2">
-        <span class="text-4xl">🏠</span>
-        <span class="text-white text-3xl font-bold">Fix<span class="text-[#E8823C]">It</span></span>
+    <a href="{{ route('home') }}" style="display:flex; align-items:center; gap:8px; text-decoration:none;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z" fill="#E8823C"/>
+        </svg>
+        <span class="text-white font-bold" style="font-size:1.25rem; line-height:1;">Fix<span style="color:#E8823C;">It</span></span>
     </a>
 
     {{-- Nav Links --}}
