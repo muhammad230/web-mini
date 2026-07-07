@@ -80,7 +80,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::middleware([App\Http\Middleware\AdminMiddleware::class])->group(function () {
             Route::get('/dashboard', function (\Illuminate\Http\Request $request) {
                 // Basic stats
-                $verifiedPros = \App\Models\User::where('role', 'professional')->where('verification_status', 'approved')->count();
+                $verifiedPros = \App\Models\User::where('role', 'professional')->where('verification_status', 'verified')->count();
                 $totalCustomers = \App\Models\User::where('role', 'customer')->count();
                 $pendingPros = \App\Models\User::where('role', 'professional')->where('verification_status', 'pending')->get();
                 $pendingProsCount = $pendingPros->count();
@@ -132,7 +132,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 
                 // Top pros
                 $topPros = \App\Models\User::where('role', 'professional')
-                    ->where('verification_status', 'approved')
+                    ->where('verification_status', 'verified')
                     ->withCount(['assignedJobs as jobs_completed' => function ($q) {
                         $q->where('status', 'completed');
                     }])
@@ -175,5 +175,40 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/cms/{section}', [SiteContentController::class, 'update'])->name('cms.update');
             Route::post('/cms/{section}/reset', [SiteContentController::class, 'reset'])->name('cms.reset');
             Route::post('/cms/upload/image', [SiteContentController::class, 'uploadImage'])->name('cms.upload');
+
+            // ── Admin Dashboard Pages ───────────────────────────────
+            Route::get('/professionals', [\App\Http\Controllers\Admin\AdminController::class, 'professionals'])->name('professionals');
+            Route::get('/professionals/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'professionalDetail'])->name('professionals.detail');
+            Route::post('/professionals/{id}/toggle', [\App\Http\Controllers\Admin\AdminController::class, 'toggleProfessionalActive'])->name('professionals.toggle');
+
+            Route::get('/customers', [\App\Http\Controllers\Admin\AdminController::class, 'customers'])->name('customers');
+            Route::get('/customers/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'customerDetail'])->name('customers.detail');
+            Route::post('/customers/{id}/toggle', [\App\Http\Controllers\Admin\AdminController::class, 'toggleCustomerActive'])->name('customers.toggle');
+
+            Route::get('/jobs', [\App\Http\Controllers\Admin\AdminController::class, 'jobs'])->name('jobs');
+            Route::get('/jobs/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'jobDetail'])->name('jobs.detail');
+
+            Route::get('/reviews', [\App\Http\Controllers\Admin\AdminController::class, 'reviews'])->name('reviews');
+            Route::delete('/reviews/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'deleteReview'])->name('reviews.delete');
+
+            Route::get('/settings', [\App\Http\Controllers\Admin\AdminController::class, 'settings'])->name('settings');
+            Route::post('/settings', [\App\Http\Controllers\Admin\AdminController::class, 'updateSettings'])->name('settings.update');
+
+            Route::get('/reports', [\App\Http\Controllers\Admin\AdminController::class, 'reports'])->name('reports');
+
+            // Redirect categories/trades to CMS since we already have that
+            Route::get('/categories', function () {
+                return redirect()->route('admin.cms');
+            })->name('categories');
+
+            // Payments & Payouts placeholder
+            Route::get('/payments', function () {
+                return view('dashboard.admin.payments');
+            })->name('payments');
+
+            // Support Tickets placeholder
+            Route::get('/tickets', function () {
+                return view('dashboard.admin.tickets');
+            })->name('tickets');
         });
 });
