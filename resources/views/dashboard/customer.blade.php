@@ -288,7 +288,19 @@
                     @if($bookings->count() > 0)
                         @foreach($bookings as $booking)
                             <div class="border-l-4 border-[#E8823C] pl-4 pb-4">
-                                <p class="text-xs text-gray-500 mb-1">{{ $booking->schedule }}</p>
+                                <p class="text-xs text-gray-500 mb-1">@php
+                                    try {
+                                        if (is_string($booking->schedule)) {
+                                            echo \Illuminate\Support\Carbon::parse($booking->schedule)->format('D, M j • g:i A');
+                                        } elseif (method_exists($booking->schedule, 'format')) {
+                                            echo $booking->schedule->format('D, M j • g:i A');
+                                        } else {
+                                            echo $booking->schedule;
+                                        }
+                                    } catch (\Exception $e) {
+                                        echo $booking->schedule;
+                                    }
+                                @endphp</p>
                                 <h4 class="font-semibold text-[#16302A]">{{ $booking->trade_category }}</h4>
                                 @if($booking->assignedPro)
                                     <p class="text-xs text-gray-600 mt-1">with {{ $booking->assignedPro->name }}</p>

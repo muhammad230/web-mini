@@ -334,7 +334,19 @@
                         @endphp
                         <div class="border-l-4 pl-4 pb-4" style="border-color:{{ $borderColor }}">
                             <h4 class="font-semibold text-[#16302A] text-sm">{{ $job->trade_category }}</h4>
-                            <p class="text-xs text-gray-600 mt-1">{{ $job->customer_name }} • {{ $job->schedule ? \Carbon\Carbon::parse($job->schedule)->format('D, M j • g:i A') : 'TBD' }}</p>
+                            <p class="text-xs text-gray-600 mt-1">{{ $job->customer_name }} • @php
+                                try {
+                                    if (is_string($job->schedule)) {
+                                        echo \Illuminate\Support\Carbon::parse($job->schedule)->format('D, M j • g:i A');
+                                    } elseif (method_exists($job->schedule, 'format')) {
+                                        echo $job->schedule->format('D, M j • g:i A');
+                                    } else {
+                                        echo 'TBD';
+                                    }
+                                } catch (\Exception $e) {
+                                    echo $job->schedule;
+                                }
+                            @endphp</p>
                             <p class="text-xs text-gray-500">{{ $job->location }}</p>
                             <span class="inline-block mt-2 text-xs px-2 py-1 rounded-full font-medium {{ $badgeBg }}">{{ $badgeLabel }}</span>
                             <div class="flex gap-2 mt-3 flex-wrap">
@@ -377,7 +389,13 @@
                     @forelse($earnings['payout_history'] as $payout)
                     <div class="flex items-center justify-between py-2 border-b border-gray-100">
                         <div>
-                            <p class="font-medium text-gray-800">{{ \Carbon\Carbon::parse($payout->updated_at)->format('M j, Y') }}</p>
+                            <p class="font-medium text-gray-800">@php
+                                try {
+                                    echo \Illuminate\Support\Carbon::parse($payout->updated_at)->format('M j, Y');
+                                } catch (\Exception $e) {
+                                    echo $payout->updated_at;
+                                }
+                            @endphp</p>
                             <p class="text-gray-500">{{ $payout->trade_category }} — {{ $payout->customer_name }}</p>
                         </div>
                         <div class="text-right">
@@ -412,7 +430,13 @@
                     <tr>
                         <td class="py-3 px-4 font-medium text-gray-800">{{ $job->customer_name }}</td>
                         <td class="py-3 px-4 text-gray-700">{{ $job->trade_category }}</td>
-                        <td class="py-3 px-4 text-gray-600">{{ \Carbon\Carbon::parse($job->updated_at)->format('M j, Y') }}</td>
+                        <td class="py-3 px-4 text-gray-600">@php
+                                try {
+                                    echo \Illuminate\Support\Carbon::parse($job->updated_at)->format('M j, Y');
+                                } catch (\Exception $e) {
+                                    echo $job->updated_at;
+                                }
+                            @endphp</td>
                         <td class="py-3 px-4 font-bold text-gray-800">{{ $job->earned ? 'Rs. '.number_format($job->earned) : '—' }}</td>
                         <td class="py-3 px-4">
                             @if($job->review_rating)
@@ -451,7 +475,13 @@
                     <p class="text-sm text-gray-700 mb-3">"{{ $review->comment ?? 'No comment left.' }}"</p>
                     <div class="flex items-center justify-between">
                         <p class="text-xs font-semibold text-[#16302A]">— {{ explode(' ', $review->customer_name)[0] }}</p>
-                        <p class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($review->created_at)->format('M j, Y') }}</p>
+                        <p class="text-xs text-gray-500">@php
+                                try {
+                                    echo \Illuminate\Support\Carbon::parse($review->created_at)->format('M j, Y');
+                                } catch (\Exception $e) {
+                                    echo $review->created_at;
+                                }
+                            @endphp</p>
                     </div>
                 </div>
                 @endforeach
