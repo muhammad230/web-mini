@@ -142,6 +142,8 @@ Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\
     Route::post('/customer/jobs/{job}/cancel', [CustomerController::class, 'cancelJob'])->name('customer.jobs.cancel');
     Route::post('/customer/jobs/{job}/rebook', [CustomerController::class, 'rebookJob'])->name('customer.jobs.rebook');
     Route::post('/customer/jobs/{job}/review', [CustomerController::class, 'leaveReview'])->name('customer.jobs.review');
+    Route::get('/customer/jobs/{job}/pay', [\App\Http\Controllers\PaymentController::class, 'customerPayForm'])->name('customer.jobs.pay');
+    Route::post('/customer/jobs/{job}/pay', [\App\Http\Controllers\PaymentController::class, 'customerPaySubmit'])->name('customer.jobs.pay.submit');
     Route::post('/customer/quotes/{quote}/accept', [CustomerController::class, 'acceptQuote'])->name('customer.quotes.accept');
     Route::post('/customer/quotes/{quote}/decline', [CustomerController::class, 'declineQuote'])->name('customer.quotes.decline');
     Route::post('/customer/profile', [CustomerController::class, 'updateProfile'])->name('customer.profile.update');
@@ -163,6 +165,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\
     Route::post('/professional/jobs/{job}/reschedule', [\App\Http\Controllers\ProfessionalController::class, 'reschedule'])->name('professional.jobs.reschedule');
     Route::post('/professional/profile',               [\App\Http\Controllers\ProfessionalController::class, 'updateProfile'])->name('professional.profile.update');
     Route::post('/professional/password',              [\App\Http\Controllers\ProfessionalController::class, 'changePassword'])->name('professional.password.update');
+    Route::post('/professional/payout-request',        [\App\Http\Controllers\PaymentController::class, 'requestPayout'])->name('professional.payout-request');
 });
 
 // ── Notifications ─────────────────────────────────────────────────────────────
@@ -314,10 +317,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 return redirect()->route('admin.cms');
             })->name('categories');
 
-            // Payments & Payouts placeholder
-            Route::get('/payments', function () {
-                return view('dashboard.admin.payments');
-            })->name('payments');
+            // Payments & Payouts
+            Route::get('/payments', [\App\Http\Controllers\PaymentController::class, 'adminPayments'])->name('payments');
+            Route::post('/payments/{payment}/mark-paid', [\App\Http\Controllers\PaymentController::class, 'adminMarkPaid'])->name('payments.mark-paid');
+            Route::post('/payout-requests/{payoutRequest}/process', [\App\Http\Controllers\PaymentController::class, 'adminProcessPayout'])->name('payout-requests.process');
 
             // Support Tickets placeholder
             Route::get('/tickets', function () {

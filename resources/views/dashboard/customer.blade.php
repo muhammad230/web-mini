@@ -375,6 +375,7 @@
                         <th class="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
                         <th class="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Amount</th>
                         <th class="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Rating</th>
+                        <th class="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Pay</th>
                         <th class="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
@@ -424,6 +425,9 @@
                                     @else
                                         <button class="text-xs bg-[#E8823C] text-white px-3 py-1.5 rounded-lg font-semibold">Leave a Review</button>
                                     @endif
+                                </td>
+                                <td class="py-4 px-4">
+                                    <a href="{{ route('dashboard.customer.jobs.pay', $job) }}" class="text-xs bg-[#16302A] text-white px-3 py-1.5 rounded-lg font-semibold hover:bg-[#1e4238] inline-block">Pay Now</a>
                                 </td>
                                 <td class="py-4 px-4">
                                     <form method="POST" action="{{ route('dashboard.customer.jobs.rebook', $job) }}" class="inline-block">

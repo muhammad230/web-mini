@@ -381,38 +381,45 @@
                     <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Earnings</h2>
                     <div class="grid grid-cols-2 gap-4 mb-5">
                         <div class="bg-[#F5F1EA] rounded-xl p-4 text-center">
-                            <p class="text-xs text-gray-500 font-medium mb-1">This Month</p>
+                            <p class="text-xs text-gray-500 font-medium mb-1">This Month (net)</p>
                             <p class="text-xl font-bold text-[#16302A]">Rs. {{ number_format($earnings['this_month']) }}</p>
                         </div>
                         <div class="bg-[#F5F1EA] rounded-xl p-4 text-center">
-                            <p class="text-xs text-gray-500 font-medium mb-1">Total</p>
-                            <p class="text-xl font-bold text-[#D9A441]">Rs. {{ number_format($stats['total_earnings']) }}</p>
+                            <p class="text-xs text-gray-500 font-medium mb-1">Total Earned</p>
+                            <p class="text-xl font-bold text-[#D9A441]">Rs. {{ number_format($earnings['total_earned']) }}</p>
                         </div>
                     </div>
-                    {{-- Withdraw disabled — payment gateway not connected --}}
-                    <button disabled title="Coming soon" class="w-full bg-gray-200 text-gray-500 font-semibold py-2.5 px-4 rounded-lg text-sm mb-1 cursor-not-allowed">Withdraw Funds</button>
-                    <p class="text-xs text-center text-gray-400 mb-4">Coming soon — payment gateway not yet connected</p>
-                    <h4 class="text-sm font-semibold text-gray-700 mb-3">Payout History</h4>
+                    <div class="text-xs space-y-1.5 mb-4 px-1">
+                        <div class="flex justify-between"><span class="text-gray-500">Platform Fee ({{ \App\Http\Controllers\PaymentController::PLATFORM_FEE_PERCENT }}%)</span><span class="text-gray-400">- Rs. {{ number_format($earnings['platform_fee']) }}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Net Payout Amount</span><span class="font-semibold text-[#16302A]">Rs. {{ number_format($earnings['net_payout']) }}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Paid Out</span><span class="text-green-700 font-medium">Rs. {{ number_format($earnings['paid_out']) }}</span></div>
+                        <div class="flex justify-between border-t border-gray-100 pt-1.5"><span class="font-semibold text-gray-700">Pending Payout</span><span class="font-bold text-[#D9A441]">Rs. {{ number_format($earnings['pending_payout']) }}</span></div>
+                    </div>
+                    {{-- Withdraw / Payout Request --}}
+                    @if($earnings['pending_payout'] > 0)
+                    <form method="POST" action="{{ route('dashboard.professional.payout-request') }}">
+                        @csrf
+                        <button type="submit" class="w-full bg-[#16302A] text-white font-semibold py-2.5 px-4 rounded-lg text-sm mb-1 hover:bg-[#1e4238]">Withdraw Funds — Rs. {{ number_format($earnings['pending_payout']) }}</button>
+                    </form>
+                    @else
+                    <button disabled class="w-full bg-gray-200 text-gray-500 font-semibold py-2.5 px-4 rounded-lg text-sm mb-1 cursor-not-allowed">Withdraw Funds</button>
+                    @endif
+                    <p class="text-xs text-center text-gray-400 mb-4">Manual tracking — admin processes payouts</p>
+                    <h4 class="text-sm font-semibold text-gray-700 mb-3">Recent Payments</h4>
                     <div class="space-y-2 text-xs max-h-48 overflow-y-auto">
-                        @forelse($earnings['payout_history'] as $payout)
+                        @forelse($earnings['payout_history'] as $p)
                         <div class="flex items-center justify-between py-2 border-b border-gray-100">
                             <div>
-                                <p class="font-medium text-gray-800">@php
-                                    try {
-                                        echo \Illuminate\Support\Carbon::parse($payout->updated_at)->format('M j, Y');
-                                    } catch (\Exception $e) {
-                                        echo $payout->updated_at;
-                                    }
-                                @endphp</p>
-                                <p class="text-gray-500">{{ $payout->trade_category }} — {{ $payout->customer_name }}</p>
+                                <p class="font-medium text-gray-800">{{ $p->date }}</p>
+                                <p class="text-gray-500">{{ $p->trade_category }} — {{ $p->customer_name }}</p>
                             </div>
                             <div class="text-right">
-                                <p class="font-bold text-gray-800">Rs. {{ number_format($payout->earned) }}</p>
-                                <span class="text-green-600 font-medium">Completed</span>
+                                <p class="font-bold text-gray-800">Rs. {{ number_format($p->amount) }}</p>
+                                <span class="text-green-600 font-medium">Paid</span>
                             </div>
                         </div>
                         @empty
-                        <p class="text-gray-400 text-center py-4">No completed jobs yet.</p>
+                        <p class="text-gray-400 text-center py-4">No payments yet.</p>
                         @endforelse
                     </div>
                 </section>
@@ -687,43 +694,118 @@
         <!-- Earnings Page -->
         <div class="mb-8">
             <h1 class="text-3xl font-extrabold text-[#16302A] mb-6 heading-underline">Earnings</h1>
-            
+
             <!-- Summary Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-                    <h3 class="text-sm font-medium text-gray-500 mb-2">This Month</h3>
-                    <p class="text-4xl font-bold text-[#16302A]">Rs. {{ number_format($earnings['this_month']) }}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-xs font-medium text-gray-500 mb-1">Total Earned</h3>
+                    <p class="text-2xl font-bold text-[#16302A]">Rs. {{ number_format($earnings['total_earned']) }}</p>
                 </div>
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-                    <h3 class="text-sm font-medium text-gray-500 mb-2">Total Earnings</h3>
-                    <p class="text-4xl font-bold text-[#D9A441]">Rs. {{ number_format($stats['total_earnings']) }}</p>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-xs font-medium text-gray-500 mb-1">Platform Fee</h3>
+                    <p class="text-2xl font-bold text-gray-500">- Rs. {{ number_format($earnings['platform_fee']) }}</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-xs font-medium text-gray-500 mb-1">Net Payout</h3>
+                    <p class="text-2xl font-bold text-[#D9A441]">Rs. {{ number_format($earnings['net_payout']) }}</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-xs font-medium text-gray-500 mb-1">Pending Payout</h3>
+                    <p class="text-2xl font-bold text-[#E8823C]">Rs. {{ number_format($earnings['pending_payout']) }}</p>
                 </div>
             </div>
 
-            <!-- Payout History -->
-            <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Payout History</h2>
-                <div class="space-y-4">
-                    @forelse($earnings['payout_history'] as $payout)
-                    <div class="flex items-center justify-between py-4 border-b border-gray-100">
-                        <div>
-                            <p class="font-semibold text-gray-800 text-lg">@php
-                                try {
-                                    echo \Illuminate\Support\Carbon::parse($payout->updated_at)->format('M j, Y');
-                                } catch (\Exception $e) {
-                                    echo $payout->updated_at;
-                                }
-                            @endphp</p>
-                            <p class="text-gray-500 text-sm mt-1">{{ $payout->trade_category }} — {{ $payout->customer_name }}</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-bold text-gray-800 text-xl">Rs. {{ number_format($payout->earned) }}</p>
-                            <span class="text-green-600 font-medium text-sm">Completed</span>
-                        </div>
+            <!-- Withdraw -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+                <div class="flex items-center justify-between flex-wrap gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-[#16302A]">Withdraw Funds</h2>
+                        <p class="text-sm text-gray-500">Manual tracking — submit a payout request and admin will process it.</p>
                     </div>
-                    @empty
-                    <p class="text-gray-400 text-center py-12 text-sm">No completed jobs yet.</p>
-                    @endforelse
+                    <div class="flex items-center gap-3">
+                        @if($earnings['pending_payout'] > 0)
+                        <form method="POST" action="{{ route('dashboard.professional.payout-request') }}">
+                            @csrf
+                            <button type="submit" class="bg-[#16302A] text-white font-bold py-3 px-6 rounded-xl text-sm hover:bg-[#1e4238]">Request Payout — Rs. {{ number_format($earnings['pending_payout']) }}</button>
+                        </form>
+                        @else
+                        <button disabled class="bg-gray-200 text-gray-500 font-bold py-3 px-6 rounded-xl text-sm cursor-not-allowed">No payout available</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment History -->
+            <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+                <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Payment History</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs sm:text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-left py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Date</th>
+                                <th class="text-left py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Job</th>
+                                <th class="text-left py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Customer</th>
+                                <th class="text-right py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Amount</th>
+                                <th class="text-right py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Fee</th>
+                                <th class="text-right py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Payout</th>
+                                <th class="text-center py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            @forelse($earnings['payout_history'] as $p)
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-4 px-4 text-gray-700">{{ $p->date }}</td>
+                                <td class="py-4 px-4 font-medium text-[#16302A]">{{ $p->trade_category }}</td>
+                                <td class="py-4 px-4 text-gray-600">{{ $p->customer_name }}</td>
+                                <td class="py-4 px-4 text-right font-semibold">Rs. {{ number_format($p->amount) }}</td>
+                                <td class="py-4 px-4 text-right text-gray-500">- Rs. {{ number_format($p->fee) }}</td>
+                                <td class="py-4 px-4 text-right font-semibold text-[#16302A]">Rs. {{ number_format($p->payout) }}</td>
+                                <td class="py-4 px-4 text-center"><span class="text-green-700 bg-green-100 text-xs font-semibold px-2.5 py-1 rounded-full">Paid</span></td>
+                            </tr>
+                            @empty
+                            <tr><td colspan="7" class="py-12 text-center text-gray-400 text-sm">No payments yet.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Payout Requests -->
+            <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Payout Requests</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs sm:text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-left py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Date</th>
+                                <th class="text-right py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Amount</th>
+                                <th class="text-center py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Status</th>
+                                <th class="text-left py-3 px-4 text-gray-500 font-semibold uppercase tracking-wide">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            @forelse($earnings['payout_requests'] as $pr)
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-4 px-4 text-gray-700">{{ $pr->created_at->format('M j, Y') }}</td>
+                                <td class="py-4 px-4 text-right font-semibold">Rs. {{ number_format($pr->amount) }}</td>
+                                <td class="py-4 px-4 text-center">
+                                    @if($pr->status === 'paid')
+                                        <span class="text-green-700 bg-green-100 text-xs font-semibold px-2.5 py-1 rounded-full">Paid</span>
+                                    @elseif($pr->status === 'approved')
+                                        <span class="text-blue-700 bg-blue-100 text-xs font-semibold px-2.5 py-1 rounded-full">Approved</span>
+                                    @elseif($pr->status === 'rejected')
+                                        <span class="text-red-700 bg-red-100 text-xs font-semibold px-2.5 py-1 rounded-full">Rejected</span>
+                                    @else
+                                        <span class="text-yellow-700 bg-yellow-100 text-xs font-semibold px-2.5 py-1 rounded-full">Pending</span>
+                                    @endif
+                                </td>
+                                <td class="py-4 px-4 text-gray-600 text-xs">{{ $pr->admin_notes ?? '—' }}</td>
+                            </tr>
+                            @empty
+                            <tr><td colspan="4" class="py-12 text-center text-gray-400 text-sm">No payout requests yet.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </section>
         </div>

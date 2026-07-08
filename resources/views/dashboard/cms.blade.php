@@ -752,8 +752,8 @@ function uploadImage(input, hiddenId, previewId) {
     .then(r => r.json())
     .then(data => {
         if (data.url) {
-            document.getElementById(hiddenId).value = data.url.replace('/storage/', '');
-            document.getElementById(previewId).src = data.url;
+            document.getElementById(hiddenId).value = 'storage/' + data.path;
+            document.getElementById(previewId).src = '/storage/' + data.path;
         }
     })
     .catch(e => alert('Upload failed'));

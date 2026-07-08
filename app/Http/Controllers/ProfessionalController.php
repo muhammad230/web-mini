@@ -124,38 +124,13 @@ class ProfessionalController extends Controller
             ->orderBy('customer_jobs.schedule')
             ->get();
 
-        // ── Earnings ─────────────────────────────────────────────
-        $now = now();
-        $thisMonth = (float)DB::table('customer_jobs')
-            ->join('quotes', function($j) use ($pro) {
-                $j->on('quotes.job_id', '=', 'customer_jobs.id')
-                  ->where('quotes.pro_id', $pro->id)
-                  ->where('quotes.status', 'accepted');
-            })
-            ->where('customer_jobs.assigned_pro_id', $pro->id)
-            ->where('customer_jobs.status', 'completed')
-            ->whereYear('customer_jobs.updated_at',  $now->year)
-            ->whereMonth('customer_jobs.updated_at', $now->month)
-            ->sum('quotes.amount');
-
-        $payoutHistory = DB::table('customer_jobs')
-            ->join('quotes', function($j) use ($pro) {
-                $j->on('quotes.job_id', '=', 'customer_jobs.id')
-                  ->where('quotes.pro_id', $pro->id)
-                  ->where('quotes.status', 'accepted');
-            })
-            ->join('users', 'users.id', '=', 'customer_jobs.customer_id')
-            ->where('customer_jobs.assigned_pro_id', $pro->id)
-            ->where('customer_jobs.status', 'completed')
-            ->select('customer_jobs.*', 'quotes.amount as earned', 'users.name as customer_name')
-            ->orderByDesc('customer_jobs.updated_at')
-            ->limit(10)
-            ->get();
-
-        $earnings = [
-            'this_month'    => $thisMonth,
-            'payout_history'=> $payoutHistory,
-        ];
+        // ── Earnings (from payments table) ───────────────────────
+        $earnings = \App\Http\Controllers\PaymentController::professionalEarnings($pro);
+        $earnings['this_month'] = $earnings['this_month']; // already set
+        // Backward compat: payout_history used by old view references
+        if (empty($earnings['payout_history'])) {
+            $earnings['payout_history'] = collect();
+        }
 
         // ── Job History ──────────────────────────────────────────
         $jobHistory = DB::table('customer_jobs')
@@ -310,6 +285,23 @@ class ProfessionalController extends Controller
                 DB::table('users')
                     ->where('id', $pro->id)
                     ->increment('total_earnings', $quote->amount);
+
+                // Create pending payment record
+                $amount      = (float) $quote->amount;
+                $platformFee = round($amount * \App\Http\Controllers\PaymentController::PLATFORM_FEE_PERCENT / 100, 2);
+                $payoutAmt   = $amount - $platformFee;
+                $jobRow      = DB::table('customer_jobs')->where('id', $jobId)->first();
+                if ($jobRow && !\App\Models\Payment::where('job_id', $jobId)->exists()) {
+                    \App\Models\Payment::create([
+                        'job_id'                    => $jobId,
+                        'customer_id'               => $jobRow->customer_id,
+                        'professional_id'           => $pro->id,
+                        'amount'                    => $amount,
+                        'platform_fee'              => $platformFee,
+                        'professional_payout_amount'=> $payoutAmt,
+                        'status'                    => 'pending',
+                    ]);
+                }
             }
         }
 
