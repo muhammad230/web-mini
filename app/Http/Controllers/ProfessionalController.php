@@ -25,8 +25,9 @@ class ProfessionalController extends Controller
     }
 
     // ── Main dashboard ─────────────────────────────────────────────
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
+        $tab    = $request->get('tab', 'dashboard');
         $pro    = Auth::user();
         $trades = $this->getProTrades($pro);
 
@@ -195,7 +196,7 @@ class ProfessionalController extends Controller
 
         return view('dashboard.professional', compact(
             'pro', 'newLeads', 'stats', 'activeJobs',
-            'earnings', 'jobHistory', 'reviews', 'quotedLeads'
+            'earnings', 'jobHistory', 'reviews', 'quotedLeads', 'tab'
         ));
     }
 
