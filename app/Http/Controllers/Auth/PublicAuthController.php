@@ -73,11 +73,14 @@ class PublicAuthController extends Controller
         if ($role === 'professional') {
             $rules['trade']    = 'required|string|max:100';
             $rules['location'] = 'required|string|max:150';
+            $rules['id_document'] = 'nullable|image|max:10240'; // 10MB max, optional
+            $rules['selfie_document'] = 'nullable|image|max:10240';
+            $rules['certification_document'] = 'nullable|image|max:10240';
         }
 
         $request->validate($rules);
 
-        $user = User::create([
+        $userData = [
             'name'                => $request->name,
             'email'               => $request->email,
             'phone'               => $request->phone,
@@ -85,17 +88,32 @@ class PublicAuthController extends Controller
             'role'                => $role,
             'trade'               => $role === 'professional' ? $request->trade : null,
             'location'            => $role === 'professional' ? $request->location : null,
-            'verification_status' => $role === 'professional' ? 'pending' : 'verified',
-        ]);
+            'verification_status' => $role === 'professional' ? 'approved' : 'verified',
+        ];
+
+        if ($role === 'professional') {
+            // Store documents if provided
+            if ($request->hasFile('id_document')) {
+                $userData['id_document_path'] = $request->file('id_document')->store('verification-docs', 'private');
+            }
+            if ($request->hasFile('selfie_document')) {
+                $userData['selfie_document_path'] = $request->file('selfie_document')->store('verification-docs', 'private');
+            }
+            if ($request->hasFile('certification_document')) {
+                $userData['certification_document_path'] = $request->file('certification_document')->store('verification-docs', 'private');
+            }
+        }
+
+        $user = User::create($userData);
 
         Auth::login($user);
         $request->session()->regenerate();
 
-        // Customers go directly to dashboard, pros see pending screen
+        // Customers go directly to customer dashboard, pros go straight to professional dashboard
         if ($user->isCustomer()) {
             return redirect()->route('dashboard.customer');
         }
-        return redirect()->route('welcome.pending');
+        return redirect()->route('dashboard.professional');
     }
 
     // ── Logout ───────────────────────────────────────────────────────
@@ -120,7 +138,7 @@ class PublicAuthController extends Controller
         return match ($user->role) {
             'admin'        => redirect()->route('admin.dashboard'),
             'customer'     => redirect()->route('dashboard.customer'),
-            'professional' => $user->verification_status === 'verified' 
+            'professional' => in_array($user->verification_status, ['verified', 'approved']) 
                 ? redirect()->route('dashboard.professional')
                 : redirect()->route('welcome.pending'),
             default        => redirect()->route('home'),

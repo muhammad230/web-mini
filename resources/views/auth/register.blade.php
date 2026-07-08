@@ -43,7 +43,7 @@
                 </button>
             </div>
 
-            <form id="register-form" method="POST" action="{{ route('register.submit') }}">
+            <form id="register-form" method="POST" action="{{ route('register.submit') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" id="role-input" name="role" value="{{ $tab }}">
 
@@ -129,6 +129,45 @@
                             placeholder="City, State"
                         >
                         @error('location')
+                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="mb-5">
+                        <label for="id_document" class="block text-sm font-medium text-gray-700 mb-2">National ID / CNIC Photo (Front) <span class="text-gray-500">(Optional)</span></label>
+                        <input 
+                            type="file" 
+                            id="id_document" 
+                            name="id_document" 
+                            accept="image/*"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none transition-colors"
+                        >
+                        @error('id_document')
+                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="mb-5">
+                        <label for="selfie_document" class="block text-sm font-medium text-gray-700 mb-2">Selfie Holding ID <span class="text-gray-500">(Optional)</span></label>
+                        <input 
+                            type="file" 
+                            id="selfie_document" 
+                            name="selfie_document" 
+                            accept="image/*"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none transition-colors"
+                        >
+                        @error('selfie_document')
+                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="mb-5">
+                        <label for="certification_document" class="block text-sm font-medium text-gray-700 mb-2">Trade Certification / License Photo (Optional)</label>
+                        <input 
+                            type="file" 
+                            id="certification_document" 
+                            name="certification_document" 
+                            accept="image/*"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none transition-colors"
+                        >
+                        @error('certification_document')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                         @enderror
                     </div>
