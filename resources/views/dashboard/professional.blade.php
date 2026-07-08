@@ -17,6 +17,19 @@
         .toggle-switch.active { background: #E8823C; }
         .toggle-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: white; border-radius: 9999px; transition: transform 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .toggle-switch.active::after { transform: translateX(24px); }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            header nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            header nav a { flex-shrink: 0; }
+        }
+        @media (max-width: 480px) {
+            h1.text-3xl { font-size: 1.5rem !important; }
+            h2.text-xl { font-size: 1.15rem !important; }
+        }
+        @media (max-width: 375px) {
+            .profile-name { display: none !important; }
+        }
     </style>
 </head>
 <body class="min-h-screen">

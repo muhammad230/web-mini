@@ -1,8 +1,8 @@
-<footer style="background:#1b3a30; padding:44px 56px 28px; width:100%; box-sizing:border-box;">
+<footer class="home-footer" style="background:#1b3a30; padding:44px 56px 28px; width:100%; box-sizing:border-box;">
     <div style="max-width:960px; margin:0 auto;">
 
         {{-- Top: 4 columns --}}
-        <div style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:40px; margin-bottom:36px;">
+        <div class="home-footer-grid" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:40px; margin-bottom:36px;">
 
             {{-- Brand column --}}
             <div>
@@ -60,7 +60,7 @@
         </div>
 
         {{-- Bottom bar --}}
-        <div style="border-top:1px solid #2d5a4a; padding-top:20px;
+        <div class="home-footer-bottom" style="border-top:1px solid #2d5a4a; padding-top:20px;
                     display:flex; align-items:center; justify-content:space-between;">
             <p style="font-size:0.75rem; color:#8aaa9e; margin:0;">&copy; {{ date('Y') }} {{ $footerData['copyright'] ?? 'FixIt. All rights reserved.' }}</p>
             <div style="display:flex; gap:20px;">

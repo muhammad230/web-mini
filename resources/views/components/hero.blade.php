@@ -1,7 +1,7 @@
 <div style="position:relative;">
 
     {{-- ══ HERO SECTION ══ --}}
-    <section style="position:relative; overflow:hidden; background:#1b3a30; min-height:400px;">
+    <section class="hero-section" style="position:relative; overflow:hidden; background:#1b3a30; min-height:400px;">
 
         {{-- Transparent navbar overlaid on dark green --}}
         @include('components.navbar')
@@ -9,8 +9,8 @@
         {{-- Room photo fills the right side --}}
         <img src="{{ asset($hero['hero_image'] ?? 'images/ChatGPT Image Jul 5, 2026, 05_16_55 PM.png') }}"
              alt="" aria-hidden="true"
-             style="position:absolute; top:0; right:0; width:75%; height:100%;
-                    object-fit:cover; object-position:center center;" />
+             class="hero-overlay-img" style="position:absolute; top:0; right:0; width:75%; height:100%;
+                     object-fit:cover; object-position:center center;" />
 
         {{-- Dark green overlay fades left-to-right so text is readable --}}
         <div style="position:absolute; inset:0;
@@ -23,7 +23,7 @@
              );"></div>
 
         {{-- Hero text content --}}
-        <div style="position:relative; z-index:10; padding:100px 56px 160px; max-width:560px;">
+        <div class="hero-text-wrap" style="position:relative; z-index:10; padding:100px 56px 160px; max-width:560px;">
             <h1 style="margin:0 0 20px 0; font-size:3.1rem; font-weight:800;
                        color:#ffffff; line-height:1.13; letter-spacing:-0.5px;">
                 {!! $hero['heading_prefix'] ?? 'Get Your Home<br>Jobs Done&nbsp;' !!}<span style="color:#e8a84c;">{!! $hero['highlight_word'] ?? 'Fast&nbsp;&amp;<br>Reliably' !!}</span>
@@ -36,15 +36,15 @@
     </section>
 
     {{-- ══ SEARCH CARD — absolute, centered, overlaps hero bottom ══ --}}
-    <div style="position:absolute; bottom:-100px; left:0; right:0; z-index:30; padding:0 56px;">
-        <div style="max-width:920px; margin:0 auto; background:#ffffff;
+    <div class="search-card-wrap" style="position:absolute; bottom:-100px; left:0; right:0; z-index:30; padding:0 56px;">
+        <div class="search-card-inner" style="max-width:920px; margin:0 auto; background:#ffffff;
                     border-radius:18px; box-shadow:0 10px 50px rgba(0,0,0,0.16);
                     padding:26px 30px 22px;">
 
             <form method="GET" action="{{ route('job.search') }}">
 
             {{-- Row 1: two inputs + button --}}
-            <div style="display:flex; gap:16px; align-items:flex-end; margin-bottom:18px;">
+            <div class="search-row" style="display:flex; gap:16px; align-items:flex-end; margin-bottom:18px;">
 
                 {{-- Service selector --}}
                 <div style="flex:1;">
@@ -89,7 +89,7 @@
                 </div>
 
                 {{-- Search button --}}
-                <button type="submit" style="flex-shrink:0; border:none; cursor:pointer;
+                <button type="submit" class="touch-btn" style="flex-shrink:0; border:none; cursor:pointer;
                                background:#e07b39; color:#fff; font-weight:600;
                                font-size:0.9rem; height:48px; padding:0 28px;
                                border-radius:10px;"
@@ -104,7 +104,7 @@
 
             {{-- Row 2: Post a job for free --}}
             <div style="display:flex; justify-content:center;">
-                <a href="{{ route('job.post') }}" style="display:inline-flex; align-items:center; gap:7px;
+                <a href="{{ route('job.post') }}" class="touch-btn" style="display:inline-flex; align-items:center; gap:7px;
                                font-size:0.875rem; font-weight:500; color:#4b5563;
                                background:#fff; border:1.5px solid #d1d5db;
                                border-radius:10px; padding:10px 26px; cursor:pointer; text-decoration:none;"

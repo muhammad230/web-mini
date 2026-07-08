@@ -33,7 +33,128 @@
     </script>
     <style>
         html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        /* ── Responsive: Hero ── */
+        @media (max-width: 768px) {
+            .hero-section { min-height: 300px !important; }
+            .hero-section h1 { font-size: 2rem !important; }
+            .hero-text-wrap { padding: 60px 24px 120px !important; }
+            .hero-text-wrap p { max-width: 100% !important; }
+            .hero-text-wrap p br { display: none; }
+            .hero-overlay-img { width: 100% !important; opacity: 0.2; }
+        }
+        @media (max-width: 480px) {
+            .hero-section h1 { font-size: 1.55rem !important; }
+            .hero-text-wrap { padding: 50px 16px 100px !important; }
+        }
+
+        /* ── Responsive: Search Card ── */
+        @media (max-width: 768px) {
+            .search-card-wrap { padding: 0 16px !important; }
+            .search-card-inner { padding: 20px 16px 18px !important; }
+            .search-card-inner .search-row { flex-direction: column !important; gap: 12px !important; }
+            .search-card-inner .search-row > div { width: 100% !important; }
+            .search-card-inner .search-row button { width: 100% !important; }
+        }
+
+        /* ── Responsive: Stats ── */
+        @media (max-width: 900px) {
+            .home-stats { padding: 24px 24px 32px !important; }
+            .home-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 480px) {
+            .home-stats { padding: 20px 16px 28px !important; }
+            .home-stats-grid { grid-template-columns: 1fr !important; }
+        }
+
+        /* ── Responsive: Browse Trades ── */
+        @media (max-width: 900px) {
+            .home-trades { padding: 28px 24px 40px !important; }
+            .home-trades-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 480px) {
+            .home-trades { padding: 24px 16px 32px !important; }
+            .home-trades-grid { grid-template-columns: 1fr !important; }
+        }
+
+        /* ── Responsive: How It Works ── */
+        @media (max-width: 768px) {
+            .home-how-it-works { padding: 28px 24px 40px !important; }
+            .home-how-it-works-grid { flex-direction: column !important; gap: 24px !important; }
+        }
+        @media (max-width: 480px) {
+            .home-how-it-works { padding: 24px 16px 32px !important; }
+        }
+
+        /* ── Responsive: Featured Pros ── */
+        @media (max-width: 900px) {
+            .home-pros { padding: 28px 24px 40px !important; }
+            .home-pros-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 600px) {
+            .home-pros-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+            .home-pros { padding: 24px 16px 32px !important; }
+        }
+
+        /* ── Responsive: Testimonials ── */
+        @media (max-width: 768px) {
+            .home-testimonials { padding: 28px 24px 40px !important; }
+            .home-testimonials-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+            .home-testimonials { padding: 24px 16px 32px !important; }
+        }
+
+        /* ── Responsive: CTA Professional ── */
+        @media (max-width: 768px) {
+            .home-cta-pro-section { padding: 0 24px 16px !important; }
+            .home-cta-pro-inner { flex-direction: column !important; text-align: center !important; padding: 20px 24px !important; }
+            .home-cta-pro-inner .cta-pro-flex { flex-direction: column !important; text-align: center !important; }
+            .home-cta-pro-btn { width: 100% !important; text-align: center !important; }
+        }
+        @media (max-width: 480px) {
+            .home-cta-pro-section { padding: 0 16px 16px !important; }
+        }
+
+        /* ── Responsive: CTA Bottom ── */
+        @media (max-width: 768px) {
+            .home-cta-bottom-section { padding: 20px 24px !important; }
+            .home-cta-bottom-inner { flex-direction: column !important; text-align: center !important; }
+            .home-cta-bottom-buttons { flex-direction: column !important; width: 100% !important; }
+            .home-cta-bottom-buttons a { width: 100% !important; text-align: center !important; }
+        }
+        @media (max-width: 480px) {
+            .home-cta-bottom-section { padding: 16px 16px !important; }
+        }
+
+        /* ── Responsive: Footer ── */
+        @media (max-width: 900px) {
+            .home-footer { padding: 32px 24px 24px !important; }
+            .home-footer-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 28px !important; }
+        }
+        @media (max-width: 600px) {
+            .home-footer-grid { grid-template-columns: 1fr !important; }
+            .home-footer-bottom { flex-direction: column !important; gap: 12px !important; text-align: center !important; }
+        }
+        @media (max-width: 480px) {
+            .home-footer { padding: 24px 16px 20px !important; }
+        }
+
+        /* ── Responsive: Section headings ── */
+        @media (max-width: 768px) {
+            .section-heading { font-size: 1.5rem !important; }
+        }
+        @media (max-width: 480px) {
+            .section-heading { font-size: 1.3rem !important; }
+        }
+
+        /* ── Buttons: touch-friendly min height ── */
+        @media (pointer: coarse) {
+            .touch-btn { min-height: 48px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
+        }
     </style>
 </head>
 <body style="margin:0; padding:0; font-family:'Inter',sans-serif; background:#fff; color:#1f2937;">

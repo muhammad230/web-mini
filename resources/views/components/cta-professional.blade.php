@@ -1,9 +1,9 @@
-<section style="background:#f2f1ec; padding:0 56px 16px; box-sizing:border-box; width:100%;">
-    <div style="background:#1b3a30; border-radius:14px; padding:24px 36px;
+<section class="home-cta-pro-section" style="background:#f2f1ec; padding:0 56px 16px; box-sizing:border-box; width:100%;">
+    <div class="home-cta-pro-inner" style="background:#1b3a30; border-radius:14px; padding:24px 36px;
                 display:flex; align-items:center; justify-content:space-between; gap:24px;
                 max-width:960px; margin:0 auto;">
 
-        <div style="display:flex; align-items:center; gap:18px;">
+        <div class="cta-pro-flex" style="display:flex; align-items:center; gap:18px;">
             <div style="flex-shrink:0;">
                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <circle cx="24" cy="13" r="7" stroke="#d4900a" stroke-width="2"/>
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <a href="{{ route('register', ['role' => 'professional']) }}" style="flex-shrink:0; background:#e07b39; color:#fff; font-size:0.875rem;
+        <a href="{{ route('register', ['role' => 'professional']) }}" class="touch-btn home-cta-pro-btn" style="flex-shrink:0; background:#e07b39; color:#fff; font-size:0.875rem;
                            font-weight:600; padding:11px 26px; border-radius:8px; text-decoration:none;
                            white-space:nowrap;"
            onmouseover="this.style.background='#c96a2a'" onmouseout="this.style.background='#e07b39'">

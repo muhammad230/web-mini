@@ -1,5 +1,5 @@
-<section style="background:#c0522a; padding:24px 56px; box-sizing:border-box; width:100%;">
-    <div style="max-width:960px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:24px;">
+<section class="home-cta-bottom-section" style="background:#c0522a; padding:24px 56px; box-sizing:border-box; width:100%;">
+    <div class="home-cta-bottom-inner" style="max-width:960px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:24px;">
 
         {{-- Left: icon + text --}}
         <div style="display:flex; align-items:center; gap:18px;">
@@ -14,14 +14,14 @@
         </div>
 
         {{-- Right: two buttons --}}
-        <div style="display:flex; gap:12px; flex-shrink:0;">
-            <a href="{{ route('job.post') }}" style="font-size:0.875rem; font-weight:600; color:#fff; background:transparent;
+        <div class="home-cta-bottom-buttons" style="display:flex; gap:12px; flex-shrink:0;">
+            <a href="{{ route('job.post') }}" class="touch-btn" style="font-size:0.875rem; font-weight:600; color:#fff; background:transparent;
                                padding:10px 22px; border-radius:8px; text-decoration:none; border:2px solid #fff;
                                white-space:nowrap;"
                onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='transparent'">
                 Post a job for free
             </a>
-            <a href="#browse" style="font-size:0.875rem; font-weight:600; color:#fff; background:transparent;
+            <a href="#browse" class="touch-btn" style="font-size:0.875rem; font-weight:600; color:#fff; background:transparent;
                                padding:10px 22px; border-radius:8px; text-decoration:none; border:2px solid #fff;
                                white-space:nowrap;"
                onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='transparent'">

@@ -13,6 +13,25 @@
         .tab-active { background: #E8823C; color: white; }
         .tab-inactive { color: white; font-weight: 500; }
         .tab-inactive:hover { background: rgba(232,130,60,0.2); }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            header nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            header nav a { flex-shrink: 0; }
+            .main-content { padding-left: 1rem !important; padding-right: 1rem !important; }
+            .post-job-btn { width: 100%; justify-content: center; }
+            .modal-inner { padding: 1.25rem !important; margin: 0.5rem; }
+            .modal-inner h3 { font-size: 1.25rem !important; }
+        }
+        @media (max-width: 480px) {
+            h1.text-3xl { font-size: 1.5rem !important; }
+            h2.text-xl { font-size: 1.15rem !important; }
+            .grid.gap-4 > div { padding: 1rem !important; }
+            .grid.gap-4 > div .text-2xl { font-size: 1.25rem !important; }
+        }
+        @media (max-width: 375px) {
+            .profile-dropdown-text { display: none !important; }
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -716,7 +735,7 @@
 
     <!-- Post Job Modal -->
     <div id="post-job-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000]">
-        <div class="bg-white rounded-2xl p-8 w-full max-w-md">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md modal-inner">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-2xl font-bold text-[#16302A]">Post a New Job</h3>
                 <button onclick="document.getElementById('post-job-modal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">
@@ -779,7 +798,7 @@
 
     <!-- Add Address Modal -->
     <div id="add-address-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000]">
-        <div class="bg-white rounded-2xl p-8 w-full max-w-md">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md modal-inner">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-2xl font-bold text-[#16302A]">Add New Address</h3>
                 <button onclick="document.getElementById('add-address-modal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">

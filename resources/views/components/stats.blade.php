@@ -11,8 +11,8 @@
     ];
 @endphp
 
-<section style="background:#f2f1ec; padding:32px 56px 40px;">
-    <div style="max-width:960px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:16px;">
+<section class="home-stats" style="background:#f2f1ec; padding:32px 56px 40px;">
+    <div class="home-stats-grid" style="max-width:960px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:16px;">
         @foreach($statsBar['stats'] ?? [] as $stat)
         <div style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:20px 20px; display:flex; align-items:center; gap:16px;">
             <div style="flex-shrink:0; width:52px; height:52px; border-radius:50%; background:{{ $loop->index % 2 === 0 ? '#1b3a30' : '#d4900a' }}; display:flex; align-items:center; justify-content:center;">

@@ -9,17 +9,17 @@
     ];
 @endphp
 
-<section id="how-it-works" style="background:#f2f1ec; padding:36px 56px 48px;">
+<section id="how-it-works" class="home-how-it-works" style="background:#f2f1ec; padding:36px 56px 48px;">
     <div style="max-width:960px; margin:0 auto;">
 
         {{-- Title --}}
         <div style="text-align:center; margin-bottom:48px;">
-            <h2 style="font-size:1.85rem; font-weight:800; color:#111827; margin:0 0 8px;">How It Works</h2>
+            <h2 class="section-heading" style="font-size:1.85rem; font-weight:800; color:#111827; margin:0 0 8px;">How It Works</h2>
             <div style="width:48px; height:3px; background:#e07b39; border-radius:2px; margin:0 auto;"></div>
         </div>
 
         {{-- Steps --}}
-        <div style="display:flex; align-items:flex-start; gap:0;">
+        <div class="home-how-it-works-grid" style="display:flex; align-items:flex-start; gap:0;">
             @foreach($howItWorks['steps'] ?? [] as $step)
             <div style="flex:1; display:flex; flex-direction:column; align-items:center; text-align:left; padding:0 16px;">
                 {{-- Number badge + circle --}}

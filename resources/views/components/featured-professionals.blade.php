@@ -1,9 +1,9 @@
-<section id="professionals" style="background:#f2f1ec; padding:36px 56px 48px;">
+<section id="professionals" class="home-pros" style="background:#f2f1ec; padding:36px 56px 48px;">
     <div style="max-width:960px; margin:0 auto;">
 
         {{-- Title --}}
         <div style="text-align:center; margin-bottom:40px;">
-            <h2 style="font-size:1.85rem; font-weight:800; color:#111827; margin:0 0 8px;">
+            <h2 class="section-heading" style="font-size:1.85rem; font-weight:800; color:#111827; margin:0 0 8px;">
                 {{ $featuredPros['title'] ?? 'Featured Professionals' }}
             </h2>
             <div style="width:48px; height:3px; background:#E8823C; border-radius:2px; margin:0 auto;"></div>
@@ -14,7 +14,7 @@
         @if($pros->isEmpty())
             <p style="text-align:center; color:#9ca3af; font-size:0.875rem;">No featured professionals yet.</p>
         @else
-        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+        <div class="home-pros-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
             @foreach($pros as $pro)
             @php
                 $reviewCount = \Illuminate\Support\Facades\DB::table('reviews')->where('pro_id',$pro->id)->count();

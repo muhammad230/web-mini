@@ -1,9 +1,9 @@
-<section style="background:#f2f1ec; padding:36px 56px 48px;">
+<section class="home-testimonials" style="background:#f2f1ec; padding:36px 56px 48px;">
     <div style="max-width:960px; margin:0 auto;">
 
         {{-- Title --}}
         <div style="text-align:center; margin-bottom:36px;">
-            <h2 style="font-size:1.85rem; font-weight:800; color:#111827; margin:0 0 8px;">
+            <h2 class="section-heading" style="font-size:1.85rem; font-weight:800; color:#111827; margin:0 0 8px;">
                 {{ $testimonials['title'] ?? 'What Our Customers Say' }}
             </h2>
             <div style="width:48px; height:3px; background:#E8823C; border-radius:2px; margin:0 auto;"></div>
@@ -14,7 +14,7 @@
         @if($reviews->isEmpty())
             <p style="text-align:center; color:#9ca3af; font-size:0.875rem; padding:32px 0;">No reviews yet.</p>
         @else
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div class="home-testimonials-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
             @foreach($reviews->take(4) as $review)
             @php
                 $customerName = $review->customer->name ?? 'Customer';
