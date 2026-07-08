@@ -88,7 +88,7 @@ class PublicAuthController extends Controller
             'role'                => $role,
             'trade'               => $role === 'professional' ? $request->trade : null,
             'location'            => $role === 'professional' ? $request->location : null,
-            'verification_status' => $role === 'professional' ? 'approved' : 'verified',
+            'verification_status' => $role === 'professional' ? 'verified' : 'verified',
         ];
 
         if ($role === 'professional') {
@@ -138,7 +138,7 @@ class PublicAuthController extends Controller
         return match ($user->role) {
             'admin'        => redirect()->route('admin.dashboard'),
             'customer'     => redirect()->route('dashboard.customer'),
-            'professional' => in_array($user->verification_status, ['verified', 'approved']) 
+            'professional' => $user->verification_status === 'verified' 
                 ? redirect()->route('dashboard.professional')
                 : redirect()->route('welcome.pending'),
             default        => redirect()->route('home'),

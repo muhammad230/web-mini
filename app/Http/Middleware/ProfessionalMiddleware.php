@@ -25,7 +25,7 @@ class ProfessionalMiddleware
             return redirect()->route('home');
         }
         
-        if (!in_array($user->verification_status, ['verified', 'approved'])) {
+        if ($user->verification_status !== 'verified') {
             return redirect()->route('welcome.pending');
         }
         
