@@ -165,6 +165,15 @@ Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\
     Route::post('/professional/password',              [\App\Http\Controllers\ProfessionalController::class, 'changePassword'])->name('professional.password.update');
 });
 
+// ── Notifications ─────────────────────────────────────────────────────────────
+Route::prefix('notifications')->name('notifications.')->middleware(['auth'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\NotificationController::class, 'index'])->name('index');
+    Route::get('/api/unread-count', [\App\Http\Controllers\NotificationController::class, 'unreadCount'])->name('unread-count');
+    Route::get('/api/recent', [\App\Http\Controllers\NotificationController::class, 'recent'])->name('recent');
+    Route::get('/{notification}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('read');
+    Route::post('/read-all', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('read-all');
+});
+
 // ── Messages (for Customers & Pros) ───────────────────────────────────────────
 Route::prefix('messages')->name('messages.')->middleware(['auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\MessageController::class, 'index'])->name('index');

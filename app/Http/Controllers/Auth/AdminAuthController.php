@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,6 +72,13 @@ class AdminAuthController extends Controller
         if ($user->role === 'professional') {
             $user->verification_status = 'verified';
             $user->save();
+
+            Notification::create([
+                'user_id' => $user->id,
+                'type'    => 'professional_approved',
+                'title'   => 'Account approved!',
+                'message' => 'Your account has been approved — you can now access your professional dashboard.',
+            ]);
         }
 
         return back()->with('success', 'Professional approved successfully!');

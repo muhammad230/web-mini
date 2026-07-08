@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Conversation;
-use App\Models\Message;
 use App\Models\CustomerJob;
+use App\Models\Message;
+use App\Models\Notification;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
@@ -74,6 +76,19 @@ class MessageController extends Controller
             'sender_role' => $user->isCustomer() ? 'customer' : 'professional',
             'message_text' => $request->message_text,
             'is_read' => false,
+        ]);
+
+        // Notify the recipient
+        $recipientId = $user->isCustomer()
+            ? $conversation->professional_id
+            : $conversation->customer_id;
+
+        Notification::create([
+            'user_id'       => $recipientId,
+            'type'          => 'new_message',
+            'title'         => 'New message from ' . $user->name,
+            'message'       => $user->name . ' sent you a message: "' . \Illuminate\Support\Str::limit($request->message_text, 80) . '"',
+            'related_job_id'=> $conversation->job_id,
         ]);
 
         return back();

@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\CustomerJob;
+use App\Models\Notification;
 use App\Models\Quote;
 use App\Models\Review;
+use App\Models\User;
 use App\Models\Address;
 use App\Helpers\SiteContentHelper;
 use App\Http\Controllers\Admin\SiteContentController;
@@ -61,6 +63,25 @@ class CustomerController extends Controller
             'status' => 'pending_match',
         ]);
 
+        // Notify matching professionals
+        $matchingPros = User::where('role', 'professional')
+            ->where('verification_status', 'verified')
+            ->where(function ($q) use ($request) {
+                $q->where('trade', $request->trade_category)
+                  ->orWhere('trades', 'like', '%"' . $request->trade_category . '"%');
+            })
+            ->get();
+
+        foreach ($matchingPros as $pro) {
+            Notification::create([
+                'user_id'       => $pro->id,
+                'type'          => 'new_lead',
+                'title'         => 'New lead in your area',
+                'message'       => 'A customer needs a ' . $request->trade_category . ' in ' . $request->location . '.',
+                'related_job_id'=> $job->id,
+            ]);
+        }
+
         return back()->with('success', 'Job posted successfully!');
     }
 
@@ -89,6 +110,15 @@ class CustomerController extends Controller
         $quote->job->update([
             'status' => 'scheduled',
             'assigned_pro_id' => $quote->pro_id,
+        ]);
+
+        // Notify the professional
+        Notification::create([
+            'user_id'       => $quote->pro_id,
+            'type'          => 'quote_accepted',
+            'title'         => 'Your quote was accepted',
+            'message'       => 'Your quote of Rs. ' . number_format($quote->amount) . ' for "' . $quote->job->trade_category . '" was accepted by ' . $quote->job->customer->name . '.',
+            'related_job_id'=> $quote->job_id,
         ]);
 
         return back()->with('success', 'Quote accepted! Job scheduled.');
@@ -139,6 +169,16 @@ class CustomerController extends Controller
             'pro_id' => $job->assigned_pro_id,
             'rating' => $request->rating,
             'comment' => $request->comment,
+        ]);
+
+        // Notify the professional
+        $proName = $job->assignedPro ? $job->assignedPro->name : 'the professional';
+        Notification::create([
+            'user_id'       => $job->assigned_pro_id,
+            'type'          => 'review_reminder',
+            'title'         => 'New review received',
+            'message'       => Auth::user()->name . ' left a ' . $request->rating . '-star review for your work on "' . $job->trade_category . '".',
+            'related_job_id'=> $job->id,
         ]);
 
         return back()->with('success', 'Review submitted!');

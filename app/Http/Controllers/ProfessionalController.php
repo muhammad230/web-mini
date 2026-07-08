@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomerJob;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -257,6 +259,16 @@ class ProfessionalController extends Controller
             ->where('status', 'pending_match')
             ->update(['status' => 'quotes_received', 'updated_at' => now()]);
 
+        // Notify the customer
+        $customer = User::find($job->customer_id);
+        Notification::create([
+            'user_id'       => $job->customer_id,
+            'type'          => 'quote_received',
+            'title'         => 'Quote received from ' . $pro->name,
+            'message'       => $pro->name . ' quoted Rs. ' . number_format($request->price) . ' for your "' . $job->trade_category . '" job.',
+            'related_job_id'=> $jobId,
+        ]);
+
         return back()->with('success', 'Quote sent successfully!');
     }
 
@@ -299,6 +311,19 @@ class ProfessionalController extends Controller
                     ->where('id', $pro->id)
                     ->increment('total_earnings', $quote->amount);
             }
+        }
+
+        // Notify the customer
+        $job = DB::table('customer_jobs')->where('id', $jobId)->first();
+        if ($job) {
+            $customerName = DB::table('users')->where('id', $job->customer_id)->value('name') ?? 'Customer';
+            Notification::create([
+                'user_id'       => $job->customer_id,
+                'type'          => 'job_completed',
+                'title'         => 'Job completed — leave a review',
+                'message'       => $pro->name . ' marked your "' . $job->trade_category . '" job as complete. Please leave a review!',
+                'related_job_id'=> $jobId,
+            ]);
         }
 
         return back()->with('success', 'Job marked as completed!');

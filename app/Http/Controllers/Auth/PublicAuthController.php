@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -105,6 +106,19 @@ class PublicAuthController extends Controller
         }
 
         $user = User::create($userData);
+
+        // Notify admin about new professional signup
+        if ($role === 'professional') {
+            $admins = User::where('role', 'admin')->get();
+            foreach ($admins as $admin) {
+                Notification::create([
+                    'user_id' => $admin->id,
+                    'type'    => 'new_professional_signup',
+                    'title'   => 'New professional signed up',
+                    'message' => $user->name . ' registered as a ' . ($user->trade ?? 'professional') . '.',
+                ]);
+            }
+        }
 
         Auth::login($user);
         $request->session()->regenerate();
