@@ -161,6 +161,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\
     Route::post('/professional/availability',          [\App\Http\Controllers\ProfessionalController::class, 'toggleAvailability'])->name('professional.availability');
     Route::post('/professional/leads/{job}/quote',     [\App\Http\Controllers\ProfessionalController::class, 'sendQuote'])->name('professional.leads.quote');
     Route::post('/professional/leads/{job}/skip',      [\App\Http\Controllers\ProfessionalController::class, 'skipLead'])->name('professional.leads.skip');
+    Route::post('/professional/jobs/{job}/start',      [\App\Http\Controllers\ProfessionalController::class, 'startJob'])->name('professional.jobs.start');
     Route::post('/professional/jobs/{job}/complete',   [\App\Http\Controllers\ProfessionalController::class, 'markComplete'])->name('professional.jobs.complete');
     Route::post('/professional/jobs/{job}/reschedule', [\App\Http\Controllers\ProfessionalController::class, 'reschedule'])->name('professional.jobs.reschedule');
     Route::post('/professional/profile',               [\App\Http\Controllers\ProfessionalController::class, 'updateProfile'])->name('professional.profile.update');

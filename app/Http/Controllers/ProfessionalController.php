@@ -263,6 +263,30 @@ class ProfessionalController extends Controller
         return back()->with('info', 'Lead hidden from your feed.');
     }
 
+    // ── Start job (scheduled -> in_progress) ───────────────────────
+    public function startJob(Request $request, int $jobId)
+    {
+        $pro = Auth::user();
+        DB::table('customer_jobs')
+            ->where('id', $jobId)
+            ->where('assigned_pro_id', $pro->id)
+            ->where('status', 'scheduled')
+            ->update(['status' => 'in_progress', 'updated_at' => now()]);
+
+        // Notify the customer
+        $job = DB::table('customer_jobs')->where('id', $jobId)->first();
+        if ($job) {
+            Notification::create([
+                'user_id'       => $job->customer_id,
+                'type'          => 'job_completed',
+                'title'         => 'Job started',
+                'message'       => $pro->name . ' has started your "' . $job->trade_category . '" job.',
+                'related_job_id'=> $jobId,
+            ]);
+        }
+        return back()->with('success', 'Job marked as in progress!');
+    }
+
     // ── Mark job complete ──────────────────────────────────────────
     public function markComplete(Request $request, int $jobId)
     {

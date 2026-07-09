@@ -358,6 +358,12 @@
                                 <span class="inline-block mt-2 text-xs px-2 py-1 rounded-full font-medium {{ $badgeBg }}">{{ $badgeLabel }}</span>
                                 <div class="flex gap-2 mt-3 flex-wrap">
                                     <a href="{{ route('messages.job', $job->id) }}" class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Message Customer</a>
+                                    @if($job->status === 'scheduled')
+                                        <form method="POST" action="{{ route('dashboard.professional.jobs.start', $job->id) }}">
+                                            @csrf
+                                            <button class="text-xs bg-[#16302A] text-white px-3 py-1.5 rounded-lg font-medium hover:bg-[#1e4238]">Start Job</button>
+                                        </form>
+                                    @endif
                                     @if($job->status === 'in_progress')
                                         <form method="POST" action="{{ route('dashboard.professional.jobs.complete', $job->id) }}">
                                             @csrf
