@@ -172,10 +172,10 @@
     @include('components.how-it-works', ['howItWorks' => $howItWorks])
 
     {{-- ======= FEATURED PROFESSIONALS ======= --}}
-    @include('components.featured-professionals', ['featuredPros' => $featuredPros])
+    @include('components.featured-professionals')
 
     {{-- ======= TESTIMONIALS ======= --}}
-    @include('components.testimonials', ['testimonials' => $testimonials])
+    @include('components.testimonials')
 
     {{-- ======= CTA – JOIN AS PROFESSIONAL ======= --}}
     @include('components.cta-professional', ['ctaBanner' => $ctaBanner])
