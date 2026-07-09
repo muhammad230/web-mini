@@ -91,8 +91,15 @@
                 <p class="text-xs text-gray-400 mb-4">
                     Manual tracking — no live payment gateway connected. Select how you paid the professional outside the app. Admin will confirm receipt.
                 </p>
-                <button type="submit" id="payNowBtn" class="btn-primary" onclick="this.disabled=true;this.textContent='Processing...';">Confirm Payment — Rs. {{ number_format($amount) }}</button>
+                <button type="submit" id="payNowBtn" class="btn-primary">Confirm Payment — Rs. {{ number_format($amount) }}</button>
             </form>
+            <script>
+                document.querySelector('form').addEventListener('submit', function() {
+                    var btn = document.getElementById('payNowBtn');
+                    btn.disabled = true;
+                    btn.textContent = 'Processing...';
+                });
+            </script>
         @endif
 
         <a href="{{ route('dashboard.customer') }}" class="block text-center text-sm text-[#E8823C] font-semibold mt-4 hover:underline">&larr; Back to Dashboard</a>
