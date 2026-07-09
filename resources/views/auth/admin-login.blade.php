@@ -14,8 +14,10 @@
     <div class="max-w-md w-full">
         <div class="text-center mb-8">
             <a href="{{ route('home') }}" class="inline-flex items-center gap-2 mb-6">
-                <span class="text-4xl">🏠</span>
-                <span class="text-white text-3xl font-bold">Fix<span class="text-[#E8823C]">It</span></span>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z" fill="#E8823C"/>
+                </svg>
+                <span class="text-white text-2xl font-bold">Fix<span class="text-[#E8823C]">It</span></span>
             </a>
             <h1 class="text-white text-2xl font-bold mb-2">Admin Login</h1>
             <p class="text-gray-300 text-sm">Access the FixIt admin dashboard</p>
