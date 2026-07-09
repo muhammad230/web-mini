@@ -310,22 +310,7 @@ class ProfessionalController extends Controller
                     ->where('id', $pro->id)
                     ->increment('total_earnings', $quote->amount);
 
-                // Create pending payment record
-                $amount      = (float) $quote->amount;
-                $platformFee = round($amount * \App\Http\Controllers\PaymentController::PLATFORM_FEE_PERCENT / 100, 2);
-                $payoutAmt   = $amount - $platformFee;
-                $jobRow      = DB::table('customer_jobs')->where('id', $jobId)->first();
-                if ($jobRow && !\App\Models\Payment::where('job_id', $jobId)->exists()) {
-                    \App\Models\Payment::create([
-                        'job_id'                    => $jobId,
-                        'customer_id'               => $jobRow->customer_id,
-                        'professional_id'           => $pro->id,
-                        'amount'                    => $amount,
-                        'platform_fee'              => $platformFee,
-                        'professional_payout_amount'=> $payoutAmt,
-                        'status'                    => 'pending',
-                    ]);
-                }
+                // Payment record created by customer via Pay Now flow
             }
         }
 

@@ -20,8 +20,10 @@ class CustomerController extends Controller
     {
         $user = Auth::user();
         $activeJobs = $user->customerJobs()->whereNotIn('status', ['completed', 'cancelled'])->get();
-        $completedJobs = $user->customerJobs()->where('status', 'completed')->get();
-        $totalSpent = $completedJobs->sum('amount_paid');
+        $completedJobs = $user->customerJobs()->where('status', 'completed')->with('quotes', 'review')->get();
+        $completedJobIds = $completedJobs->pluck('id');
+        $payments = \App\Models\Payment::whereIn('job_id', $completedJobIds)->get()->keyBy('job_id');
+        $totalSpent = $payments->where('status', 'paid')->sum('amount');
         $savedPros = $user->savedProfessionals()->get();
         $quotesReceived = Quote::whereHas('job', function($q) use ($user) {
             $q->where('customer_id', $user->id);
@@ -35,7 +37,7 @@ class CustomerController extends Controller
 
         return view('dashboard.customer', compact(
             'activeJobs', 'completedJobs', 'totalSpent', 'savedPros',
-            'quotesReceived', 'reviewsGiven', 'addresses', 'trades'
+            'quotesReceived', 'reviewsGiven', 'addresses', 'trades', 'payments'
         ));
     }
 
@@ -87,11 +89,14 @@ class CustomerController extends Controller
 
     public function showJob(CustomerJob $job)
     {
-        // Ensure customer can only view their own jobs
         if ($job->customer_id !== Auth::id()) {
             abort(403);
         }
-        return view('dashboard.customer-job-detail', compact('job'));
+        $job->load(['quotes.pro', 'assignedPro', 'review.customer']);
+        $conversation = \App\Models\Conversation::where('job_id', $job->id)
+            ->with('messages.sender')
+            ->first();
+        return view('dashboard.customer-job-detail', compact('job', 'conversation'));
     }
 
     public function acceptQuote(Quote $quote)

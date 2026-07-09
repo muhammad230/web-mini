@@ -409,7 +409,10 @@
                                     @endif
                                 </td>
                                 <td class="py-4 px-4 text-sm font-semibold text-[#16302A]">
-                                    @if($job->amount_paid)
+                                    @php $payment = $payments->get($job->id); @endphp
+                                    @if($payment && $payment->status === 'paid')
+                                        Rs. {{ number_format($payment->amount, 0) }}
+                                    @elseif($job->amount_paid)
                                         Rs. {{ number_format($job->amount_paid, 0) }}
                                     @else
                                         N/A
@@ -426,8 +429,13 @@
                                         <button class="text-xs bg-[#E8823C] text-white px-3 py-1.5 rounded-lg font-semibold">Leave a Review</button>
                                     @endif
                                 </td>
+                                @php $payment = $payments->get($job->id); @endphp
                                 <td class="py-4 px-4">
-                                    <a href="{{ route('dashboard.customer.jobs.pay', $job) }}" class="text-xs bg-[#16302A] text-white px-3 py-1.5 rounded-lg font-semibold hover:bg-[#1e4238] inline-block">Pay Now</a>
+                                    @if($payment && $payment->status === 'paid')
+                                        <span class="text-xs bg-green-100 text-green-700 px-3 py-1.5 rounded-lg font-semibold">Paid</span>
+                                    @else
+                                        <a href="{{ route('dashboard.customer.jobs.pay', $job) }}" class="text-xs bg-[#16302A] text-white px-3 py-1.5 rounded-lg font-semibold hover:bg-[#1e4238] inline-block">Pay Now</a>
+                                    @endif
                                 </td>
                                 <td class="py-4 px-4">
                                     <form method="POST" action="{{ route('dashboard.customer.jobs.rebook', $job) }}" class="inline-block">

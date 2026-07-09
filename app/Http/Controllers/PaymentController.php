@@ -200,6 +200,11 @@ class PaymentController extends Controller
             'paid_at'              => now(),
         ]);
 
+        // Sync back to customer_jobs for display
+        \Illuminate\Support\Facades\DB::table('customer_jobs')
+            ->where('id', $payment->job_id)
+            ->update(['amount_paid' => $payment->amount]);
+
         return back()->with('success', 'Payment marked as paid.');
     }
 
