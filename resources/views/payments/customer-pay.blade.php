@@ -91,7 +91,7 @@
                 <p class="text-xs text-gray-400 mb-4">
                     Manual tracking — no live payment gateway connected. Select how you paid the professional outside the app. Admin will confirm receipt.
                 </p>
-                <button type="submit" class="btn-primary">Confirm Payment — Rs. {{ number_format($amount) }}</button>
+                <button type="submit" id="payNowBtn" class="btn-primary" onclick="this.disabled=true;this.textContent='Processing...';">Confirm Payment — Rs. {{ number_format($amount) }}</button>
             </form>
         @endif
 

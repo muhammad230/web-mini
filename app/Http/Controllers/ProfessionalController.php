@@ -278,7 +278,7 @@ class ProfessionalController extends Controller
         if ($job) {
             Notification::create([
                 'user_id'       => $job->customer_id,
-                'type'          => 'job_completed',
+                'type'          => 'job_started',
                 'title'         => 'Job started',
                 'message'       => $pro->name . ' has started your "' . $job->trade_category . '" job.',
                 'related_job_id'=> $jobId,

@@ -106,6 +106,10 @@ class NotificationController extends Controller
                 ? route('dashboard.professional', ['tab' => 'jobs'])
                 : route('dashboard.professional'),
 
+            'job_started' => $notification->related_job_id
+                ? route('dashboard.customer.jobs.show', $notification->related_job_id)
+                : route('dashboard.customer'),
+
             'job_completed' => $notification->related_job_id
                 ? route('dashboard.customer.jobs.show', $notification->related_job_id)
                 : route('dashboard.customer'),
@@ -113,6 +117,8 @@ class NotificationController extends Controller
             'review_reminder' => $notification->related_job_id
                 ? route('dashboard.customer')
                 : route('dashboard.customer'),
+
+            'new_review' => route('dashboard.professional'),
 
             'new_message' => $notification->related_job_id
                 ? route('messages.job', $notification->related_job_id)

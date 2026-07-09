@@ -257,7 +257,7 @@
                                     </div>
                                     <div>
                                         <h4 class="font-semibold text-[#16302A]">{{ $quote->pro->name }}</h4>
-                                        <p class="text-xs text-gray-500">{{ $quote->pro->trade }} • 4.8 ★</p>
+                                        <p class="text-xs text-gray-500">{{ $quote->pro->trade }} • {{ number_format($quote->pro->avg_rating, 1) }} ★</p>
                                     </div>
                                 </div>
                                 <div class="text-right">

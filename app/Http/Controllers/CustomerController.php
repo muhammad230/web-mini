@@ -180,7 +180,7 @@ class CustomerController extends Controller
         $proName = $job->assignedPro ? $job->assignedPro->name : 'the professional';
         Notification::create([
             'user_id'       => $job->assigned_pro_id,
-            'type'          => 'review_reminder',
+            'type'          => 'new_review',
             'title'         => 'New review received',
             'message'       => Auth::user()->name . ' left a ' . $request->rating . '-star review for your work on "' . $job->trade_category . '".',
             'related_job_id'=> $job->id,

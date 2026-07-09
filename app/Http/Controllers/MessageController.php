@@ -99,6 +99,17 @@ class MessageController extends Controller
         $user = Auth::user();
         $job = CustomerJob::findOrFail($jobId);
 
+        if ($user->isCustomer() && $job->customer_id !== $user->id) {
+            abort(403);
+        }
+        if ($user->isProfessional() && $job->assigned_pro_id !== $user->id) {
+            abort(403);
+        }
+
+        if (!$job->assigned_pro_id) {
+            return back()->with('error', 'No professional assigned to this job yet.');
+        }
+
         $conversation = Conversation::firstOrCreate(
             ['job_id' => $job->id],
             [
