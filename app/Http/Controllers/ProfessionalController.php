@@ -100,15 +100,9 @@ class ProfessionalController extends Controller
                                     ->where('assigned_pro_id', $pro->id)
                                     ->where('status', 'completed')
                                     ->count(),
-            'total_earnings' => (float)DB::table('customer_jobs')
-                                    ->join('quotes', function($j) use ($pro) {
-                                        $j->on('quotes.job_id','=','customer_jobs.id')
-                                          ->where('quotes.pro_id', $pro->id)
-                                          ->where('quotes.status','accepted');
-                                    })
-                                    ->where('customer_jobs.assigned_pro_id', $pro->id)
-                                    ->where('customer_jobs.status','completed')
-                                    ->sum('quotes.amount'),
+            'total_earnings' => (float)\App\Models\Payment::where('professional_id', $pro->id)
+                                    ->where('status', 'paid')
+                                    ->sum('professional_payout_amount'),
             'avg_rating'     => $avgRating ? round((float)$avgRating, 1) : 0,
             'review_count'   => DB::table('reviews')
                                     ->where('pro_id', $pro->id)
@@ -299,19 +293,8 @@ class ProfessionalController extends Controller
             ->update(['status' => 'completed', 'updated_at' => now()]);
 
         if ($updated) {
-            // Update pro's total earnings from accepted quote
-            $quote = DB::table('quotes')
-                ->where('job_id', $jobId)
-                ->where('pro_id', $pro->id)
-                ->where('status', 'accepted')
-                ->first();
-            if ($quote) {
-                DB::table('users')
-                    ->where('id', $pro->id)
-                    ->increment('total_earnings', $quote->amount);
-
-                // Payment record created by customer via Pay Now flow
-            }
+            // Earnings are tracked via payments table — customer submits payment,
+            // admin confirms as paid, then professional sees it in earnings.
         }
 
         // Notify the customer
