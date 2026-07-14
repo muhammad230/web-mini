@@ -78,6 +78,9 @@ Route::get('/jobs/create', function (\Illuminate\Http\Request $request) {
     return view('jobs.create', compact('trade', 'location', 'trades'));
 })->name('jobs.create');
 
+// ── Professional Info Page ────────────────────────────────────────────
+Route::get('/professionals/why-join', [\App\Http\Controllers\ProfessionalInfoController::class, 'show'])->name('professionals.why-join');
+
 // ── Public Auth (Login, Register, Logout) ─────────────────────────────────
 Route::prefix('auth')->name('')->group(function () {
     Route::get('/login', [PublicAuthController::class, 'showLogin'])->name('login');
