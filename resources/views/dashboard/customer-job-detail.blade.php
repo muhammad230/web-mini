@@ -33,7 +33,7 @@
                 <span class="text-white text-lg font-bold">Fix<span class="text-[#E8823C]">ly</span></span>
             </a>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3" style="color:#fff;">
             @include('partials.theme-toggle')
             @include('partials.notification-bell')
             <a href="{{ route('dashboard.customer') }}" class="text-xs bg-[#E8823C] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#c96a2a]">Dashboard</a>

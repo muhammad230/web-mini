@@ -60,7 +60,7 @@
     </nav>
 
     <!-- Right Side -->
-    <div class="flex items-center gap-2 sm:gap-4">
+    <div class="flex items-center gap-2 sm:gap-4" style="color:#fff;">
         <!-- Notifications -->
                         @include('partials.theme-toggle')
                         @include('partials.notification-bell')

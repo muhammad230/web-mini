@@ -15,7 +15,7 @@
     </ul>
 
     {{-- Auth Buttons --}}
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-4" style="color:#fff;">
         @auth
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
