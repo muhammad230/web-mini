@@ -179,7 +179,7 @@ class AdminController extends Controller
 
         $admin->save();
 
-        return back()->with('success', 'Settings updated!');
+        return redirect()->route('admin.settings')->with('success', 'Settings updated!');
     }
 
     // Reports
