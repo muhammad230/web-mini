@@ -8,6 +8,7 @@ use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -162,6 +163,13 @@ class AdminController extends Controller
     {
         $admin = Auth::user();
 
+        Log::debug('updateSettings START', [
+            'admin_id' => $admin?->id,
+            'admin_name_from_db' => $admin?->name,
+            'name_input' => $request->name,
+            'email_input' => $request->email,
+        ]);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $admin->id,
@@ -177,7 +185,13 @@ class AdminController extends Controller
             $admin->password = bcrypt($request->password);
         }
 
-        $admin->save();
+        $saved = $admin->save();
+
+        Log::debug('updateSettings END', [
+            'save_returned' => $saved,
+            'name_in_object' => $admin->name,
+            'email_in_object' => $admin->email,
+        ]);
 
         return redirect()->route('admin.settings')->with('success', 'Settings updated!');
     }
