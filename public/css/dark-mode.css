@@ -188,7 +188,7 @@ html.theme-transitioning *::after {
    10. TABLES
    ═════════════════════════════════════════════════════════════════════ */
 [data-theme="dark"] table { color: #e2e8f0 !important; }
-[data-theme="dark"] th { color: #d1d5db !important; }
+[data-theme="dark"] th { background-color: #243330 !important; color: #e2e8f0 !important; border-bottom-color: #374151 !important; }
 [data-theme="dark"] td { color: #d1d5db !important; border-bottom-color: #374151 !important; }
 [data-theme="dark"] tr:hover { background-color: rgba(255,255,255,0.03) !important; }
 
