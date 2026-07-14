@@ -156,6 +156,7 @@
             .touch-btn { min-height: 48px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
         }
     </style>
+    <link rel="stylesheet" href="/css/dark-mode.css">
 </head>
 <body style="margin:0; padding:0; font-family:'Inter',sans-serif; background:#fff; color:#1f2937;">
 
@@ -186,5 +187,6 @@
     {{-- ======= FOOTER ======= --}}
     @include('components.footer', ['footerData' => $footerData])
 
+    <script src="/js/theme-toggle.js"></script>
 </body>
 </html>

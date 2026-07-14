@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
@@ -104,5 +105,9 @@
 
         <a href="{{ route('dashboard.customer') }}" class="block text-center text-sm text-[#E8823C] font-semibold mt-4 hover:underline">&larr; Back to Dashboard</a>
     </div>
+<div style="position:fixed;top:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.05);padding:4px 8px;border-radius:8px;">
+    @include('partials.theme-toggle')
+</div>
+<script src="/js/theme-toggle.js"></script>
 </body>
 </html>

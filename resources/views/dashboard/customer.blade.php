@@ -6,6 +6,7 @@
     <title>Customer Dashboard - Fixly</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
         body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; }
         .heading-underline { position: relative; display: inline-block; }
@@ -61,7 +62,8 @@
     <!-- Right Side -->
     <div class="flex items-center gap-2 sm:gap-4">
         <!-- Notifications -->
-        @include('partials.notification-bell')
+                        @include('partials.theme-toggle')
+                        @include('partials.notification-bell')
 
         <!-- Profile Dropdown -->
         <div class="relative group">
@@ -942,6 +944,7 @@
             if (e.target === this) closeReviewModal();
         });
     </script>
+    <script src="/js/theme-toggle.js"></script>
 </main>
 
 </body>

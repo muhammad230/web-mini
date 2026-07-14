@@ -9,6 +9,7 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
     </style>
+    <link rel="stylesheet" href="/css/dark-mode.css">
 </head>
 <body class="min-h-screen bg-[#F5F1EA] flex items-center justify-center px-4 py-12">
     <div class="max-w-md w-full">
@@ -81,5 +82,9 @@
             </div>
         </div>
     </div>
+    <div style="position:fixed;top:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.05);padding:4px 8px;border-radius:8px;">
+        @include('partials.theme-toggle')
+    </div>
+    <script src="/js/theme-toggle.js"></script>
 </body>
 </html>

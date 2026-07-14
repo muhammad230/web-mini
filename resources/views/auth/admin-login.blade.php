@@ -9,6 +9,7 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
     </style>
+    <link rel="stylesheet" href="/css/dark-mode.css">
 </head>
 <body class="min-h-screen bg-[#16302A] flex items-center justify-center px-4 py-12">
     <div class="max-w-md w-full">
@@ -79,5 +80,9 @@
             Not an admin? <a href="{{ route('login') }}" class="text-[#E8823C] hover:text-[#c96a2a] font-medium">Go to user login</a>
         </p>
     </div>
+    <div style="position:fixed;top:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);padding:4px 8px;border-radius:8px;">
+        @include('partials.theme-toggle')
+    </div>
+    <script src="/js/theme-toggle.js"></script>
 </body>
 </html>

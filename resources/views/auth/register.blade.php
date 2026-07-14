@@ -12,6 +12,7 @@
         .tab-active { background-color: #E8823C; color: white; }
         .tab-inactive { background-color: #F5F1EA; color: #16302A; }
     </style>
+    <link rel="stylesheet" href="/css/dark-mode.css">
 </head>
 <body class="min-h-screen bg-[#F5F1EA] flex items-center justify-center px-4 py-12">
     <div class="max-w-lg w-full">
@@ -226,5 +227,9 @@
                 role === 'professional' ? '' : 'hidden';
         }
     </script>
+    <div style="position:fixed;top:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.05);padding:4px 8px;border-radius:8px;">
+        @include('partials.theme-toggle')
+    </div>
+    <script src="/js/theme-toggle.js"></script>
 </body>
 </html>

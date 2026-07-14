@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; display: flex; min-height: 100vh; }
@@ -217,8 +218,9 @@
             </button>
         </div>
         <div class="flex items-center gap-2">
-            @include('partials.notification-bell')
-        </div>
+                @include('partials.theme-toggle')
+                @include('partials.notification-bell')
+            </div>
         <div class="topbar-right">
             <div class="admin-topbar">
                 <img src="https://randomuser.me/api/portraits/men/10.jpg" alt="Admin">
@@ -319,5 +321,6 @@ function toggleMobileSidebar() {
     overlay.classList.toggle('active');
 }
 </script>
+<script src="/js/theme-toggle.js"></script>
 </body>
 </html>

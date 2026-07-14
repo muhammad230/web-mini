@@ -6,6 +6,7 @@
     <title>Job Detail - Fixly</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
         body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; }
         .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; display: inline-block; }
@@ -33,6 +34,7 @@
             </a>
         </div>
         <div class="flex items-center gap-3">
+            @include('partials.theme-toggle')
             @include('partials.notification-bell')
             <a href="{{ route('dashboard.customer') }}" class="text-xs bg-[#E8823C] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#c96a2a]">Dashboard</a>
         </div>
@@ -133,5 +135,6 @@
         </div>
         @endif
     </div>
+    <script src="/js/theme-toggle.js"></script>
 </body>
 </html>

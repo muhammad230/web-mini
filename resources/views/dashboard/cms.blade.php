@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; display: flex; min-height: 100vh; }
@@ -215,6 +216,7 @@
             </button>
         </div>
         <div class="topbar-right">
+            @include('partials.theme-toggle')
             <div class="admin-topbar">
                 <img src="https://randomuser.me/api/portraits/men/10.jpg" alt="Admin">
                 <div>
@@ -872,6 +874,7 @@ function addNavLink() {
 
 document.querySelectorAll('.section-body:first-child').forEach(el => el.classList.add('open'));
 </script>
+<script src="/js/theme-toggle.js"></script>
 
 </body>
 </html>
