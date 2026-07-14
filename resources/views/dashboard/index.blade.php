@@ -583,6 +583,7 @@
     </div><!-- /content -->
 </div><!-- /main -->
 
+<script src="/js/theme-toggle.js"></script>
 <script>
 // Sidebar toggle (desktop)
 function toggleSidebar() {
@@ -600,62 +601,89 @@ function toggleMobileSidebar() {
     overlay.classList.toggle('active');
 }
 
+// --- Chart helpers: theme-aware colors + live update ---
+var _lineChart, _barChart, _tradeLabels, _tradeData, _last12Months;
+function _tc(dark) {
+    return {
+        grid: dark ? '#374151' : '#f0ede6',
+        tick: dark ? '#9ca3af' : '#6b7280',
+        legend: dark ? '#e2e8f0' : '#6b7280',
+        fill0: dark ? 'rgba(22,48,42,0.25)' : 'rgba(22,48,42,0.08)',
+        fill1: dark ? 'rgba(232,130,60,0.25)' : 'rgba(232,130,60,0.08)',
+        barBg: dark
+            ? ['rgba(22,48,42,0.2)','rgba(217,164,65,0.2)','rgba(232,130,60,0.2)','rgba(239,68,68,0.2)','rgba(59,130,246,0.2)','rgba(22,48,42,0.2)','rgba(124,58,237,0.2)','rgba(146,64,14,0.2)']
+            : ['#e8f4f1','#fff8e6','#fff0e8','#fef0f0','#eef6fb','#e8f4f1','#f0eef8','#faf3e8'],
+        barBorder: ['#16302A','#D9A441','#E8823C','#ef4444','#3b82f6','#16302A','#7c3aed','#92400e']
+    };
+}
+function _updateCharts() {
+    var c = _tc(document.documentElement.getAttribute('data-theme') === 'dark');
+    [_lineChart, _barChart].forEach(function(ch) {
+        if (!ch) return;
+        ch.options.scales.y.grid.color = c.grid;
+        ch.options.scales.y.ticks.color = c.tick;
+        ch.options.scales.x.ticks.color = c.tick;
+        if (ch.options.plugins && ch.options.plugins.legend && ch.options.plugins.legend.labels) {
+            ch.options.plugins.legend.labels.color = c.legend;
+        }
+        ch.data.datasets.forEach(function(ds, i) {
+            if (ds.label === 'Bookings') {
+                ds.backgroundColor = _tradeLabels.map(function(_, j) { return c.barBg[j % c.barBg.length]; });
+            } else if (i === 0) { ds.backgroundColor = c.fill0; }
+            else if (i === 1) { ds.backgroundColor = c.fill1; }
+        });
+        ch.update();
+    });
+}
+new MutationObserver(function() { _updateCharts(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
 // Line Chart – Jobs & Revenue
-const lCtx = document.getElementById('lineChart').getContext('2d');
-const last12Months = @json($last12Months);
-new Chart(lCtx, {
+var c = _tc(document.documentElement.getAttribute('data-theme') === 'dark');
+_last12Months = @json($last12Months);
+_lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), {
     type: 'line',
     data: {
-        labels: last12Months.map(m => m.month),
+        labels: _last12Months.map(function(m) { return m.month; }),
         datasets: [
             {
                 label: 'Jobs Completed',
-                data: last12Months.map(m => m.jobs),
-                borderColor: '#16302A', backgroundColor: 'rgba(22,48,42,0.08)',
+                data: _last12Months.map(function(m) { return m.jobs; }),
+                borderColor: '#16302A', backgroundColor: c.fill0,
                 borderWidth: 2.5, fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#16302A'
             },
             {
                 label: 'Revenue (Rs.)',
-                data: last12Months.map(m => m.revenue),
-                borderColor: '#E8823C', backgroundColor: 'rgba(232,130,60,0.08)',
+                data: _last12Months.map(function(m) { return m.revenue; }),
+                borderColor: '#E8823C', backgroundColor: c.fill1,
                 borderWidth: 2.5, fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#E8823C'
             }
         ]
     },
     options: {
         responsive: true, maintainAspectRatio: true,
-        plugins: { legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 12 } } },
+        plugins: { legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 12, color: c.legend } } },
         scales: {
-            x: { grid: { display: false }, ticks: { font: { size: 11 } } },
-            y: { grid: { color: '#f0ede6' }, ticks: { font: { size: 11 } } }
+            x: { grid: { display: false }, ticks: { font: { size: 11 }, color: c.tick } },
+            y: { grid: { color: c.grid }, ticks: { font: { size: 11 }, color: c.tick } }
         }
     }
 });
 
 // Bar Chart – Bookings by Trade
-const bCtx = document.getElementById('barChart').getContext('2d');
-const tradesBookings = @json($tradesBookings);
-const tradeLabels = Object.keys(tradesBookings);
-const tradeData = Object.values(tradesBookings);
-const colors = [
-    { bg: '#e8f4f1', border: '#16302A' },
-    { bg: '#fff8e6', border: '#D9A441' },
-    { bg: '#fff0e8', border: '#E8823C' },
-    { bg: '#fef0f0', border: '#ef4444' },
-    { bg: '#eef6fb', border: '#3b82f6' },
-    { bg: '#e8f4f1', border: '#16302A' },
-    { bg: '#f0eef8', border: '#7c3aed' },
-    { bg: '#faf3e8', border: '#92400e' }
-];
-new Chart(bCtx, {
+c = _tc(document.documentElement.getAttribute('data-theme') === 'dark');
+_tradeData = @json($tradesBookings);
+_tradeLabels = Object.keys(_tradeData);
+_tradeData = Object.values(_tradeData);
+_barChart = new Chart(document.getElementById('barChart').getContext('2d'), {
     type: 'bar',
     data: {
-        labels: tradeLabels.length ? tradeLabels : ['No Data'],
+        labels: _tradeLabels.length ? _tradeLabels : ['No Data'],
         datasets: [{
             label: 'Bookings',
-            data: tradeData.length ? tradeData : [0],
-            backgroundColor: tradeLabels.map((_, i) => colors[i % colors.length].bg),
-            borderColor: tradeLabels.map((_, i) => colors[i % colors.length].border),
+            data: _tradeData.length ? _tradeData : [0],
+            backgroundColor: _tradeLabels.length ? _tradeLabels.map(function(_, i) { return c.barBg[i % c.barBg.length]; }) : [c.barBg[0]],
+            borderColor: _tradeLabels.length ? _tradeLabels.map(function(_, i) { return c.barBorder[i % c.barBorder.length]; }) : [c.barBorder[0]],
             borderWidth: 1.5, borderRadius: 6
         }]
     },
@@ -663,12 +691,11 @@ new Chart(bCtx, {
         responsive: true, maintainAspectRatio: true,
         plugins: { legend: { display: false } },
         scales: {
-            x: { grid: { display: false }, ticks: { font: { size: 10 } } },
-            y: { grid: { color: '#f0ede6' }, ticks: { font: { size: 11 } } }
+            x: { grid: { display: false }, ticks: { font: { size: 10 }, color: c.tick } },
+            y: { grid: { color: c.grid }, ticks: { font: { size: 11 }, color: c.tick } }
         }
     }
 });
 </script>
-<script src="/js/theme-toggle.js"></script>
 </body>
 </html>

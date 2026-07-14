@@ -542,3 +542,28 @@ html.theme-transitioning *::after {
 [data-theme="dark"] .pagination span { border-color: #374151 !important; color: #d1d5db !important; background-color: #1E2A28 !important; }
 [data-theme="dark"] .pagination a:hover { background-color: #374151 !important; }
 [data-theme="dark"] .pagination .active { background-color: #E8823C !important; color: #fff !important; border-color: #E8823C !important; }
+
+/* ═════════════════════════════════════════════════════════════════════
+   43. ADMIN DASHBOARD — CHARTS / TABLES / BADGES
+   ═════════════════════════════════════════════════════════════════════ */
+[data-theme="dark"] .chart-card { background-color: #1E2A28 !important; }
+[data-theme="dark"] .chart-card .card-sub { color: #9ca3af !important; }
+[data-theme="dark"] .table-card { background-color: #1E2A28 !important; }
+[data-theme="dark"] .admin-topbar .tname { color: #e2e8f0 !important; }
+[data-theme="dark"] .admin-topbar .trole { color: #9ca3af !important; }
+[data-theme="dark"] .admin-topbar svg { stroke: #9ca3af !important; }
+[data-theme="dark"] .review-text { color: #d1d5db !important; }
+[data-theme="dark"] .rname { color: #f3f4f6 !important; }
+[data-theme="dark"] .pro-mini { border-bottom-color: #374151 !important; }
+[data-theme="dark"] .pname { color: #f3f4f6 !important; }
+[data-theme="dark"] .ticket-item { border-bottom-color: #374151 !important; }
+[data-theme="dark"] .ticket-title { color: #f3f4f6 !important; }
+[data-theme="dark"] .s-completed { background-color: #064e3b !important; color: #6ee7b7 !important; }
+[data-theme="dark"] .s-progress { background-color: #78350f !important; color: #fb923c !important; }
+[data-theme="dark"] .s-pending { background-color: #1a2422 !important; color: #9ca3af !important; }
+[data-theme="dark"] .s-cancelled { background-color: #7f1d1d !important; color: #fca5a5 !important; }
+[data-theme="dark"] .pt-high { background-color: #7f1d1d !important; color: #fca5a5 !important; }
+[data-theme="dark"] .pt-med { background-color: #78350f !important; color: #fbbf24 !important; }
+[data-theme="dark"] .pt-low { background-color: #064e3b !important; color: #6ee7b7 !important; }
+[data-theme="dark"] .trade-tag { filter: brightness(0.8); }
+[data-theme="dark"] .view-all { color: #E8823C !important; }
