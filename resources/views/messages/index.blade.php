@@ -26,7 +26,10 @@
         <h1 class="text-white font-bold text-lg">Messages</h1>
     </div>
 
-    @include('partials.notification-bell')
+    <div class="flex items-center gap-2 sm:gap-4" style="color:#fff;">
+        @include('partials.theme-toggle')
+        @include('partials.notification-bell')
+    </div>
 </header>
 
 <!-- Main Content -->
@@ -89,9 +92,6 @@
         </div>
     @endif
 </main>
-<div style="position:fixed;top:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.05);padding:4px 8px;border-radius:8px;">
-    @include('partials.theme-toggle')
-</div>
 <script src="/js/theme-toggle.js"></script>
 </body>
 </html>
