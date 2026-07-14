@@ -426,7 +426,7 @@
                                             @endfor
                                         </div>
                                     @else
-                                        <button class="text-xs bg-[#E8823C] text-white px-3 py-1.5 rounded-lg font-semibold">Leave a Review</button>
+                                        <button type="button" onclick="openReviewModal({{ $job->id }}, '{{ addslashes($job->assignedPro?->name ?? 'the professional') }}')" class="text-xs bg-[#E8823C] text-white px-3 py-1.5 rounded-lg font-semibold">Leave a Review</button>
                                     @endif
                                 </td>
                                 @php $payment = $payments->get($job->id); @endphp
@@ -487,6 +487,36 @@
             @endif
         </div>
     </section>
+
+    <!-- Review Modal -->
+    <div id="reviewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 p-6 relative">
+            <button type="button" onclick="closeReviewModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <h3 class="text-lg font-bold text-[#16302A] mb-2">Leave a Review</h3>
+            <p class="text-sm text-gray-500 mb-4" id="reviewProName">for <span class="font-semibold text-[#16302A]" id="reviewProNameSpan"></span></p>
+            <form method="POST" action="" id="reviewForm">
+                @csrf
+                <input type="hidden" name="rating" id="reviewRating" value="0">
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-[#16302A] mb-2">Rating</label>
+                    <div class="flex gap-1" id="starContainer">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <button type="button" data-star="{{ $i }}" class="star-btn text-gray-300 hover:text-[#D9A441] transition-colors" onclick="setRating({{ $i }})">
+                                <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            </button>
+                        @endfor
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="reviewComment" class="block text-sm font-semibold text-[#16302A] mb-2">Comment <span class="text-gray-400 font-normal">(optional)</span></label>
+                    <textarea name="comment" id="reviewComment" rows="3" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8823C]/50" placeholder="Share your experience..."></textarea>
+                </div>
+                <button type="submit" class="w-full bg-[#E8823C] text-white py-2.5 rounded-lg font-semibold hover:bg-[#c96a2a] transition-colors">Submit Review</button>
+            </form>
+        </div>
+    </div>
 
     <!-- Profile Section -->
     <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
@@ -871,6 +901,45 @@
                     });
                 });
             });
+        });
+
+        /* ── Review Modal ── */
+        let currentJobId = null;
+
+        function openReviewModal(jobId, proName) {
+            currentJobId = jobId;
+            document.getElementById('reviewProNameSpan').textContent = proName;
+            document.getElementById('reviewForm').action = '{{ url("/customer/jobs") }}/' + jobId + '/review';
+            document.getElementById('reviewRating').value = 0;
+            document.getElementById('reviewComment').value = '';
+            document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('text-[#D9A441]'));
+            document.querySelectorAll('.star-btn').forEach(b => b.classList.add('text-gray-300'));
+            document.getElementById('reviewModal').classList.remove('hidden');
+            document.getElementById('reviewModal').classList.add('flex');
+        }
+
+        function closeReviewModal() {
+            document.getElementById('reviewModal').classList.add('hidden');
+            document.getElementById('reviewModal').classList.remove('flex');
+            currentJobId = null;
+        }
+
+        function setRating(val) {
+            document.getElementById('reviewRating').value = val;
+            document.querySelectorAll('.star-btn').forEach((btn, i) => {
+                const starVal = parseInt(btn.getAttribute('data-star'));
+                if (starVal <= val) {
+                    btn.classList.remove('text-gray-300');
+                    btn.classList.add('text-[#D9A441]');
+                } else {
+                    btn.classList.remove('text-[#D9A441]');
+                    btn.classList.add('text-gray-300');
+                }
+            });
+        }
+
+        document.getElementById('reviewModal').addEventListener('click', function(e) {
+            if (e.target === this) closeReviewModal();
         });
     </script>
 </main>
