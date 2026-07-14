@@ -909,7 +909,7 @@
         function openReviewModal(jobId, proName) {
             currentJobId = jobId;
             document.getElementById('reviewProNameSpan').textContent = proName;
-            document.getElementById('reviewForm').action = '{{ url("/customer/jobs") }}/' + jobId + '/review';
+            document.getElementById('reviewForm').action = '{{ url("/dashboard/customer/jobs") }}/' + jobId + '/review';
             document.getElementById('reviewRating').value = 0;
             document.getElementById('reviewComment').value = '';
             document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('text-[#D9A441]'));
