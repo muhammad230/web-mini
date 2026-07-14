@@ -20,7 +20,7 @@ class AdminSeeder extends Seeder
         DB::table('users')->updateOrInsert(
             ['email' => 'admin@fixit.com'],
             [
-                'name'                => 'Zain Admin',
+                'name'                => 'Muhammad Ali',
                 'email'               => 'admin@fixit.com',
                 'password'            => Hash::make('password123'),
                 'phone'               => '+1234567890',
