@@ -75,7 +75,7 @@ class SiteContentController extends Controller
         ],
         'cta_banner' => [
             'heading' => 'Are You a Home Service Professional?',
-            'description' => 'Join FixIt and get access to hundreds of local job leads every month.',
+            'description' => 'Join Fixly and get access to hundreds of local job leads every month.',
             'button_text' => 'Join as a professional',
         ],
         'footer' => [
@@ -112,7 +112,7 @@ class SiteContentController extends Controller
                     ],
                 ],
             ],
-            'copyright' => 'FixIt. All rights reserved.',
+            'copyright' => 'Fixly. All rights reserved.',
         ],
         'navigation' => [
             'links' => [

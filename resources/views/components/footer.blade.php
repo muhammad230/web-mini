@@ -10,7 +10,7 @@
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                         <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z" fill="#e07b39"/>
                     </svg>
-                    <span style="font-size:1.1rem; font-weight:700; color:#fff;">Fix<span style="color:#e07b39;">It</span></span>
+                    <span style="font-size:1.1rem; font-weight:700; color:#fff;">Fix<span style="color:#e07b39;">ly</span></span>
                 </div>
                 <p style="font-size:0.78rem; color:#8aaa9e; line-height:1.7; margin:0 0 18px; max-width:200px;">
                     {{ $footerData['company_description'] ?? 'Connecting homeowners with reliable local professionals for all their home service needs.' }}
@@ -62,7 +62,7 @@
         {{-- Bottom bar --}}
         <div class="home-footer-bottom" style="border-top:1px solid #2d5a4a; padding-top:20px;
                     display:flex; align-items:center; justify-content:space-between;">
-            <p style="font-size:0.75rem; color:#8aaa9e; margin:0;">&copy; {{ date('Y') }} {{ $footerData['copyright'] ?? 'FixIt. All rights reserved.' }}</p>
+            <p style="font-size:0.75rem; color:#8aaa9e; margin:0;">&copy; {{ date('Y') }} {{ $footerData['copyright'] ?? 'Fixly. All rights reserved.' }}</p>
             <div style="display:flex; gap:20px;">
                 <a href="#" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Privacy Policy</a>
                 <a href="#" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Terms of Service</a>

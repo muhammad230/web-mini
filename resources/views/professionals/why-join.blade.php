@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join as a Professional - FixIt</title>
+    <title>Join as a Professional - Fixly</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -47,7 +47,7 @@
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-[#16302A] mb-4">How It Works</h2>
-                <p class="text-gray-500 text-lg max-w-2xl mx-auto">Three simple steps to start earning with FixIt</p>
+                <p class="text-gray-500 text-lg max-w-2xl mx-auto">Three simple steps to start earning with Fixly</p>
             </div>
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="text-center p-8">
@@ -93,7 +93,7 @@
     <section class="py-20 px-6 bg-[#F5F1EA]">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#16302A] mb-4">Why Join FixIt?</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#16302A] mb-4">Why Join Fixly?</h2>
                 <p class="text-gray-500 text-lg max-w-2xl mx-auto">Built for professionals who want to grow their business</p>
             </div>
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -211,7 +211,7 @@
     <section class="py-20 px-6" style="background: linear-gradient(135deg, #16302A 0%, #1e3d35 50%, #16302A 100%);">
         <div class="max-w-3xl mx-auto text-center">
             <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Grow Your Business?</h2>
-            <p class="text-lg text-gray-300 mb-10 max-w-xl mx-auto">Join FixIt today and start connecting with customers who need your skills.</p>
+            <p class="text-lg text-gray-300 mb-10 max-w-xl mx-auto">Join Fixly today and start connecting with customers who need your skills.</p>
             <a href="{{ route('register', ['role' => 'professional']) }}"
                class="inline-block bg-[#E8823C] hover:bg-[#c96a2a] text-white font-bold px-10 py-4 rounded-xl text-lg transition-all shadow-lg shadow-[#E8823C]/25 hover:shadow-[#E8823C]/40">
                 Create Your Free Account

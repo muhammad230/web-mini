@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FixIt – Jobs</title>
+    <title>Fixly – Jobs</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -134,7 +134,7 @@
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
             <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z" fill="#E8823C"/>
         </svg>
-        <span>Fix<em>It</em> <span style="font-size:0.65rem;color:#4a7a6a;font-weight:500;">Admin</span></span>
+        <span>Fix<em>ly</em> <span style="font-size:0.65rem;color:#4a7a6a;font-weight:500;">Admin</span></span>
     </div>
     <nav class="nav-section">
         <div class="nav-label">Main</div>

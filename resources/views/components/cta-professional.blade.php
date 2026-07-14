@@ -14,7 +14,7 @@
             </div>
             <div>
                 <h3 style="font-size:1.1rem; font-weight:700; color:#fff; margin:0 0 4px;">{{ $ctaBanner['heading'] ?? 'Are You a Home Service Professional?' }}</h3>
-                <p style="font-size:0.82rem; color:#8aaa9e; margin:0;">{{ $ctaBanner['description'] ?? 'Join FixIt and get access to hundreds of local job leads every month.' }}</p>
+                <p style="font-size:0.82rem; color:#8aaa9e; margin:0;">{{ $ctaBanner['description'] ?? 'Join Fixly and get access to hundreds of local job leads every month.' }}</p>
             </div>
         </div>
 

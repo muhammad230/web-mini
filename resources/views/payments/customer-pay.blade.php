@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pay for Job — FixIt</title>
+    <title>Pay for Job — Fixly</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                 <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" fill="#E8823C"/>
             </svg>
-            <span class="text-lg font-extrabold text-[#16302A]">Fix<span class="text-[#E8823C]">It</span></span>
+            <span class="text-lg font-extrabold text-[#16302A]">Fix<span class="text-[#E8823C]">ly</span></span>
         </div>
 
         <h1 class="text-2xl font-extrabold text-[#16302A] mb-2">Pay for Job</h1>

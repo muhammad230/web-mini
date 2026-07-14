@@ -18,10 +18,10 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->updateOrInsert(
-            ['email' => 'admin@fixit.com'],
+            ['email' => 'admin@fixly.com'],
             [
                 'name'                => 'Muhammad Ali',
-                'email'               => 'admin@fixit.com',
+                'email'               => 'admin@fixly.com',
                 'password'            => Hash::make('password123'),
                 'phone'               => '+1234567890',
                 'role'                => 'admin',
@@ -32,6 +32,6 @@ class AdminSeeder extends Seeder
             ]
         );
 
-        $this->command->info('Admin account ready: admin@fixit.com / password123');
+        $this->command->info('Admin account ready: admin@fixly.com / password123');
     }
 }

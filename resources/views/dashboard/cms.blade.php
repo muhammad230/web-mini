@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FixIt – Website Content</title>
+    <title>Fixly – Website Content</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -132,7 +132,7 @@
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
             <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z" fill="#E8823C"/>
         </svg>
-        <span>Fix<em>It</em> <span style="font-size:0.65rem;color:#4a7a6a;font-weight:500;">Admin</span></span>
+        <span>Fix<em>ly</em> <span style="font-size:0.65rem;color:#4a7a6a;font-weight:500;">Admin</span></span>
     </div>
 
     <nav class="nav-section">
@@ -599,7 +599,7 @@
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea name="description" class="form-control" rows="2">{{ old('description', $ctaContent['description'] ?? 'Join FixIt and get access to hundreds of local job leads every month.') }}</textarea>
+                        <textarea name="description" class="form-control" rows="2">{{ old('description', $ctaContent['description'] ?? 'Join Fixly and get access to hundreds of local job leads every month.') }}</textarea>
                     </div>
                     <div class="form-group">
                         <label>Button Text</label>
@@ -678,7 +678,7 @@
                     </div>
                     <div class="form-group">
                         <label>Copyright Text (year stays auto-dynamic)</label>
-                        <input type="text" name="copyright" class="form-control" value="{{ old('copyright', $footerContent['copyright'] ?? 'FixIt. All rights reserved.') }}">
+                        <input type="text" name="copyright" class="form-control" value="{{ old('copyright', $footerContent['copyright'] ?? 'Fixly. All rights reserved.') }}">
                     </div>
                     <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid #ece8df;">
                         <a href="{{ route('admin.cms.reset', 'footer') }}" class="btn btn-danger btn-sm" onclick="return confirm('Reset this section to defaults?')">Reset to Default</a>

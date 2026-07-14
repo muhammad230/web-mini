@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Dashboard - FixIt</title>
+    <title>Customer Dashboard - Fixly</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -44,7 +44,7 @@
                 <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z" fill="#E8823C"/>
                 <path d="M9 21v-5h6v5" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
             </svg>
-            <span class="text-white text-lg font-bold hidden sm:block">Fix<span class="text-[#E8823C]">It</span></span>
+            <span class="text-white text-lg font-bold hidden sm:block">Fix<span class="text-[#E8823C]">ly</span></span>
         </a>
     </div>
 
@@ -120,7 +120,7 @@
             <h1 class="text-3xl font-extrabold text-[#16302A] mb-2 heading-underline">
                 Welcome back, {{ explode(' ', Auth::user()->name)[0] }} 👋
             </h1>
-            <p class="text-gray-600 text-sm mt-4">Here's what's happening with your FixIt jobs</p>
+            <p class="text-gray-600 text-sm mt-4">Here's what's happening with your Fixly jobs</p>
         </div>
         <button onclick="document.getElementById('post-job-modal').classList.remove('hidden')" class="mt-4 md:mt-0 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-6 py-3 rounded-xl transition flex items-center gap-2">
             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

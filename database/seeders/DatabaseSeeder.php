@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         // ── Users ──────────────────────────────────────────────────
         $admin = User::factory()->create([
             'name'                => 'Muhammad Ali',
-            'email'               => 'admin@fixit.com',
+            'email'               => 'admin@fixly.com',
             'password'            => Hash::make('password123'),
             'phone'               => '+1234567890',
             'role'                => 'admin',
@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
 
         $customer = User::factory()->create([
             'name'                => 'Ali Hassan',
-            'email'               => 'customer@fixit.com',
+            'email'               => 'customer@fixly.com',
             'password'            => Hash::make('password123'),
             'phone'               => '+1234567891',
             'role'                => 'customer',
@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
 
         $pro1 = User::factory()->create([
             'name'                => 'Muhammad Jamil',
-            'email'               => 'pro@fixit.com',
+            'email'               => 'pro@fixly.com',
             'password'            => Hash::make('password123'),
             'phone'               => '+1234567892',
             'role'                => 'professional',
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
 
         $pro2 = User::factory()->create([
             'name'                => 'Sarah Ahmed',
-            'email'               => 'sarah@fixit.com',
+            'email'               => 'sarah@fixly.com',
             'password'            => Hash::make('password123'),
             'phone'               => '+1234567893',
             'role'                => 'professional',

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - FixIt</title>
+    <title>Admin Login - Fixly</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -17,10 +17,10 @@
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
                     <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z" fill="#E8823C"/>
                 </svg>
-                <span class="text-white text-2xl font-bold">Fix<span class="text-[#E8823C]">It</span></span>
+                <span class="text-white text-2xl font-bold">Fix<span class="text-[#E8823C]">ly</span></span>
             </a>
             <h1 class="text-white text-2xl font-bold mb-2">Admin Login</h1>
-            <p class="text-gray-300 text-sm">Access the FixIt admin dashboard</p>
+            <p class="text-gray-300 text-sm">Access the Fixly admin dashboard</p>
         </div>
 
         <div class="bg-white rounded-2xl shadow-2xl p-8">
@@ -36,7 +36,7 @@
                         value="{{ old('email') }}" 
                         required 
                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none transition-colors"
-                        placeholder="admin@fixit.com"
+                        placeholder="admin@fixly.com"
                     >
                     @error('email')
                         <p class="text-red-500 text-xs mt-2">{{ $message }}</p>

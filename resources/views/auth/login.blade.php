@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - FixIt</title>
+    <title>Login - Fixly</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -17,10 +17,10 @@
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
                     <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z" fill="#E8823C"/>
                 </svg>
-                <span class="text-[#16302A] text-2xl font-bold">Fix<span class="text-[#E8823C]">It</span></span>
+                <span class="text-[#16302A] text-2xl font-bold">Fix<span class="text-[#E8823C]">ly</span></span>
             </a>
             <h1 class="text-[#16302A] text-2xl font-bold mb-2">Welcome Back</h1>
-            <p class="text-gray-600 text-sm">Sign in to your FixIt account</p>
+            <p class="text-gray-600 text-sm">Sign in to your Fixly account</p>
         </div>
 
         <div class="bg-white rounded-2xl shadow-xl p-8">
