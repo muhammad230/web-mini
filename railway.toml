@@ -4,3 +4,8 @@ healthcheckPath = "/"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
+
+[variables]
+APP_URL = "https://web-mini-production.up.railway.app"
+SESSION_DRIVER = "file"
+SESSION_SECURE_COOKIE = "true"
