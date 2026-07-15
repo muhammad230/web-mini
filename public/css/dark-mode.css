@@ -567,3 +567,6 @@ html.theme-transitioning *::after {
 [data-theme="dark"] .pt-low { background-color: #064e3b !important; color: #6ee7b7 !important; }
 [data-theme="dark"] .trade-tag { filter: brightness(0.8); }
 [data-theme="dark"] .view-all { color: #E8823C !important; }
+[data-theme="dark"] .admin-dropdown { background-color: #1E2A28 !important; border-color: #374151 !important; box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important; }
+[data-theme="dark"] .admin-dropdown-item { color: #e2e8f0 !important; }
+[data-theme="dark"] .admin-dropdown-item:hover { background-color: #243330 !important; }

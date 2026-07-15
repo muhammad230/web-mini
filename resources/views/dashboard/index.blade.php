@@ -61,9 +61,15 @@
         .admin-topbar { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .admin-topbar img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
         .admin-topbar .tname { font-size: 0.85rem; font-weight: 600; color: #111827; }
-        .admin-topbar .trole { font-size: 0.72rem; color: #9ca3af; }
+.admin-topbar .trole { font-size: 0.72rem; color: #9ca3af; }
+.admin-topbar-wrapper { position: relative; }
+.admin-dropdown { position:absolute; top:calc(100% + 10px); right:0; background:#fff; border:1px solid #ece8df; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.1); min-width:190px; padding:6px; z-index:100; display:none; }
+.admin-dropdown.show { display:block; }
+.admin-dropdown-item { display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:8px; font-size:0.82rem; font-weight:500; color:#374151; background:none; border:none; cursor:pointer; width:100%; text-align:left; text-decoration:none; transition:background 0.15s; }
+.admin-dropdown-item:hover { background:#f5f1ea; }
+.admin-dropdown-item svg { width:16px; height:16px; flex-shrink:0; }
 
-        /* ── Content ── */
+/* ── Content ── */
         .content { padding: 28px; flex: 1; }
         .page-title { font-size: 1.4rem; font-weight: 800; color: #111827; margin-bottom: 4px; }
         .page-sub { font-size: 0.82rem; color: #9ca3af; margin-bottom: 24px; }
@@ -291,13 +297,28 @@
                 @include('partials.theme-toggle')
                 @include('partials.notification-bell')
             </div>
-            <div class="admin-topbar">
-                <img src="https://randomuser.me/api/portraits/men/10.jpg" alt="Admin">
-                <div>
-                    <div class="tname">{{ Auth::user()->name }}</div>
-                    <div class="trole">Super Admin</div>
+            <div class="admin-topbar-wrapper">
+                <div class="admin-topbar" onclick="toggleAdminDropdown(event)">
+                    <img src="https://randomuser.me/api/portraits/men/10.jpg" alt="Admin">
+                    <div>
+                        <div class="tname">{{ Auth::user()->name }}</div>
+                        <div class="trole">Super Admin</div>
+                    </div>
+                    <svg width="14" height="14" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24" style="margin-left:4px;"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                 </div>
-                <svg width="14" height="14" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24" style="margin-left:4px;"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                <div class="admin-dropdown" id="adminDropdown">
+                    <a href="{{ route('admin.settings') }}" class="admin-dropdown-item">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.065 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924-1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>Settings</span>
+                    </a>
+                    <form method="POST" action="{{ route('admin.logout') }}" style="margin:0;">
+                        @csrf
+                        <button type="submit" class="admin-dropdown-item">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                            <span>Logout</span>
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -600,6 +621,18 @@ function toggleMobileSidebar() {
     sb.classList.toggle('collapsed');
     overlay.classList.toggle('active');
 }
+
+// Admin profile dropdown toggle
+function toggleAdminDropdown(e) {
+    e.stopPropagation();
+    document.getElementById('adminDropdown').classList.toggle('show');
+}
+document.addEventListener('click', function(e) {
+    var dd = document.getElementById('adminDropdown');
+    if (dd && !e.target.closest('.admin-topbar-wrapper')) {
+        dd.classList.remove('show');
+    }
+});
 
 // --- Chart helpers: theme-aware colors + live update ---
 var _lineChart, _barChart, _tradeLabels, _tradeData, _last12Months;
