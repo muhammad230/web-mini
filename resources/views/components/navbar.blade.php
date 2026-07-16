@@ -12,6 +12,7 @@
         @foreach($navData['links'] ?? [] as $link)
             <li><a href="{{ $link['url'] ?? '#' }}" class="hover:text-[#E8823C] transition-colors">{{ $link['label'] ?? '' }}</a></li>
         @endforeach
+        <li><a href="{{ route('contact') }}" class="hover:text-[#E8823C] transition-colors">Contact</a></li>
     </ul>
 
     {{-- Auth Buttons --}}
