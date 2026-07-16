@@ -64,6 +64,7 @@
                     display:flex; align-items:center; justify-content:space-between;">
             <p style="font-size:0.75rem; color:#8aaa9e; margin:0;">&copy; {{ date('Y') }} {{ $footerData['copyright'] ?? 'Fixly. All rights reserved.' }}</p>
             <div style="display:flex; gap:20px;">
+                <a href="{{ route('contact') }}" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Contact</a>
                 <a href="#" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Privacy Policy</a>
                 <a href="#" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Terms of Service</a>
                 <a href="#" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Legal</a>

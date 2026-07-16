@@ -81,6 +81,10 @@ Route::get('/jobs/create', function (\Illuminate\Http\Request $request) {
 // ── Professional Info Page ────────────────────────────────────────────
 Route::get('/professionals/why-join', [\App\Http\Controllers\ProfessionalInfoController::class, 'show'])->name('professionals.why-join');
 
+// ── Contact Page ──────────────────────────────────────────────────────
+Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'submit'])->name('contact.submit');
+
 // ── Public Auth (Login, Register, Logout) ─────────────────────────────────
 Route::prefix('auth')->name('')->group(function () {
     Route::get('/login', [PublicAuthController::class, 'showLogin'])->name('login');
