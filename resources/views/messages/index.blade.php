@@ -12,6 +12,19 @@
         .heading-underline { position: relative; display: inline-block; }
         .heading-underline::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 40px; height: 3px; background: #E8823C; border-radius: 2px; }
         .unread-dot { width: 8px; height: 8px; background: #E8823C; border-radius: 50%; }
+        @media (max-width: 480px) {
+            header { padding-left: 1rem !important; padding-right: 1rem !important; }
+            header h1 { font-size: 1rem !important; }
+            main { padding-left: 1rem !important; padding-right: 1rem !important; }
+            .msg-card { padding: 1rem !important; }
+            .msg-avatar { width: 2.5rem !important; height: 2.5rem !important; }
+        }
+        @media (max-width: 375px) {
+            header { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+            main { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+            .msg-card { padding: 0.75rem !important; }
+            .msg-card-text { font-size: 0.7rem !important; }
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -37,9 +50,9 @@
     @if($conversations->count() > 0)
         <div class="space-y-3">
             @foreach($conversations as $conv)
-                <a href="{{ route('messages.show', $conv->id) }}" class="block bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-[#E8823C]/30 transition">
+                <a href="{{ route('messages.show', $conv->id) }}" class="block bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-[#E8823C]/30 transition msg-card">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-[#E8823C] flex items-center justify-center text-white font-bold flex-shrink-0">
+                        <div class="w-12 h-12 rounded-full bg-[#E8823C] flex items-center justify-center text-white font-bold flex-shrink-0 msg-avatar">
                             {{ substr((Auth::user()->isCustomer() ? $conv->professional->name : $conv->customer->name), 0, 1) }}
                         </div>
                         <div class="flex-1 min-w-0">
@@ -64,7 +77,7 @@
                                 </div>
                             </div>
                             <p class="text-sm text-[#D9A441] mb-1">{{ $conv->job->trade_category }}</p>
-                            <p class="text-xs text-gray-600 truncate">
+                            <p class="text-xs text-gray-600 truncate msg-card-text">
                                 @if($conv->lastMessage)
                                     {{ $conv->lastMessage->message_text }}
                                 @else

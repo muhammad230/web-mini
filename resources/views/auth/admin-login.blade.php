@@ -8,6 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
+        @media (max-width: 480px) {
+            .auth-card { padding: 1.25rem !important; }
+            .auth-title { font-size: 1.3rem !important; }
+        }
+        @media (max-width: 375px) {
+            body { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+            .auth-card { padding: 1rem !important; }
+        }
     </style>
     <link rel="stylesheet" href="/css/dark-mode.css">
 </head>
@@ -20,11 +28,11 @@
                 </svg>
                 <span class="text-white text-2xl font-bold">Fix<span class="text-[#E8823C]">ly</span></span>
             </a>
-            <h1 class="text-white text-2xl font-bold mb-2">Admin Login</h1>
+            <h1 class="text-white text-2xl font-bold mb-2 auth-title">Admin Login</h1>
             <p class="text-gray-300 text-sm">Access the Fixly admin dashboard</p>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-2xl p-8">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 auth-card">
             <form method="POST" action="{{ route('admin.login.submit') }}">
                 @csrf
 

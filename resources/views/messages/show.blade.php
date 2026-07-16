@@ -11,6 +11,22 @@
         body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; }
         .message-sent { background-color: #E8823C; color: white; border-bottom-right-radius: 4px; }
         .message-received { background-color: white; color: #1f2937; border-bottom-left-radius: 4px; }
+        @media (max-width: 480px) {
+            header { padding-left: 1rem !important; padding-right: 1rem !important; }
+            header h1 { font-size: 0.85rem !important; }
+            main { padding: 0.75rem !important; }
+            .chat-bubble { max-width: 90% !important; }
+            .chat-bubble-text { font-size: 0.8rem !important; padding: 0.5rem 0.75rem !important; }
+            footer { padding: 0.75rem !important; }
+            .chat-input { font-size: 0.85rem !important; padding: 0.6rem 0.75rem !important; }
+            .chat-send-btn { padding: 0.6rem 1rem !important; }
+        }
+        @media (max-width: 375px) {
+            header { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+            main { padding: 0.5rem !important; }
+            .chat-bubble { max-width: 95% !important; }
+            header .back-btn { padding: 0.25rem !important; }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -45,9 +61,9 @@
     <div class="max-w-3xl mx-auto space-y-4">
         @foreach($conversation->messages as $msg)
             <div class="flex {{ $msg->sender_id == Auth::id() ? 'justify-end' : 'justify-start' }}">
-                <div class="max-w-[80%]">
-                    <div class="{{ $msg->sender_id == Auth::id() ? 'message-sent' : 'message-received' }} px-4 py-3 rounded-2xl shadow-sm">
-                        <p class="text-sm">{{ $msg->message_text }}</p>
+                    <div class="max-w-[80%] chat-bubble">
+                        <div class="{{ $msg->sender_id == Auth::id() ? 'message-sent' : 'message-received' }} px-4 py-3 rounded-2xl shadow-sm chat-bubble-text">
+                            <p class="text-sm">{{ $msg->message_text }}</p>
                     </div>
                     <p class="text-[10px] text-gray-500 mt-1 {{ $msg->sender_id == Auth::id() ? 'text-right' : 'text-left' }}">
                         {{ $msg->created_at->format('g:i A • M j') }}
@@ -64,9 +80,9 @@
         <form id="send-form" method="POST" action="{{ route('messages.store', $conversation->id) }}" class="flex gap-3">
             @csrf
             <input type="text" name="message_text" id="message-input" placeholder="Type a message..." 
-                class="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none"
+                class="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none chat-input"
                 autocomplete="off" required>
-            <button type="submit" class="bg-[#E8823C] hover:bg-[#c96a2a] text-white px-5 py-3 rounded-xl font-semibold transition">
+            <button type="submit" class="bg-[#E8823C] hover:bg-[#c96a2a] text-white px-5 py-3 rounded-xl font-semibold transition chat-send-btn">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="rotate-[-90deg]">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
                 </svg>

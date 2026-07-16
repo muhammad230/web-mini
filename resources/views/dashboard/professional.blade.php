@@ -28,8 +28,13 @@
             h1.text-3xl { font-size: 1.5rem !important; }
             h2.text-xl { font-size: 1.15rem !important; }
         }
+        @media (max-width: 420px) {
+            header nav { gap: 0.125rem !important; }
+            header nav a { font-size: 0.65rem !important; padding: 0.375rem 0.5rem !important; }
+        }
         @media (max-width: 375px) {
             .profile-name { display: none !important; }
+            header nav a { font-size: 0.6rem !important; padding: 0.25rem 0.375rem !important; }
         }
     </style>
 </head>

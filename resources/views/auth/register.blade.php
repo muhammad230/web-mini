@@ -11,6 +11,15 @@
         body { font-family: 'Inter', sans-serif; }
         .tab-active { background-color: #E8823C; color: white; }
         .tab-inactive { background-color: #F5F1EA; color: #16302A; }
+        @media (max-width: 480px) {
+            .auth-card { padding: 1.25rem !important; }
+            .auth-title { font-size: 1.3rem !important; }
+            .role-tabs { flex-direction: column !important; gap: 4px !important; }
+        }
+        @media (max-width: 375px) {
+            body { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+            .auth-card { padding: 1rem !important; }
+        }
     </style>
     <link rel="stylesheet" href="/css/dark-mode.css">
 </head>
@@ -23,13 +32,13 @@
                 </svg>
                 <span class="text-[#16302A] text-2xl font-bold">Fix<span class="text-[#E8823C]">ly</span></span>
             </a>
-            <h1 class="text-[#16302A] text-2xl font-bold mb-2">Create Your Account</h1>
+            <h1 class="text-[#16302A] text-2xl font-bold mb-2 auth-title">Create Your Account</h1>
             <p class="text-gray-600 text-sm">Join Fixly to get your home jobs done</p>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-xl p-8">
+        <div class="bg-white rounded-2xl shadow-xl p-8 auth-card">
             {{-- Role Toggle Tabs --}}
-            <div class="flex mb-8 bg-[#F5F1EA] rounded-xl p-1">
+            <div class="flex mb-8 bg-[#F5F1EA] rounded-xl p-1 role-tabs">
                 <button 
                     id="customer-tab" 
                     onclick="switchRole('customer')" 

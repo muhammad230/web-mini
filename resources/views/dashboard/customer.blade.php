@@ -30,8 +30,13 @@
             .grid.gap-4 > div { padding: 1rem !important; }
             .grid.gap-4 > div .text-2xl { font-size: 1.25rem !important; }
         }
+        @media (max-width: 420px) {
+            header nav { gap: 0.125rem !important; }
+            header nav a { font-size: 0.65rem !important; padding: 0.375rem 0.5rem !important; }
+        }
         @media (max-width: 375px) {
             .profile-dropdown-text { display: none !important; }
+            header nav a { font-size: 0.6rem !important; padding: 0.25rem 0.375rem !important; }
         }
     </style>
 </head>

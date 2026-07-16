@@ -187,6 +187,10 @@
             .table-card { overflow-x: auto; }
             table { min-width: 500px; }
             .chart-card canvas { max-width: 100%; height: auto !important; }
+            .topbar { gap: 0.5rem; }
+            .topbar-right { gap: 0.5rem !important; }
+            .topbar-right .admin-topbar > div { display: none !important; }
+            .topbar-right .admin-topbar svg:last-child { display: none !important; }
         }
     </style>
 </head>

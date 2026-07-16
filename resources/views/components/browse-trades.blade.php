@@ -13,7 +13,7 @@
             @foreach($chunk as $trade)
             <a href="#" style="background:{{ $trade['bg'] ?? '#faf9f6' }}; border-radius:14px; padding:18px 16px; display:flex; align-items:flex-start; gap:12px; text-decoration:none; border:1.5px solid transparent;">
                 <div style="flex-shrink:0; margin-top:2px;">
-                    @include('components.trade-icons', ['icon' => $trade['icon'] ?? 'handyman', 'color' => $trade['color'] ?? '#111827'])
+                    @include('components.trade-icons', ['icon' => $trade['icon'] ?? 'handyman', 'color' => $trade['colo'] ?? '#111827'])
                 </div>
                 <div>
                     <div style="font-size:0.88rem; font-weight:700; color:{{ $trade['color'] ?? '#111827' }};">{{ $trade['name'] ?? '' }}</div>
