@@ -212,6 +212,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
                     ->take(5)
                     ->get();
                 
+                // Recent contact messages
+                $recentMessages = \App\Models\ContactMessage::latest()->take(5)->get();
+
                 // Top pros
                 $topPros = \App\Models\User::where('role', 'professional')
                     ->where('verification_status', 'verified')
@@ -245,7 +248,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                     'verifiedPros', 'totalCustomers', 'pendingPros', 'pendingProsCount',
                     'jobsThisMonth', 'platformRevenue', 'avgRating',
                     'last12Months', 'tradesBookings', 'recentJobs',
-                    'recentReviews', 'topPros', 'searchResults'
+                    'recentReviews', 'topPros', 'searchResults', 'recentMessages'
                 ));
             })->name('dashboard');
 
@@ -288,9 +291,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/payments/{payment}/mark-paid', [\App\Http\Controllers\PaymentController::class, 'adminMarkPaid'])->name('payments.mark-paid');
             Route::post('/payout-requests/{payoutRequest}/process', [\App\Http\Controllers\PaymentController::class, 'adminProcessPayout'])->name('payout-requests.process');
 
-            // Support Tickets placeholder
+            // Contact Messages
             Route::get('/tickets', function () {
-                return view('dashboard.admin.tickets');
+                $messages = \App\Models\ContactMessage::latest()->paginate(20);
+                return view('dashboard.admin.tickets', compact('messages'));
             })->name('tickets');
         });
 });

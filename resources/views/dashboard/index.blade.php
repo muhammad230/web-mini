@@ -254,7 +254,7 @@
         </a>
         <a href="{{ route('admin.tickets') }}" class="nav-item">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-            <span>Support Tickets</span>
+            <span>Contact Messages</span>
         </a>
         <a href="{{ route('admin.settings') }}" class="nav-item">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.065 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -574,34 +574,22 @@
                 @endif
             </div>
 
-            <!-- Support Tickets -->
+            <!-- Contact Messages -->
             <div class="chart-card" style="height:fit-content;">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-                    <div class="card-title">Support Tickets</div>
-                    <span style="background:#fee2e2;color:#b91c1c;font-size:0.72rem;font-weight:700;padding:3px 10px;border-radius:20px;">5 Open</span>
+                    <div class="card-title">Contact Messages</div>
+                    <span style="background:#dbeafe;color:#1e40af;font-size:0.72rem;font-weight:700;padding:3px 10px;border-radius:20px;">{{ $recentMessages->count() }} recent</span>
                 </div>
-                <div class="card-sub">Latest unresolved tickets</div>
-                <div class="ticket-item">
-                    <div class="priority-dot p-high"></div>
-                    <div><div class="ticket-title">Payment not received after job</div><div class="ticket-meta">Ali Hassan · #TK-201 · 2h ago</div></div>
-                    <span class="priority-tag pt-high">High</span>
-                </div>
-                <div class="ticket-item">
-                    <div class="priority-dot p-high"></div>
-                    <div><div class="ticket-title">Professional no-show on booking</div><div class="ticket-meta">Sana Mirza · #TK-200 · 5h ago</div></div>
-                    <span class="priority-tag pt-high">High</span>
-                </div>
-                <div class="ticket-item">
-                    <div class="priority-dot p-med"></div>
-                    <div><div class="ticket-title">Cannot upload verification docs</div><div class="ticket-meta">Kamran Malik · #TK-199 · 1d ago</div></div>
-                    <span class="priority-tag pt-med">Medium</span>
-                </div>
-                <div class="ticket-item">
-                    <div class="priority-dot p-low"></div>
-                    <div><div class="ticket-title">Profile photo not updating</div><div class="ticket-meta">Omar Sheikh · #TK-198 · 2d ago</div></div>
-                    <span class="priority-tag pt-low">Low</span>
-                </div>
-                <a href="#" style="display:block;text-align:center;margin-top:14px;font-size:0.8rem;font-weight:600;color:#E8823C;text-decoration:none;">View all tickets →</a>
+                <div class="card-sub">Latest messages from the contact form</div>
+                @forelse($recentMessages as $msg)
+                    <div class="ticket-item">
+                        <div class="priority-dot p-low" style="background:#E8823C;"></div>
+                        <div><div class="ticket-title">{{ $msg->subject ?: '(no subject)' }}</div><div class="ticket-meta">{{ $msg->name }} · {{ $msg->email }} · {{ $msg->created_at->diffForHumans() }}</div></div>
+                    </div>
+                @empty
+                    <div style="padding:16px;color:#9ca3af;text-align:center;font-size:0.85rem;">No messages yet</div>
+                @endforelse
+                <a href="{{ route('admin.tickets') }}" style="display:block;text-align:center;margin-top:14px;font-size:0.8rem;font-weight:600;color:#E8823C;text-decoration:none;">View all messages →</a>
             </div>
         </div>
 

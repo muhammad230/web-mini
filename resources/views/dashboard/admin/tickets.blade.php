@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fixly – Support Tickets</title>
+    <title>Fixly – Contact Messages</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
@@ -43,12 +43,34 @@
         .content { padding: 28px; flex: 1; }
         .page-title { font-size: 1.4rem; font-weight: 800; color: #111827; margin-bottom: 4px; }
         .page-sub { font-size: 0.82rem; color: #9ca3af; margin-bottom: 24px; }
-        .card { background: #fff; border-radius: 14px; padding: 48px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); text-align: center; }
-        .card-icon { width: 80px; height: 80px; background: #e8f4f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
-        .card-title { font-size: 1.4rem; font-weight: 800; color: #111827; margin-bottom: 12px; }
-        .card-text { font-size: 0.95rem; color: #6b7280; }
-        @media (max-width: 768px) { .content { padding: 20px 16px; } .topbar { padding: 12px 16px; } .card { padding: 32px 20px; } }
-        @media (max-width: 600px) { .card { padding: 24px 16px; } h1.page-title { font-size: 1.15rem; } .card-icon { width: 60px; height: 60px; } .card-title { font-size: 1.15rem; } }
+        .table-card { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 28px; overflow: hidden; }
+        .table-header { padding: 20px 24px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        .msg-count { font-size: 0.85rem; color: #6b7280; }
+        table { width: 100%; border-collapse: collapse; }
+        th { padding: 10px 16px; text-align: left; font-size: 0.72rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; }
+        td { padding: 12px 16px; font-size: 0.82rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #faf9f6; }
+        .action-btn { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; margin-right: 6px; border: none; }
+        .btn-primary { background: #E8823C; color: #fff; }
+        .btn-secondary { background: #fff; color: #6b7280; border: 1px solid #e5e7eb; }
+        .msg-preview { color: #6b7280; max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .full-msg { display: none; padding: 16px 20px; background: #faf9f6; border-top: 1px solid #ece8df; font-size: 0.85rem; line-height: 1.6; color: #374151; white-space: pre-wrap; }
+        .full-msg.open { display: table-cell; }
+        .pagination { display: flex; justify-content: center; gap: 8px; padding: 20px; }
+        .pagination a, .pagination span { padding: 8px 12px; border-radius: 6px; border: 1px solid #e5e7eb; text-decoration: none; color: #374151; font-size: 0.85rem; }
+        .pagination .active { background: #E8823C; color: #fff; border-color: #E8823C; }
+        .detail-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); align-items: center; justify-content: center; z-index: 200; }
+        .detail-modal.open { display: flex; }
+        .detail-content { background: #fff; border-radius: 14px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 32px; position: relative; }
+        .detail-content h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+        .detail-content .meta { font-size: 0.82rem; color: #6b7280; margin-bottom: 20px; }
+        .detail-content .label { font-size: 0.72rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .detail-content .body-text { font-size: 0.92rem; line-height: 1.7; color: #374151; white-space: pre-wrap; background: #faf9f6; padding: 16px; border-radius: 8px; margin-top: 8px; }
+        .close-modal { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #9ca3af; padding: 4px 8px; }
+        @media (max-width: 1024px) { .table-card { overflow-x: auto; } table { min-width: 600px; } }
+        @media (max-width: 768px) { .content { padding: 20px 16px; } .topbar { padding: 12px 16px; } }
+        @media (max-width: 600px) { h1.page-title { font-size: 1.15rem; } }
     </style>
 </head>
 <body>
@@ -83,7 +105,7 @@
         </a>
         <div class="nav-label">Finance</div>
         <a href="{{ route('admin.payments') }}" class="nav-item">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c1.11 0 2.08-.402 2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span>Payments & Payouts</span>
         </a>
         <a href="{{ route('admin.reports') }}" class="nav-item">
@@ -102,7 +124,7 @@
         </a>
         <a href="{{ route('admin.tickets') }}" class="nav-item active">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-            <span>Support Tickets</span>
+            <span>Contact Messages</span>
         </a>
         <a href="{{ route('admin.settings') }}" class="nav-item">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924-1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.572c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -134,22 +156,64 @@
             </button>
         </div>
         <div class="flex items-center gap-2">
-                @include('partials.theme-toggle')
-                @include('partials.notification-bell')
-            </div>
+            @include('partials.theme-toggle')
+            @include('partials.notification-bell')
+        </div>
     </div>
     <div class="content">
-        <div class="page-title">Support Tickets</div>
-        <div class="page-sub">Manage support tickets from users</div>
-        <div class="card">
-            <div class="card-icon">
-                <svg width="40" height="40" fill="none" stroke="#16302A" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <div class="page-title">Contact Messages</div>
+        <div class="page-sub">Messages submitted via the website contact form</div>
+        <div class="table-card">
+            <div class="table-header">
+                <div>
+                    <div style="font-size:1rem;font-weight:700;color:#111827;">All Messages</div>
+                    <div class="msg-count">{{ $messages->total() }} total</div>
+                </div>
             </div>
-            <div class="card-title">Coming Soon</div>
-            <div class="card-text">Support ticket features are not yet implemented. This section will be updated when the support ticket system is built.</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($messages as $msg)
+                        <tr>
+                            <td style="font-weight:600;color:#111827;">{{ $msg->name }}</td>
+                            <td>{{ $msg->email }}</td>
+                            <td>{{ $msg->subject ?: '(no subject)' }}</td>
+                            <td><div class="msg-preview">{{ Str::limit($msg->message, 60) }}</div></td>
+                            <td>{{ $msg->created_at->format('M d, Y g:i A') }}</td>
+                            <td>
+                                <button class="action-btn btn-primary" onclick="openDetail({{ $msg->id }})">View</button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="6" style="text-align:center;padding:30px;color:#9ca3af;">No messages yet</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+            @if($messages->hasPages())
+                <div class="pagination">
+                    {{ $messages->links() }}
+                </div>
+            @endif
         </div>
     </div>
 </div>
+
+<div class="detail-modal" id="detailModal">
+    <div class="detail-content">
+        <button class="close-modal" onclick="closeDetail()">&times;</button>
+        <div id="detailBody"></div>
+    </div>
+</div>
+
 <script>
 function toggleSidebar() {
     const sb = document.getElementById('sidebar');
@@ -157,6 +221,34 @@ function toggleSidebar() {
     sb.classList.toggle('collapsed');
     main.classList.toggle('expanded');
 }
+
+const messages = @json($messages->items());
+
+function openDetail(id) {
+    const msg = messages.find(m => m.id === id);
+    if (!msg) return;
+    document.getElementById('detailBody').innerHTML = `
+        <h2>${esc(msg.subject || '(no subject)')}</h2>
+        <div class="meta">From: ${esc(msg.name)} &lt;${esc(msg.email)}&gt; &middot; ${new Date(msg.created_at).toLocaleString()}</div>
+        <div class="label">Message</div>
+        <div class="body-text">${esc(msg.message)}</div>
+    `;
+    document.getElementById('detailModal').classList.add('open');
+}
+
+function closeDetail() {
+    document.getElementById('detailModal').classList.remove('open');
+}
+
+function esc(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+document.getElementById('detailModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDetail();
+});
 </script>
 <script src="/js/theme-toggle.js"></script>
 </body>
