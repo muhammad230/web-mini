@@ -533,7 +533,14 @@ html.theme-transitioning *::after {
 [data-theme="dark"] .section-toggle-label { color: #e2e8f0 !important; background-color: #1E2A28 !important; border-color: #374151 !important; }
 [data-theme="dark"] .section-toggle-label:hover { background-color: #1a2422 !important; }
 [data-theme="dark"] .table-wrap tbody tr:hover { background: #1a2422 !important; }
-[data-theme="dark"] .table-wrap td { border-bottom-color: #374151 !important; }
+/* Table body cells — bright text on dark bg */
+[data-theme="dark"] .table-wrap td { color: #e2e8f0 !important; border-bottom-color: #374151 !important; }
+
+/* Table wrapper background — override inline <style> block's background:#fff */
+[data-theme="dark"] .table-wrap { background-color: #1E2A28 !important; border-color: #374151 !important; }
+
+/* Table body — ensure consistent dark background for rows */
+[data-theme="dark"] .table-wrap tbody { background-color: #1E2A28 !important; }
 
 /* Stat cards — match dashboard KPI card styling */
 [data-theme="dark"] .stat-card { background-color: #1E2A28 !important; border-color: #374151 !important; }
