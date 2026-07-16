@@ -50,7 +50,7 @@
         .table-wrap { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; margin-bottom: 28px; }
         .table-wrap h2 { font-size: 1.05rem; font-weight: 700; color: #111827; padding: 18px 20px 0; }
         .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-        .table-wrap th { text-align: left; padding: 14px 16px; font-size: 0.7rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #ece8df; }
+        .table-wrap th { text-align: left; padding: 14px 16px; font-size: 0.7rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; }
         .table-wrap td { padding: 12px 16px; border-bottom: 1px solid #f3f0ea; color: #374151; }
         .table-wrap tbody tr:hover { background: #faf8f5; }
         .badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.7rem; font-weight: 600; }
@@ -227,7 +227,7 @@
                         <tr>
                             <td class="font-mono text-xs">#{{ $pr->id }}</td>
                             <td class="font-medium">{{ $pr->professional->name ?? '—' }}</td>
-                            <td class="font-semibold">Rs. {{ number_format($pr->amount) }}</td>
+                            <td class="font-semibold text-[#16302A]">Rs. {{ number_format($pr->amount) }}</td>
                             <td>
                                 @if($pr->status === 'paid')
                                     <span class="badge badge-paid">Paid</span>

@@ -535,6 +535,13 @@ html.theme-transitioning *::after {
 [data-theme="dark"] .table-wrap tbody tr:hover { background: #1a2422 !important; }
 [data-theme="dark"] .table-wrap td { border-bottom-color: #374151 !important; }
 
+/* Stat cards — match dashboard KPI card styling */
+[data-theme="dark"] .stat-card { background-color: #1E2A28 !important; border-color: #374151 !important; }
+[data-theme="dark"] .stat-label { color: #9ca3af !important; }
+
+/* Table headers on payments page */
+[data-theme="dark"] .table-wrap th { background-color: #243330 !important; color: #e2e8f0 !important; border-bottom-color: #374151 !important; }
+
 /* ═════════════════════════════════════════════════════════════════════
    42. ADMIN — PAGINATION
    ═════════════════════════════════════════════════════════════════════ */
