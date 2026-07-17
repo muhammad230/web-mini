@@ -8,7 +8,7 @@
     </a>
 
     {{-- Nav Links --}}
-    <ul class="hidden md:flex items-center gap-8 text-white font-medium">
+    <ul class="hidden lg:flex items-center gap-8 text-white font-medium">
         @foreach($navData['links'] ?? [] as $link)
             <li><a href="{{ $link['url'] ?? '#' }}" class="hover:text-[#E8823C] transition-colors">{{ $link['label'] ?? '' }}</a></li>
         @endforeach
