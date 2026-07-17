@@ -39,14 +39,14 @@
         @media (max-width: 768px) {
             .hero-section { min-height: 300px !important; }
             .hero-section h1 { font-size: 2rem !important; }
-            .hero-text-wrap { padding: 60px 24px 120px !important; }
+            .hero-text-wrap { padding: 90px 24px 120px !important; }
             .hero-text-wrap p { max-width: 100% !important; }
             .hero-text-wrap p br { display: none; }
             .hero-overlay-img { width: 100% !important; opacity: 0.2; }
         }
         @media (max-width: 480px) {
             .hero-section h1 { font-size: 1.55rem !important; }
-            .hero-text-wrap { padding: 50px 16px 100px !important; }
+            .hero-text-wrap { padding: 90px 16px 100px !important; }
         }
 
         /* ── Responsive: Search Card ── */
