@@ -441,7 +441,7 @@
                     <div class="card-title">Pending Approvals</div>
                     <div class="card-sub" style="margin-bottom:0;">New professionals awaiting verification</div>
                 </div>
-                <a href="#" class="view-all">View all →</a>
+                <a href="{{ route('admin.professionals') }}" class="view-all">View all →</a>
             </div>
             <table>
                 <thead><tr>
@@ -480,7 +480,7 @@
                     <div class="card-title">Recent Jobs / Bookings</div>
                     <div class="card-sub" style="margin-bottom:0;">Latest job activity across the platform</div>
                 </div>
-                <a href="#" class="view-all">View all →</a>
+                <a href="{{ route('admin.jobs') }}" class="view-all">View all →</a>
             </div>
             <table>
                 <thead><tr>

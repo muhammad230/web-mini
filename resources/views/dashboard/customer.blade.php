@@ -84,14 +84,14 @@
             
             <!-- Dropdown Menu -->
             <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <a href="#" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition">
+                <a href="#profile" data-tab="profile" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>
                     Profile
                 </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition">
+                <a href="#profile" data-tab="profile" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426-1.756-2.924-1.756-3.35 0a1.724 1.724 0 001.066-2.573c-1.543.94-3.31-.826-2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                         <circle cx="12" cy="12" r="3"/>
@@ -236,7 +236,7 @@
                                         <p class="text-xs text-gray-600">{{ $job->description }}</p>
                                     </div>
                                 </div>
-                                <button class="text-[#E8823C] text-xs font-semibold hover:text-[#c96a2a]">View Details</button>
+                                <a href="{{ route('dashboard.customer.jobs.show', $job) }}" class="text-[#E8823C] text-xs font-semibold hover:text-[#c96a2a]">View Details</a>
                             </div>
                         </div>
                         @endforeach
@@ -647,7 +647,7 @@
                                     <p class="text-xs text-gray-600">{{ $job->description }}</p>
                                 </div>
                             </div>
-                            <button class="text-[#E8823C] text-xs font-semibold hover:text-[#c96a2a]">View Details</button>
+                            <a href="{{ route('dashboard.customer.jobs.show', $job) }}" class="text-[#E8823C] text-xs font-semibold hover:text-[#c96a2a]">View Details</a>
                         </div>
                     </div>
                     @endforeach
