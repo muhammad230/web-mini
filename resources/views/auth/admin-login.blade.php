@@ -91,6 +91,7 @@
     <div style="position:fixed;top:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);padding:4px 8px;border-radius:8px;">
         @include('partials.theme-toggle')
     </div>
+    @include('partials.chat-widget')
     <script src="/js/theme-toggle.js"></script>
 </body>
 </html>

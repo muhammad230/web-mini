@@ -228,6 +228,7 @@
         });
     });
     </script>
+    @include('partials.chat-widget')
     <script src="/js/theme-toggle.js"></script>
 </body>
 </html>

@@ -187,6 +187,7 @@
     {{-- ======= FOOTER ======= --}}
     @include('components.footer', ['footerData' => $footerData])
 
+    @include('partials.chat-widget')
     <script src="/js/theme-toggle.js"></script>
 </body>
 </html>
