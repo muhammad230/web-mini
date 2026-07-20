@@ -40,18 +40,18 @@
             @endauth
         </div>
 
-        {{-- Hamburger (all screens) --}}
-        <div style="position:relative; display:flex;">
+        {{-- Hamburger (mobile/tablet only) --}}
+        <div id="hamburger-wrapper" style="position:relative; display:flex;">
             <button id="hamburger-btn" onclick="toggleHamburger(event)" style="width:40px; height:40px; border-radius:8px; background:transparent; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff;" aria-label="Menu">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             </button>
 
-            <div id="hamburger-menu" style="display:none; position:absolute; top:100%; right:0; margin-top:8px; width:260px; background:#fff; border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,0.2); z-index:9999; padding:8px 0; opacity:0; transform:translateY(-6px); transition:opacity 0.2s ease, transform 0.2s ease;" data-hamburger>
+            <div id="hamburger-menu" style="display:none; position:absolute; top:100%; right:0; margin-top:8px; width:260px; background:#fff; border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,0.2); z-index:9999; padding:8px 0; opacity:0; transform:translateY(-6px); transition:opacity 0.2s ease, transform 0.2s ease;">
                 <div style="display:flex; flex-direction:column;">
                     @foreach($navData['links'] ?? [] as $link)
-                        <a href="{{ $link['url'] ?? '#' }}" onclick="closeHamburger()" style="padding:12px 20px; font-size:0.9rem; font-weight:500; color:#374151; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#F5F1EA'" onmouseout="this.style.background='transparent'">{{ $link['label'] ?? '' }}</a>
+                        <a href="{{ $link['url'] ?? '#' }}" onclick="closeHamburger()" style="display:block; padding:12px 20px; font-size:0.9rem; font-weight:500; color:#374151; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#F5F1EA'" onmouseout="this.style.background='transparent'">{{ $link['label'] ?? '' }}</a>
                     @endforeach
-                    <a href="{{ route('contact') }}" onclick="closeHamburger()" style="padding:12px 20px; font-size:0.9rem; font-weight:500; color:#374151; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#F5F1EA'" onmouseout="this.style.background='transparent'">Contact</a>
+                    <a href="{{ route('contact') }}" onclick="closeHamburger()" style="display:block; padding:12px 20px; font-size:0.9rem; font-weight:500; color:#374151; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#F5F1EA'" onmouseout="this.style.background='transparent'">Contact</a>
                 </div>
 
                 <div style="height:1px; background:#e5e7eb; margin:4px 0;"></div>
@@ -66,13 +66,13 @@
                     @auth
                         <form method="POST" action="{{ route('logout') }}" style="margin:0; padding:0;">
                             @csrf
-                            <button type="submit" onclick="closeHamburger()" style="width:100%; padding:12px 20px; font-size:0.9rem; font-weight:500; color:#374151; background:none; border:none; cursor:pointer; text-align:left; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#F5F1EA'" onmouseout="this.style.background='transparent'">Log out</button>
+                            <button type="submit" onclick="closeHamburger()" style="width:100%; padding:12px 20px; font-size:0.9rem; font-weight:500; color:#374151; background:none; border:none; cursor:pointer; text-align:left; transition:background 0.1s;" onmouseover="this.style.background='#F5F1EA'" onmouseout="this.style.background='transparent'">Log out</button>
                         </form>
                     @else
-                        <div style="display:flex; flex-direction:column;">
-                            <a href="{{ route('login') }}" onclick="closeHamburger()" style="padding:12px 20px; font-size:0.9rem; font-weight:500; color:#374151; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#F5F1EA'" onmouseout="this.style.background='transparent'">Log in</a>
-                            <a href="{{ route('register') }}" onclick="closeHamburger()" style="padding:12px 20px; font-size:0.9rem; font-weight:600; color:#E8823C; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#F5F1EA'" onmouseout="this.style.background='transparent'">Sign up as Customer</a>
-                            <a href="{{ route('professionals.why-join') }}" onclick="closeHamburger()" style="padding:12px 20px; font-size:0.9rem; font-weight:600; color:#E8823C; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#F5F1EA'" onmouseout="this.style.background='transparent'">Sign up as Professional</a>
+                        <div style="display:flex; flex-direction:column; gap:8px; padding:12px 16px 16px;">
+                            <a href="{{ route('login') }}" onclick="closeHamburger()" style="display:block; padding:10px 0; font-size:0.9rem; font-weight:500; color:#374151; text-decoration:none; border-bottom:1px solid #e5e7eb;">Log in</a>
+                            <a href="{{ route('register') }}" onclick="closeHamburger()" style="display:block; text-align:center; background:#E8823C; color:#fff; font-weight:600; font-size:0.9rem; padding:11px 0; border-radius:8px; text-decoration:none; width:100%;">Sign up</a>
+                            <a href="{{ route('professionals.why-join') }}" onclick="closeHamburger()" style="display:block; text-align:center; font-size:0.85rem; font-weight:500; color:#E8823C; text-decoration:none; padding:2px 0;">I'm a professional</a>
                         </div>
                     @endauth
                 </div>
@@ -82,8 +82,15 @@
 </nav>
 
 <style>
+@media (min-width: 1024px) {
+    #hamburger-wrapper { display: none !important; }
+}
 #hamburger-menu {
     max-width: calc(100vw - 32px);
+}
+#hamburger-menu a,
+#hamburger-menu button {
+    color: #374151;
 }
 [data-theme="dark"] #hamburger-menu {
     background: #1E2A28 !important;
@@ -93,15 +100,19 @@
 [data-theme="dark"] #hamburger-menu button {
     color: #d1d5db !important;
 }
-[data-theme="dark"] #hamburger-menu a[style*="color:#E8823C"],
 [data-theme="dark"] #hamburger-menu [style*="color:#E8823C"] {
     color: #E8823C !important;
 }
 [data-theme="dark"] #hamburger-menu [style*="background:#F5F1EA"] {
     background: rgba(255,255,255,0.05) !important;
 }
-[data-theme="dark"] #hamburger-menu [style*="background:#e5e7eb"] {
+[data-theme="dark"] #hamburger-menu [style*="background:#e5e7eb"],
+[data-theme="dark"] #hamburger-menu [style*="border-bottom:1px solid #e5e7eb"] {
     background: #374151 !important;
+    border-bottom-color: #374151 !important;
+}
+[data-theme="dark"] #hamburger-menu [style*="background:#E8823C"] {
+    background: #E8823C !important;
 }
 #hamburger-menu .theme-toggle-btn {
     width: 34px;
@@ -153,4 +164,10 @@ document.addEventListener('keydown', function(e) {
         closeHamburger();
     }
 });
+
+window.addEventListener('scroll', function() {
+    if (hamburgerOpen) {
+        closeHamburger();
+    }
+}, { passive: true });
 </script>
