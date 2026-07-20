@@ -46,7 +46,7 @@
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             </button>
 
-            <div id="hamburger-menu" style="display:none; position:absolute; top:100%; right:0; margin-top:8px; width:260px; background:#fff; border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,0.2); z-index:9999; padding:8px 0; opacity:0; transform:translateY(-6px); transition:opacity 0.2s ease, transform 0.2s ease;">
+            <div id="hamburger-menu" style="display:none; position:fixed; top:70px; right:16px; width:260px; background:#fff; border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,0.2); z-index:9999; padding:8px 0; opacity:0; transform:translateY(-6px); transition:opacity 0.2s ease, transform 0.2s ease;">
                 <div style="display:flex; flex-direction:column;">
                     @foreach($navData['links'] ?? [] as $link)
                         <a href="{{ $link['url'] ?? '#' }}" onclick="closeHamburger()" style="display:block; padding:12px 20px; font-size:0.9rem; font-weight:500; color:#374151; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#F5F1EA'" onmouseout="this.style.background='transparent'">{{ $link['label'] ?? '' }}</a>
@@ -54,13 +54,13 @@
                     <a href="{{ route('contact') }}" onclick="closeHamburger()" style="display:block; padding:12px 20px; font-size:0.9rem; font-weight:500; color:#374151; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#F5F1EA'" onmouseout="this.style.background='transparent'">Contact</a>
                 </div>
 
-                <div style="height:1px; background:#e5e7eb; margin:4px 0;"></div>
+                <div class="hm-divider" style="height:1px; background:#e5e7eb; margin:6px 0;"></div>
 
                 <div style="padding:8px 14px;">
                     @include('partials.theme-toggle')
                 </div>
 
-                <div style="height:1px; background:#e5e7eb; margin:4px 0;"></div>
+                <div class="hm-divider" style="height:1px; background:#e5e7eb; margin:6px 0;"></div>
 
                 <div style="display:flex; flex-direction:column;">
                     @auth
@@ -87,10 +87,15 @@
 }
 #hamburger-menu {
     max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 85px);
+    overflow-y: auto;
 }
 #hamburger-menu a,
 #hamburger-menu button {
     color: #374151;
+}
+#hamburger-menu .hm-divider {
+    background: #e5e7eb !important;
 }
 [data-theme="dark"] #hamburger-menu {
     background: #1E2A28 !important;
@@ -100,19 +105,20 @@
 [data-theme="dark"] #hamburger-menu button {
     color: #d1d5db !important;
 }
+[data-theme="dark"] #hamburger-menu .hm-divider {
+    background: #374151 !important;
+}
 [data-theme="dark"] #hamburger-menu [style*="color:#E8823C"] {
     color: #E8823C !important;
 }
 [data-theme="dark"] #hamburger-menu [style*="background:#F5F1EA"] {
     background: rgba(255,255,255,0.05) !important;
 }
-[data-theme="dark"] #hamburger-menu [style*="background:#e5e7eb"],
-[data-theme="dark"] #hamburger-menu [style*="border-bottom:1px solid #e5e7eb"] {
-    background: #374151 !important;
-    border-bottom-color: #374151 !important;
-}
 [data-theme="dark"] #hamburger-menu [style*="background:#E8823C"] {
     background: #E8823C !important;
+}
+[data-theme="dark"] #hamburger-menu [style*="border-bottom:1px solid #e5e7eb"] {
+    border-bottom-color: #374151 !important;
 }
 #hamburger-menu .theme-toggle-btn {
     width: 34px;
