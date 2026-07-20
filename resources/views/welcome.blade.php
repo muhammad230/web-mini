@@ -155,6 +155,29 @@
         @media (pointer: coarse) {
             .touch-btn { min-height: 48px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
         }
+
+        /* ── Responsive: 320px tiny screens ── */
+        @media (max-width: 360px) {
+            .hero-section { min-height: 260px !important; }
+            .hero-section h1 { font-size: 1.3rem !important; }
+            .hero-text-wrap { padding: 80px 12px 90px !important; max-width: 100% !important; }
+            .hero-text-wrap p { font-size: 0.78rem !important; }
+            .search-card-wrap { padding: 0 8px !important; bottom: -80px !important; }
+            .search-card-inner { padding: 14px 10px 14px !important; }
+            .search-card-inner .search-row { flex-direction: column !important; gap: 10px !important; }
+            .search-card-inner .search-row > div { width: 100% !important; }
+            .search-card-inner .search-row button { width: 100% !important; }
+            .search-row p { font-size: 0.7rem !important; }
+            .home-stats { padding: 16px 12px 24px !important; }
+            .home-trades { padding: 20px 12px 28px !important; }
+            .home-how-it-works { padding: 20px 12px 28px !important; }
+            .home-pros { padding: 20px 12px 28px !important; }
+            .home-testimonials { padding: 20px 12px 28px !important; }
+            .home-cta-pro-section { padding: 0 8px 12px !important; }
+            .home-cta-bottom-section { padding: 12px 12px !important; }
+            .section-heading { font-size: 1.1rem !important; }
+            .home-footer { padding: 20px 12px 16px !important; }
+        }
     </style>
     <link rel="stylesheet" href="/css/dark-mode.css">
 </head>
