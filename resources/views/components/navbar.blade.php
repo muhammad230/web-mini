@@ -85,10 +85,21 @@
 @media (min-width: 1024px) {
     #hamburger-wrapper { display: none !important; }
 }
-#hamburger-menu {
-    max-width: calc(100vw - 32px);
+.hm-menu {
     max-height: calc(100vh - 85px);
     overflow-y: auto;
+}
+@media (max-width: 399px) {
+    .hm-menu { left: 12px !important; right: 12px !important; width: auto !important; }
+}
+@media (min-width: 400px) {
+    .hm-menu { width: 300px !important; right: 14px !important; }
+}
+@media (min-width: 520px) {
+    .hm-menu { width: 320px !important; right: 16px !important; }
+}
+@media (min-width: 768px) {
+    .hm-menu { width: 380px !important; right: 16px !important; }
 }
 #hamburger-menu a,
 #hamburger-menu button {
