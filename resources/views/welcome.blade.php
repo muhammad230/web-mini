@@ -58,13 +58,21 @@
             .search-card-inner .search-row button { width: 100% !important; }
         }
 
+        /* ── Responsive: Hero spacer ── */
+        @media (max-width: 480px) {
+            .hero-search-spacer { height: 100px !important; }
+        }
+        @media (max-width: 360px) {
+            .hero-search-spacer { height: 90px !important; }
+        }
+
         /* ── Responsive: Stats ── */
         @media (max-width: 900px) {
-            .home-stats { padding: 24px 24px 32px !important; }
+            .home-stats { padding: 28px 24px 32px !important; }
             .home-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
         @media (max-width: 480px) {
-            .home-stats { padding: 20px 16px 28px !important; }
+            .home-stats { padding: 24px 16px 28px !important; }
             .home-stats-grid { grid-template-columns: 1fr !important; }
         }
 
@@ -168,7 +176,7 @@
             .search-card-inner .search-row > div { width: 100% !important; }
             .search-card-inner .search-row button { width: 100% !important; }
             .search-row p { font-size: 0.7rem !important; }
-            .home-stats { padding: 16px 12px 24px !important; }
+            .home-stats { padding: 20px 12px 24px !important; }
             .home-trades { padding: 20px 12px 28px !important; }
             .home-how-it-works { padding: 20px 12px 28px !important; }
             .home-pros { padding: 20px 12px 28px !important; }

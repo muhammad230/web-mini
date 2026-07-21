@@ -122,5 +122,5 @@
 
 </div>
 
-{{-- Spacer: clears the 100px card overhang, matches cream background --}}
-<div style="height:80px; background:#f2f1ec;"></div>
+{{-- Spacer: clears the card overhang, matches cream background --}}
+<div class="hero-search-spacer" style="height:120px; background:#f2f1ec;"></div>
