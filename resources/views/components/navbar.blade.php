@@ -51,31 +51,35 @@
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             </button>
 
-            <div id="hamburger-menu" class="hm-menu" style="display:none; position:fixed; top:70px; right:16px; background:#F5F1EA; border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,0.15); z-index:9999; padding:8px 0; opacity:0; transform:translateY(-6px); transition:opacity 0.2s ease, transform 0.2s ease;">
-                <div style="display:flex; justify-content:flex-end; padding:0 10px 0 0;">
+            <!-- Dimmed Backdrop Overlay -->
+            <div id="hamburger-backdrop" onclick="closeHamburger()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.25); backdrop-filter:blur(1px); z-index:9998; opacity:0; transition:opacity 0.2s ease;"></div>
+
+            <!-- Compact Card Dropdown Menu -->
+            <div id="hamburger-menu" class="hm-card-menu" style="display:none; position:fixed; top:64px; right:16px; width:220px; max-width:85vw; background:#ffffff; border-radius:18px; box-shadow:0 12px 36px -4px rgba(0,0,0,0.18), 0 4px 14px rgba(0,0,0,0.08); border:1px solid rgba(0,0,0,0.06); z-index:9999; padding:8px 0; opacity:0; transform:scale(0.95) translateY(-8px); transform-origin:top right; transition:opacity 0.2s ease, transform 0.2s ease;">
+                <!-- Close Button Top Right -->
+                <div style="display:flex; justify-content:flex-end; padding:2px 10px 4px 10px;">
                     <button onclick="closeHamburger()" class="hm-close-btn" aria-label="Close menu">✕</button>
                 </div>
-                <div style="display:flex; flex-direction:column;">
-                    @foreach($navData['links'] ?? [] as $link)
-                        <a href="{{ $link['url'] ?? '#' }}" onclick="closeHamburger()" style="display:block; padding:12px 20px; font-size:0.9rem; font-weight:500; color:#1f2937; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#ece8df'" onmouseout="this.style.background='transparent'">{{ $link['label'] ?? '' }}</a>
-                    @endforeach
-                    <a href="{{ route('contact') }}" onclick="closeHamburger()" style="display:block; padding:12px 20px; font-size:0.9rem; font-weight:500; color:#1f2937; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#ece8df'" onmouseout="this.style.background='transparent'">Contact</a>
-                </div>
 
-                <div class="hm-divider" style="height:1px; background:#e0dcd3; margin:6px 0;"></div>
-
-                <div style="display:flex; flex-direction:column;">
+                <!-- Clean Menu List Rows -->
+                <div class="hm-menu-rows" style="display:flex; flex-direction:column;">
                     @auth
                         <form method="POST" action="{{ route('logout') }}" style="margin:0; padding:0;">
                             @csrf
-                            <button type="submit" onclick="closeHamburger()" style="width:100%; padding:12px 20px; font-size:0.9rem; font-weight:500; color:#1f2937; background:none; border:none; cursor:pointer; text-align:left; transition:background 0.1s;" onmouseover="this.style.background='#ece8df'" onmouseout="this.style.background='transparent'">Log out</button>
+                            <button type="submit" onclick="closeHamburger()" class="hm-row-item" style="width:100%; border:none; background:none; text-align:left; cursor:pointer;">Log out</button>
                         </form>
+                        <a href="{{ Auth::user()->isCustomer() ? route('dashboard.customer') : (Auth::user()->isProfessional() ? route('dashboard.professional') : route('admin.dashboard')) }}" onclick="closeHamburger()" class="hm-row-item">Dashboard</a>
+                        <a href="{{ route('home') }}#how-it-works" onclick="closeHamburger()" class="hm-row-item">How it works</a>
+                        <a href="{{ route('home') }}#browse" onclick="closeHamburger()" class="hm-row-item">Browse services</a>
+                        <a href="{{ route('professionals.why-join') }}" onclick="closeHamburger()" class="hm-row-item">For professionals</a>
+                        <a href="{{ route('contact') }}" onclick="closeHamburger()" class="hm-row-item">Contact</a>
                     @else
-                        <div style="display:flex; flex-direction:column; gap:8px; padding:12px 16px 16px;">
-                            <a href="{{ route('login') }}" onclick="closeHamburger()" style="display:block; padding:10px 0; font-size:0.9rem; font-weight:500; color:#1f2937; text-decoration:none; border-bottom:1px solid #e0dcd3;">Log in</a>
-                            <a href="{{ route('register') }}" onclick="closeHamburger()" style="display:block; text-align:center; background:#E8823C; color:#fff; font-weight:600; font-size:0.9rem; padding:11px 0; border-radius:8px; text-decoration:none; width:100%;">Sign up</a>
-                            <a href="{{ route('professionals.why-join') }}" onclick="closeHamburger()" style="display:block; text-align:center; font-size:0.85rem; font-weight:500; color:#E8823C; text-decoration:none; padding:2px 0;">I'm a professional</a>
-                        </div>
+                        <a href="{{ route('register') }}" onclick="closeHamburger()" class="hm-row-item">Sign up</a>
+                        <a href="{{ route('login') }}" onclick="closeHamburger()" class="hm-row-item">Log in</a>
+                        <a href="{{ route('home') }}#how-it-works" onclick="closeHamburger()" class="hm-row-item">How it works</a>
+                        <a href="{{ route('home') }}#browse" onclick="closeHamburger()" class="hm-row-item">Browse services</a>
+                        <a href="{{ route('professionals.why-join') }}" onclick="closeHamburger()" class="hm-row-item">For professionals</a>
+                        <a href="{{ route('contact') }}" onclick="closeHamburger()" class="hm-row-item">Contact</a>
                     @endauth
                 </div>
             </div>
@@ -85,74 +89,71 @@
 
 <style>
 @media (min-width: 1024px) {
-    #hamburger-wrapper { display: none !important; }
+    #hamburger-wrapper,
+    #hamburger-backdrop {
+        display: none !important;
+    }
 }
-.hm-menu {
-    max-height: 420px;
-    overflow-y: auto;
+.hm-row-item {
+    display: block;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1f2937;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+    box-sizing: border-box;
 }
-@media (max-width: 399px) {
-    .hm-menu { width: 285px !important; right: 12px !important; left: auto !important; }
+.hm-row-item:hover {
+    background: #f8fafc;
+    color: #E8823C;
 }
-@media (min-width: 400px) and (max-width: 767px) {
-    .hm-menu { width: 300px !important; right: 14px !important; }
-}
-@media (min-width: 768px) and (max-width: 1023px) {
-    .hm-menu { width: 360px !important; right: 16px !important; }
+.hm-menu-rows > :not(:last-child) {
+    border-bottom: 1px solid #f1f5f9;
 }
 .hm-close-btn {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     border: none;
-    background: rgba(0,0,0,0.06);
+    background: rgba(0, 0, 0, 0.05);
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    color: #1f2937;
-    transition: background 0.15s;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4b5563;
+    transition: background 0.15s ease, color 0.15s ease;
 }
 .hm-close-btn:hover {
-    background: rgba(0,0,0,0.12);
+    background: rgba(0, 0, 0, 0.1);
+    color: #111827;
 }
-#hamburger-menu a,
-#hamburger-menu button {
-    color: #1f2937;
-}
-#hamburger-menu .hm-divider {
-    background: #e0dcd3 !important;
-}
+
+/* Dark Mode Support */
 [data-theme="dark"] #hamburger-menu {
-    background: #1a2422 !important;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+    background: #1e293b !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 4px 14px rgba(0, 0, 0, 0.4) !important;
 }
-[data-theme="dark"] #hamburger-menu a,
-[data-theme="dark"] #hamburger-menu button {
-    color: #e2e8f0 !important;
+[data-theme="dark"] .hm-row-item {
+    color: #f3f4f6 !important;
 }
-[data-theme="dark"] #hamburger-menu .hm-divider {
-    background: #2d4a3a !important;
-}
-[data-theme="dark"] #hamburger-menu [style*="color:#E8823C"] {
+[data-theme="dark"] .hm-row-item:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
     color: #E8823C !important;
 }
-[data-theme="dark"] #hamburger-menu [style*="background:#ece8df"] {
-    background: rgba(255,255,255,0.06) !important;
-}
-[data-theme="dark"] #hamburger-menu [style*="background:#E8823C"] {
-    background: #E8823C !important;
-}
-[data-theme="dark"] #hamburger-menu [style*="border-bottom:1px solid #e0dcd3"] {
-    border-bottom-color: #2d4a3a !important;
+[data-theme="dark"] .hm-menu-rows > :not(:last-child) {
+    border-bottom-color: rgba(255, 255, 255, 0.08) !important;
 }
 [data-theme="dark"] .hm-close-btn {
-    background: rgba(255,255,255,0.08) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
     color: #e2e8f0 !important;
 }
 [data-theme="dark"] .hm-close-btn:hover {
-    background: rgba(255,255,255,0.15) !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
 }
 </style>
 
@@ -160,28 +161,44 @@
 var hamburgerOpen = false;
 
 function toggleHamburger(e) {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     var menu = document.getElementById('hamburger-menu');
+    var backdrop = document.getElementById('hamburger-backdrop');
     if (hamburgerOpen) {
         closeHamburger();
     } else {
         hamburgerOpen = true;
-        menu.style.display = 'block';
-        requestAnimationFrame(function() {
-            menu.style.opacity = '1';
-            menu.style.transform = 'translateY(0)';
-        });
+        if (backdrop) {
+            backdrop.style.display = 'block';
+            requestAnimationFrame(function() {
+                backdrop.style.opacity = '1';
+            });
+        }
+        if (menu) {
+            menu.style.display = 'block';
+            requestAnimationFrame(function() {
+                menu.style.opacity = '1';
+                menu.style.transform = 'scale(1) translateY(0)';
+            });
+        }
     }
 }
 
 function closeHamburger() {
     var menu = document.getElementById('hamburger-menu');
+    var backdrop = document.getElementById('hamburger-backdrop');
     if (!hamburgerOpen) return;
     hamburgerOpen = false;
-    menu.style.opacity = '0';
-    menu.style.transform = 'translateY(-6px)';
+    if (backdrop) {
+        backdrop.style.opacity = '0';
+    }
+    if (menu) {
+        menu.style.opacity = '0';
+        menu.style.transform = 'scale(0.95) translateY(-8px)';
+    }
     setTimeout(function() {
-        menu.style.display = 'none';
+        if (backdrop) backdrop.style.display = 'none';
+        if (menu) menu.style.display = 'none';
     }, 200);
 }
 
@@ -189,7 +206,7 @@ document.addEventListener('click', function(e) {
     if (hamburgerOpen) {
         var menu = document.getElementById('hamburger-menu');
         var btn = document.getElementById('hamburger-btn');
-        if (!menu.contains(e.target) && !btn.contains(e.target)) {
+        if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
             closeHamburger();
         }
     }
@@ -201,9 +218,9 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-window.addEventListener('scroll', function() {
-    if (hamburgerOpen) {
+window.addEventListener('resize', function() {
+    if (window.innerWidth >= 1024 && hamburgerOpen) {
         closeHamburger();
     }
-}, { passive: true });
+});
 </script>
