@@ -16,7 +16,7 @@ class SiteContentController extends Controller
             'heading_prefix' => 'Get Your Home<br>Jobs Done&nbsp;',
             'highlight_word' => 'Fast &amp;<br>Reliably',
             'subheading' => 'Connect with vetted local professionals for plumbing,<br>electrical, carpentry, and more. Book in minutes,<br>get the job done right.',
-            'hero_image' => 'images/ChatGPT Image Jul 5, 2026, 05_16_55 PM.png',
+            'hero_image' => 'images/slider.png',
             'search_placeholder' => 'Enter your city or zip code',
         ],
         'stats_bar' => [
