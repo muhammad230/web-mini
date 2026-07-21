@@ -35,8 +35,9 @@
     background: #F5F1EA;
     border-radius: 14px;
     padding: 18px 16px;
-    border: 1.5px solid transparent;
+    border: 1.5px solid #e5e7eb;
     transition: background 0.2s, border-color 0.2s;
+    cursor: default;
 }
 .trade-card:hover {
     border-color: #E8823C;

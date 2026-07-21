@@ -9,7 +9,7 @@
             <div style="width:48px; height:3px; background:#E8823C; border-radius:2px; margin:0 auto;"></div>
         </div>
 
-        <div class="home-testimonials-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div class="home-testimonials-grid" style="display:grid; grid-template-columns:1fr; gap:20px; max-width:600px; margin:0 auto;">
 
             {{-- Testimonial 1: Fatima --}}
             <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:28px 24px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
