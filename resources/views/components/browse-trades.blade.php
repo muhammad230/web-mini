@@ -11,13 +11,13 @@
         @foreach(array_chunk(array_values($activeTrades), 4) as $chunk)
         <div class="home-trades-grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; {{ !$loop->last ? 'margin-bottom:14px;' : '' }}">
             @foreach($chunk as $trade)
-            <a href="#" style="background:{{ $trade['bg'] ?? '#faf9f6' }}; border-radius:14px; padding:18px 16px; display:flex; align-items:flex-start; gap:12px; text-decoration:none; border:1.5px solid transparent;">
-                <div style="flex-shrink:0; margin-top:2px;">
-                    @include('components.trade-icons', ['icon' => $trade['icon'] ?? 'handyman', 'color' => $trade['colo'] ?? '#111827'])
+            <a href="#" class="trade-card">
+                <div class="trade-icon-badge">
+                    @include('components.trade-icons', ['icon' => $trade['icon'] ?? 'handyman', 'color' => '#ffffff'])
                 </div>
-                <div>
-                    <div style="font-size:0.88rem; font-weight:700; color:{{ $trade['color'] ?? '#111827' }};">{{ $trade['name'] ?? '' }}</div>
-                    <div style="font-size:0.75rem; color:#6b7280; margin-top:3px;">{!! $trade['description'] ?? '' !!}</div>
+                <div class="trade-text">
+                    <div class="trade-name">{{ $trade['name'] ?? '' }}</div>
+                    <div class="trade-desc">{!! $trade['description'] ?? '' !!}</div>
                 </div>
             </a>
             @endforeach
@@ -25,3 +25,57 @@
         @endforeach
     </div>
 </section>
+
+<style>
+.trade-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    text-decoration: none;
+    background: #F5F1EA;
+    border-radius: 14px;
+    padding: 18px 16px;
+    border: 1.5px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+}
+.trade-card:hover {
+    border-color: #E8823C;
+}
+.trade-icon-badge {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #E8823C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+}
+.trade-icon-badge svg {
+    display: block;
+}
+.trade-text {
+    flex: 1;
+    min-width: 0;
+}
+.trade-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #111827;
+}
+.trade-desc {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 3px;
+}
+[data-theme="dark"] .trade-name {
+    color: #e2e8f0 !important;
+}
+[data-theme="dark"] .trade-desc {
+    color: #9ca3af !important;
+}
+[data-theme="dark"] .trade-icon-badge {
+    background: #E8823C !important;
+}
+</style>
