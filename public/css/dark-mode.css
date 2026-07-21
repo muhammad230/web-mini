@@ -458,8 +458,8 @@ html.theme-transitioning *::after {
    ═════════════════════════════════════════════════════════════════════ */
 /* Light mode base — color inherits from parent so it adapts to context */
 .theme-toggle-btn {
-  background: rgba(0,0,0,0.12);
-  border: 1.5px solid rgba(128,128,128,0.45);
+  background: #e5e7eb;
+  border: 1.5px solid #9ca3af;
   cursor: pointer;
   width: 36px;
   height: 36px;
@@ -477,8 +477,8 @@ html.theme-transitioning *::after {
   flex-shrink: 0;
 }
 .theme-toggle-btn:hover {
-  background: rgba(0,0,0,0.2);
-  border-color: rgba(128,128,128,0.6);
+  background: #d1d5db;
+  border-color: #6b7280;
 }
 .theme-toggle-btn svg {
   transition: transform 0.4s ease;
