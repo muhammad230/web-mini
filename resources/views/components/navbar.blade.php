@@ -25,7 +25,6 @@
                     <button type="submit" class="text-white font-medium hover:text-[#E8823C] transition-colors whitespace-nowrap">Log out</button>
                 </form>
             @else
-                @include('partials.theme-toggle')
                 <a href="{{ route('login') }}" class="text-white font-medium hover:text-[#E8823C] transition-colors whitespace-nowrap">Log in</a>
                 <div class="relative group">
                     <button class="bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-5 py-2 rounded-lg transition-colors cursor-pointer flex items-center gap-1.5 text-sm">
