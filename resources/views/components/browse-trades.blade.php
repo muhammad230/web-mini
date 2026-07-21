@@ -70,6 +70,10 @@
     color: #6b7280;
     margin-top: 3px;
 }
+[data-theme="dark"] .trade-card {
+    border-color: #2d4a3a !important;
+    cursor: default !important;
+}
 [data-theme="dark"] .trade-name {
     color: #e2e8f0 !important;
 }
