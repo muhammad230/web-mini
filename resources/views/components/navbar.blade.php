@@ -40,6 +40,11 @@
             @endauth
         </div>
 
+        {{-- Theme toggle (mobile/tablet) --}}
+        <div class="lg:hidden" style="display:flex; align-items:center;">
+            @include('partials.theme-toggle')
+        </div>
+
         {{-- Hamburger (mobile/tablet only) --}}
         <div id="hamburger-wrapper" style="position:relative; display:flex;">
             <button id="hamburger-btn" onclick="toggleHamburger(event)" style="width:40px; height:40px; border-radius:8px; background:transparent; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff;" aria-label="Menu">
@@ -47,17 +52,14 @@
             </button>
 
             <div id="hamburger-menu" class="hm-menu" style="display:none; position:fixed; top:70px; right:16px; background:#F5F1EA; border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,0.15); z-index:9999; padding:8px 0; opacity:0; transform:translateY(-6px); transition:opacity 0.2s ease, transform 0.2s ease;">
+                <div style="display:flex; justify-content:flex-end; padding:0 10px 0 0;">
+                    <button onclick="closeHamburger()" class="hm-close-btn" aria-label="Close menu">✕</button>
+                </div>
                 <div style="display:flex; flex-direction:column;">
                     @foreach($navData['links'] ?? [] as $link)
                         <a href="{{ $link['url'] ?? '#' }}" onclick="closeHamburger()" style="display:block; padding:12px 20px; font-size:0.9rem; font-weight:500; color:#1f2937; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#ece8df'" onmouseout="this.style.background='transparent'">{{ $link['label'] ?? '' }}</a>
                     @endforeach
                     <a href="{{ route('contact') }}" onclick="closeHamburger()" style="display:block; padding:12px 20px; font-size:0.9rem; font-weight:500; color:#1f2937; text-decoration:none; transition:background 0.1s;" onmouseover="this.style.background='#ece8df'" onmouseout="this.style.background='transparent'">Contact</a>
-                </div>
-
-                <div class="hm-divider" style="height:1px; background:#e0dcd3; margin:6px 0;"></div>
-
-                <div style="padding:8px 14px;">
-                    @include('partials.theme-toggle')
                 </div>
 
                 <div class="hm-divider" style="height:1px; background:#e0dcd3; margin:6px 0;"></div>
@@ -86,20 +88,34 @@
     #hamburger-wrapper { display: none !important; }
 }
 .hm-menu {
-    max-height: calc(100vh - 85px);
+    max-height: 420px;
     overflow-y: auto;
 }
 @media (max-width: 399px) {
-    .hm-menu { left: 12px !important; right: 12px !important; width: auto !important; }
+    .hm-menu { width: 285px !important; right: 12px !important; left: auto !important; }
 }
-@media (min-width: 400px) {
+@media (min-width: 400px) and (max-width: 767px) {
     .hm-menu { width: 300px !important; right: 14px !important; }
 }
-@media (min-width: 520px) {
-    .hm-menu { width: 320px !important; right: 16px !important; }
+@media (min-width: 768px) and (max-width: 1023px) {
+    .hm-menu { width: 360px !important; right: 16px !important; }
 }
-@media (min-width: 768px) {
-    .hm-menu { width: 380px !important; right: 16px !important; }
+.hm-close-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: rgba(0,0,0,0.06);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #1f2937;
+    transition: background 0.15s;
+}
+.hm-close-btn:hover {
+    background: rgba(0,0,0,0.12);
 }
 #hamburger-menu a,
 #hamburger-menu button {
@@ -131,9 +147,12 @@
 [data-theme="dark"] #hamburger-menu [style*="border-bottom:1px solid #e0dcd3"] {
     border-bottom-color: #2d4a3a !important;
 }
-#hamburger-menu .theme-toggle-btn {
-    width: 34px;
-    height: 34px;
+[data-theme="dark"] .hm-close-btn {
+    background: rgba(255,255,255,0.08) !important;
+    color: #e2e8f0 !important;
+}
+[data-theme="dark"] .hm-close-btn:hover {
+    background: rgba(255,255,255,0.15) !important;
 }
 </style>
 
