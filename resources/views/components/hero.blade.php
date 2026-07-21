@@ -104,12 +104,10 @@
 
             {{-- Row 2: Post a job for free --}}
             <div style="display:flex; justify-content:center;">
-                <a href="{{ route('job.post') }}" class="touch-btn" style="display:inline-flex; align-items:center; gap:7px;
+                <a href="{{ route('job.post') }}" class="touch-btn hero-post-btn" style="display:inline-flex; align-items:center; gap:7px;
                                font-size:0.875rem; font-weight:500; color:#4b5563;
                                background:#fff; border:1.5px solid #d1d5db;
-                               border-radius:10px; padding:10px 26px; cursor:pointer; text-decoration:none;"
-                        onmouseover="this.style.borderColor='#e07b39'; this.style.color='#e07b39';"
-                        onmouseout="this.style.borderColor='#d1d5db'; this.style.color='#4b5563';">
+                               border-radius:10px; padding:10px 26px; cursor:pointer; text-decoration:none;">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                     </svg>
@@ -124,3 +122,19 @@
 
 {{-- Spacer: clears the card overhang, matches cream background --}}
 <div class="hero-search-spacer" style="height:120px; background:#f2f1ec;"></div>
+
+<style>
+.hero-post-btn:hover {
+    border-color: #e07b39 !important;
+    color: #e07b39 !important;
+}
+[data-theme="dark"] .hero-post-btn {
+    color: #d1d5db !important;
+    background-color: #1E2A28 !important;
+    border-color: #374151 !important;
+}
+[data-theme="dark"] .hero-post-btn:hover {
+    border-color: #E8823C !important;
+    color: #E8823C !important;
+}
+</style>
