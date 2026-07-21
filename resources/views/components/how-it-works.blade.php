@@ -21,7 +21,7 @@
         {{-- Steps --}}
         <div class="home-how-it-works-grid" style="display:flex; align-items:flex-start; gap:0;">
             @foreach($howItWorks['steps'] ?? [] as $step)
-            <div style="flex:1; display:flex; flex-direction:column; align-items:center; text-align:left; padding:0 16px;">
+            <div class="hiw-step" style="flex:1; display:flex; flex-direction:column; align-items:center; text-align:left; padding:0 16px;">
                 {{-- Number badge + circle --}}
                 <div style="position:relative; margin-bottom:20px;">
                     <div style="position:absolute; top:-6px; left:-6px; z-index:2;
@@ -34,12 +34,12 @@
                     </div>
                 </div>
                 <h3 style="font-size:1rem; font-weight:700; color:#111827; margin:0 0 10px;">{!! $step['title'] ?? '' !!}</h3>
-                <p style="font-size:0.8rem; color:#6b7280; line-height:1.7; margin:0; max-width:180px;">
+                <p class="hiw-desc" style="font-size:0.8rem; color:#6b7280; line-height:1.7; margin:0; max-width:180px;">
                     {!! $step['description'] ?? '' !!}
                 </p>
             </div>
             @if(!$loop->last)
-            <div style="flex-shrink:0; display:flex; align-items:center; padding-top:34px;">
+            <div class="hiw-arrow" style="flex-shrink:0; display:flex; align-items:center; padding-top:34px;">
                 <svg width="80" height="20" viewBox="0 0 80 20" fill="none">
                     <path d="M4 10 Q20 4 40 10 Q60 16 76 10" stroke="#d4900a" stroke-width="2" stroke-dasharray="5 4" fill="none"/>
                     <path d="M70 6l8 4-8 4" stroke="#d4900a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
@@ -50,3 +50,32 @@
         </div>
     </div>
 </section>
+
+<style>
+@media (max-width: 1023px) {
+    .home-how-it-works-grid {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .hiw-step {
+        flex: none !important;
+        width: 100% !important;
+        max-width: 420px !important;
+        padding: 0 !important;
+        text-align: center !important;
+    }
+    .hiw-step .hiw-desc {
+        max-width: 100% !important;
+    }
+    .hiw-arrow {
+        padding: 4px 0 !important;
+        justify-content: center !important;
+    }
+    .hiw-arrow svg {
+        transform: rotate(90deg);
+        transform-origin: center center;
+        width: 24px;
+        height: 80px;
+    }
+}
+</style>
