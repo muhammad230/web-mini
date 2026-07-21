@@ -586,3 +586,208 @@ html.theme-transitioning *::after {
 [data-theme="dark"] .admin-dropdown { background-color: #1E2A28 !important; border-color: #374151 !important; box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important; }
 [data-theme="dark"] .admin-dropdown-item { color: #e2e8f0 !important; }
 [data-theme="dark"] .admin-dropdown-item:hover { background-color: #243330 !important; }
+
+/* ═════════════════════════════════════════════════════════════════════
+   44. ADMIN DASHBOARD — RESPONSIVE LAYOUT (< 1024px)
+   ═════════════════════════════════════════════════════════════════════ */
+
+/* Global body & HTML overflow prevention */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw;
+}
+
+/* Sidebar Drawer & Layout below 1024px breakpoint */
+@media (max-width: 1023px) {
+  /* Main Container resets margin */
+  .main,
+  #main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+
+  /* Desktop Toggle Button hidden */
+  .toggle-btn {
+    display: none !important;
+  }
+
+  /* Mobile Hamburger Button visible */
+  .hamburger-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    color: inherit;
+    border-radius: 6px;
+  }
+  .hamburger-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  [data-theme="dark"] .hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Sidebar Drawer */
+  .sidebar,
+  #sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 270px !important;
+    max-width: 85vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    z-index: 9999 !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3) !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Active Sidebar State (mobile drawer open) */
+  .sidebar.mobile-open,
+  #sidebar.mobile-open {
+    transform: translateX(0) !important;
+  }
+
+  /* Sidebar Content visibility on mobile drawer */
+  .sidebar .nav-item span,
+  .sidebar .nav-label,
+  .sidebar .sidebar-logo span,
+  .sidebar .admin-info,
+  .sidebar .logout-btn span {
+    display: inline-block !important;
+  }
+  .sidebar .admin-profile {
+    display: flex !important;
+  }
+  .sidebar .logout-btn {
+    display: flex !important;
+  }
+
+  /* Scrollable Nav Section inside Drawer */
+  .sidebar .nav-section {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    min-height: 0 !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Fixed Bottom Logout Section inside Drawer */
+  .sidebar .sidebar-bottom {
+    margin-top: auto !important;
+    flex-shrink: 0 !important;
+    border-top: 1px solid #1e4238 !important;
+    padding: 16px !important;
+    background: inherit !important;
+  }
+
+  /* Sidebar Backdrop Overlay */
+  .sidebar-overlay,
+  #sidebarOverlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(2px) !important;
+    z-index: 9998 !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease !important;
+    display: block !important;
+  }
+  .sidebar-overlay.active,
+  #sidebarOverlay.active {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Topbar Layout Adjustments */
+  .topbar {
+    padding: 10px 16px !important;
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+  }
+  .search-box {
+    width: 100% !important;
+    order: 3 !important;
+    margin-top: 4px !important;
+  }
+
+  /* KPI Grid Stacking (Tablets: 2 cols) */
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  /* Charts Grid Stacking */
+  .charts-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* Bottom Grid Stacking */
+  .bottom-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* Content Padding */
+  .content {
+    padding: 16px !important;
+  }
+}
+
+/* Mobile Screens (< 480px) */
+@media (max-width: 479px) {
+  .kpi-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  .kpi-value {
+    font-size: 1.35rem !important;
+  }
+  .page-title {
+    font-size: 1.2rem !important;
+  }
+  .topbar-right .admin-topbar > div {
+    display: none !important;
+  }
+  .topbar-right .admin-topbar svg:last-child {
+    display: none !important;
+  }
+}
+
+/* Table Responsiveness & Contained Horizontal Scroll */
+.table-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  border-radius: 14px;
+}
+.table-card table {
+  min-width: 600px !important;
+  width: 100% !important;
+}
+.table-card th,
+.table-card td {
+  white-space: nowrap !important;
+}
+
+/* Chart Canvas Responsive Sizing */
+.chart-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+.chart-card canvas {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
