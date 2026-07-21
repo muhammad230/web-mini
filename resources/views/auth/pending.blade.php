@@ -105,7 +105,7 @@
         </div>
     </div>
 
-    <div style="position:fixed;top:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.05);padding:4px 8px;border-radius:8px;">
+    <div style="position:fixed;top:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.12);padding:4px 8px;border-radius:8px;">
         @include('partials.theme-toggle')
     </div>
     @include('partials.chat-widget')
