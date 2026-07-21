@@ -73,3 +73,24 @@
 
     </div>
 </footer>
+
+<style>
+@media (max-width: 900px) {
+    .home-footer { padding: 32px 24px 24px !important; }
+    .home-footer-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 28px !important; }
+}
+@media (max-width: 600px) {
+    .home-footer-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+    .home-footer-bottom { flex-direction: column !important; gap: 12px !important; text-align: center !important; }
+}
+@media (max-width: 640px) {
+    .home-footer { padding-bottom: 80px !important; }
+}
+@media (max-width: 480px) {
+    .home-footer { padding: 24px 16px 80px !important; }
+    .home-footer-bottom > div { flex-wrap: wrap !important; justify-content: center !important; gap: 10px !important; }
+}
+@media (max-width: 360px) {
+    .home-footer { padding: 20px 12px 80px !important; }
+}
+</style>
