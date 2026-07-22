@@ -588,8 +588,59 @@ html.theme-transitioning *::after {
 [data-theme="dark"] .admin-dropdown-item:hover { background-color: #243330 !important; }
 
 /* ═════════════════════════════════════════════════════════════════════
-   44. ADMIN DASHBOARD — RESPONSIVE LAYOUT (< 1024px)
+   44. ADMIN CMS PAGE — WEBSITE CONTENT SECTION CARDS
    ═════════════════════════════════════════════════════════════════════ */
+/* CMS page collapsible section cards */
+[data-theme="dark"] .section-card { background-color: #1E2A28 !important; border-color: #374151 !important; }
+
+/* Section header (clickable card header with title) */
+[data-theme="dark"] .section-header { background-color: transparent !important; }
+[data-theme="dark"] .section-header:hover { background-color: #1a2422 !important; }
+
+/* Section titles (h3 elements like "1. Hero Section") */
+[data-theme="dark"] .section-header h3 { color: #f3f4f6 !important; }
+
+/* "Last updated..." text next to chevron */
+[data-theme="dark"] .last-updated { color: #9ca3af !important; }
+
+/* Chevron arrow (dropdown indicator) */
+[data-theme="dark"] .section-header svg { stroke: #9ca3af !important; }
+
+/* Expanded section body (form fields inside) */
+[data-theme="dark"] .section-body { background-color: transparent !important; }
+
+/* Inner edit cards (stat-card-edit, trade-card-edit, etc.) */
+[data-theme="dark"] .stat-card-edit,
+[data-theme="dark"] .trade-card-edit,
+[data-theme="dark"] .step-card-edit { background-color: #1a2422 !important; border-color: #374151 !important; }
+
+/* Link group cards */
+[data-theme="dark"] .link-group-card { background-color: #1a2422 !important; border-color: #374151 !important; }
+
+/* Image preview borders */
+[data-theme="dark"] .image-preview { border-color: #374151 !important; background-color: #1a2422 !important; }
+
+/* Icon select labels (icon picker) */
+[data-theme="dark"] .icon-select label { border-color: #4a5568 !important; }
+[data-theme="dark"] .icon-select label:hover { border-color: #4a5568 !important; background-color: #1a2422 !important; }
+[data-theme="dark"] .icon-select input[type="radio"]:checked + label { border-color: #E8823C !important; background-color: rgba(232,130,60,0.1) !important; }
+
+/* Color picker */
+[data-theme="dark"] .color-picker-wrapper input[type="color"] { border-color: #4a5568 !important; }
+
+/* Toggle switch for auto-calculate stats */
+[data-theme="dark"] .toggle-slider { background-color: #4a5568 !important; }
+[data-theme="dark"] .toggle-switch input:checked + .toggle-slider { background-color: #E8823C !important; }
+
+/* Form field labels in CMS cards */
+[data-theme="dark"] .section-body label,
+[data-theme="dark"] .form-group label { color: #d1d5db !important; }
+
+/* Stats mode label text */
+[data-theme="dark"] #stats-mode-label { color: #9ca3af !important; }
+
+/* Review card */
+[data-theme="dark"] .review-card { background-color: #1a2422 !important; border-color: #374151 !important; }
 
 /* Global body & HTML overflow prevention */
 html, body {
