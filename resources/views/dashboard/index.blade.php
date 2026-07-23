@@ -182,23 +182,14 @@
             .topbar-right { gap: 0.5rem !important; }
             .topbar-right .admin-topbar > div { display: none !important; }
             .topbar-right .admin-topbar svg:last-child { display: none !important; }
-        }
-        @media (max-width: 480px) {
             #notificationDropdown {
                 position: fixed !important;
-                top: 56px !important;
+                top: 68px !important;
                 left: 12px !important;
                 right: 12px !important;
                 width: auto !important;
                 max-height: calc(100vh - 140px) !important;
                 overflow-y: auto !important;
-            }
-            .admin-dropdown.show {
-                position: fixed !important;
-                top: 56px !important;
-                right: 12px !important;
-                left: auto !important;
-                width: 180px !important;
             }
         }
     </style>
@@ -629,7 +620,6 @@ function toggleMobileSidebar() {
 function toggleAdminDropdown(e) {
     e.stopPropagation();
     document.getElementById('adminDropdown').classList.toggle('show');
-}
 }
 document.addEventListener('click', function(e) {
     var dd = document.getElementById('adminDropdown');
