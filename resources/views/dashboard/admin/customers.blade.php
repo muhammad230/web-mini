@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -40,6 +40,7 @@
         .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ece8df; position: sticky; top: 0; z-index: 50; }
         .topbar-left { display: flex; align-items: center; gap: 12px; }
         .toggle-btn { background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
+        .hamburger-btn { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
         .search-box { display: flex; align-items: center; gap: 8px; background: #f5f1ea; border-radius: 10px; padding: 8px 14px; width: 260px; }
         .search-box input { background: none; border: none; outline: none; font-size: 0.85rem; color: #374151; width: 100%; }
         .content { padding: 28px; flex: 1; }
@@ -146,6 +147,9 @@
         <div class="topbar-left">
             <button class="toggle-btn" onclick="toggleSidebar()">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+            <button class="hamburger-btn" onclick="toggleMobileSidebar()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
         </div>
         <div class="flex items-center gap-2">
