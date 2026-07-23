@@ -98,9 +98,6 @@
         /* ── Responsive: Featured Pros ── */
         @media (max-width: 900px) {
             .home-pros { padding: 28px 24px 40px !important; }
-            .home-pros-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-        @media (max-width: 600px) {
             .home-pros-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 480px) {
