@@ -849,11 +849,11 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="text-sm font-medium text-gray-500 mb-2 block">Full Name</label>
-                                <input type="text" value="{{ $pro->name }}" disabled class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-500">
+                                <input type="text" name="name" value="{{ $pro->name }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] outline-none">
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-500 mb-2 block">Email</label>
-                                <input type="email" value="{{ $pro->email }}" disabled class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-500">
+                                <input type="email" name="email" value="{{ $pro->email }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] outline-none">
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-500 mb-2 block">Bio</label>
@@ -898,24 +898,29 @@
                                 <p class="text-sm text-gray-400">Portfolio uploads coming soon</p>
                             </div>
                         </div>
-
-                        {{-- Change password --}}
-                        <h3 class="font-semibold text-[#16302A] mb-4">Change Password</h3>
-                        <form method="POST" action="{{ route('dashboard.professional.password.update') }}" class="space-y-4">
-                            @csrf
-                            @if($errors->has('current_password'))
-                                <p class="text-red-500 text-sm">{{ $errors->first('current_password') }}</p>
-                            @endif
-                            <input type="password" name="current_password" placeholder="Current password" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#E8823C]">
-                            <input type="password" name="password" placeholder="New password (min 8 chars)" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#E8823C]">
-                            <input type="password" name="password_confirmation" placeholder="Confirm new password" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#E8823C]">
-                            <button class="w-full py-3 border border-[#E8823C] text-[#E8823C] font-semibold rounded-lg text-sm hover:bg-[#E8823C] hover:text-white transition">Update Password</button>
-                        </form>
                     </div>
                 </div>
                 <div class="flex justify-end mt-8 gap-4">
                     <button type="reset" class="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg text-sm hover:bg-gray-50">Reset</button>
                     <button type="submit" class="px-6 py-3 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold rounded-lg text-sm transition">Save Changes</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+            <h3 class="font-semibold text-[#16302A] mb-4">Change Password</h3>
+            <form method="POST" action="{{ route('dashboard.professional.password.update') }}" class="space-y-4">
+                @csrf
+                @if($errors->has('current_password'))
+                    <p class="text-red-500 text-sm">{{ $errors->first('current_password') }}</p>
+                @endif
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <input type="password" name="current_password" placeholder="Current password" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#E8823C]">
+                    <input type="password" name="password" placeholder="New password (min 8 chars)" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#E8823C]">
+                    <input type="password" name="password_confirmation" placeholder="Confirm new password" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#E8823C]">
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="px-6 py-3 border border-[#E8823C] text-[#E8823C] font-semibold rounded-lg text-sm hover:bg-[#E8823C] hover:text-white transition">Update Password</button>
                 </div>
             </form>
         </section>
@@ -972,6 +977,7 @@ function promptReschedule(jobId) {
 }
     </script>
     <script src="/js/theme-toggle.js"></script>
+    @include('partials.chat-widget')
 </main>
 
 </body>

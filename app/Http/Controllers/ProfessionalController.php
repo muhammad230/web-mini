@@ -333,6 +333,8 @@ class ProfessionalController extends Controller
         $pro = Auth::user();
 
         $request->validate([
+            'name'            => 'required|string|max:255',
+            'email'           => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
             'bio'             => 'nullable|string|max:500',
             'trade'           => 'nullable|string|max:100',
             'trades'          => 'nullable|array',
@@ -345,7 +347,7 @@ class ProfessionalController extends Controller
         ]);
 
         $data = $request->only([
-            'bio', 'trade', 'years_experience',
+            'name', 'email', 'bio', 'trade', 'years_experience',
             'starting_price', 'service_area', 'location'
         ]);
 
