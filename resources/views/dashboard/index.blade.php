@@ -151,27 +151,18 @@
         }
         @media (max-width: 1024px) {
             .bottom-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 900px) {
-            .sidebar { transform: translateX(-176px); }
-            .sidebar.collapsed { transform: translateX(0); }
-            .sidebar .nav-item span, .sidebar .nav-label, .sidebar .sidebar-logo span,
-            .sidebar .admin-info, .sidebar .logout-btn span { display: none; }
-            .main { margin-left: 64px; }
-            .charts-grid { grid-template-columns: 1fr; }
-            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-            .hamburger-btn { display: none; }
-            .toggle-btn { display: block; }
-        }
-        @media (max-width: 768px) {
+            .hamburger-btn { display: block; }
+            .toggle-btn { display: none; }
             .sidebar { transform: translateX(-100%); width: 280px; }
             .sidebar.collapsed-mobile { transform: translateX(-100%); }
             .sidebar.collapsed { transform: translateX(0); }
             .sidebar .nav-item span, .sidebar .nav-label, .sidebar .sidebar-logo span,
             .sidebar .admin-info, .sidebar .logout-btn span { display: flex; }
             .main { margin-left: 0; }
-            .hamburger-btn { display: block; }
-            .toggle-btn { display: none; }
+        }
+        @media (max-width: 900px) {
+            .charts-grid { grid-template-columns: 1fr; }
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 600px) {
             .kpi-grid { grid-template-columns: 1fr 1fr; }
@@ -285,6 +276,9 @@
     <!-- Topbar -->
     <div class="topbar">
         <div class="topbar-left">
+            <button class="hamburger-btn" onclick="toggleMobileSidebar()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
             <button class="toggle-btn" onclick="toggleSidebar()">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
@@ -609,6 +603,7 @@ function toggleMobileSidebar() {
     const sb = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
     sb.classList.toggle('collapsed');
+    sb.classList.toggle('mobile-open');
     overlay.classList.toggle('active');
 }
 
