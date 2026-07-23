@@ -26,7 +26,7 @@
 let notificationPollInterval = null;
 
 function toggleNotificationDropdown() {
-    const dropdown = document.getElementById('notificationDropdown');
+    var dropdown = document.getElementById('notificationDropdown');
     dropdown.classList.toggle('hidden');
     if (!dropdown.classList.contains('hidden')) {
         fetchRecentNotifications();
