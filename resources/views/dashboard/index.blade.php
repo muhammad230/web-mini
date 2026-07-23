@@ -182,6 +182,24 @@
             .topbar-right { gap: 0.5rem !important; }
             .topbar-right .admin-topbar > div { display: none !important; }
             .topbar-right .admin-topbar svg:last-child { display: none !important; }
+            #notificationDropdown {
+                position: fixed !important;
+                top: 52px !important;
+                left: 12px !important;
+                right: 12px !important;
+                width: auto !important;
+                max-height: calc(100vh - 68px) !important;
+                overflow-y: auto !important;
+            }
+            .admin-dropdown {
+                position: fixed !important;
+                top: 52px !important;
+                right: 12px !important;
+                left: auto !important;
+                width: 180px !important;
+                min-width: 0 !important;
+                max-width: calc(100vw - 24px) !important;
+            }
         }
     </style>
 </head>
