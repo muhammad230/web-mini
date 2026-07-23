@@ -195,9 +195,17 @@ class CustomerController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
             'phone' => 'nullable|string|max:20',
+            'profile_photo' => 'nullable|image|max:2048',
         ]);
 
-        Auth::user()->update($request->only('name', 'email', 'phone'));
+        $data = $request->only('name', 'email', 'phone');
+
+        if ($request->hasFile('profile_photo')) {
+            $path = $request->file('profile_photo')->store('profiles', 'public');
+            $data['profile_photo'] = $path;
+        }
+
+        Auth::user()->update($data);
 
         return back()->with('success', 'Profile updated!');
     }

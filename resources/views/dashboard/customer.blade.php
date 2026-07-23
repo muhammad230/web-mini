@@ -73,9 +73,13 @@
         <!-- Profile Dropdown -->
         <div class="relative group">
             <div class="flex items-center gap-2 cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-[#E8823C] flex items-center justify-center text-white font-bold">
-                    {{ substr(Auth::user()->name, 0, 1) }}
-                </div>
+                @if(Auth::user()->profile_photo)
+                    <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" class="w-10 h-10 rounded-full object-cover">
+                @else
+                    <div class="w-10 h-10 rounded-full bg-[#E8823C] flex items-center justify-center text-white font-bold">
+                        {{ substr(Auth::user()->name, 0, 1) }}
+                    </div>
+                @endif
                 <span class="text-white text-sm font-medium hidden lg:block">{{ Auth::user()->name }}</span>
                 <svg width="16" height="16" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
@@ -532,9 +536,23 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
                 <h3 class="font-semibold text-[#16302A] mb-4">Personal Information</h3>
-                <form method="POST" action="{{ route('dashboard.customer.profile.update') }}">
+                <form method="POST" action="{{ route('dashboard.customer.profile.update') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="space-y-4">
+                        <div class="flex items-center gap-4 mb-4">
+                            @if(Auth::user()->profile_photo)
+                                <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" class="w-20 h-20 rounded-full object-cover">
+                            @else
+                                <div class="w-20 h-20 rounded-full bg-[#E8823C] flex items-center justify-center text-white font-bold text-2xl">
+                                    {{ substr(Auth::user()->name, 0, 1) }}
+                                </div>
+                            @endif
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">Profile Photo</label>
+                                <input type="file" name="profile_photo" accept="image/*" class="text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-[#E8823C] file:text-white file:font-semibold file:text-xs hover:file:bg-[#c96a2a]">
+                                <p class="text-xs text-gray-400 mt-1">Max 2MB. JPG or PNG.</p>
+                            </div>
+                        </div>
                         <div>
                             <label class="text-xs font-medium text-gray-500 mb-1 block">Full Name</label>
                             <input type="text" name="name" value="{{ Auth::user()->name }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
@@ -701,9 +719,23 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                     <h3 class="font-semibold text-[#16302A] mb-4">Personal Information</h3>
-                    <form method="POST" action="{{ route('dashboard.customer.profile.update') }}">
+                    <form method="POST" action="{{ route('dashboard.customer.profile.update') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="space-y-4">
+                            <div class="flex items-center gap-4 mb-4">
+                                @if(Auth::user()->profile_photo)
+                                    <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" class="w-20 h-20 rounded-full object-cover">
+                                @else
+                                    <div class="w-20 h-20 rounded-full bg-[#E8823C] flex items-center justify-center text-white font-bold text-2xl">
+                                        {{ substr(Auth::user()->name, 0, 1) }}
+                                    </div>
+                                @endif
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1 block">Profile Photo</label>
+                                    <input type="file" name="profile_photo" accept="image/*" class="text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-[#E8823C] file:text-white file:font-semibold file:text-xs hover:file:bg-[#c96a2a]">
+                                    <p class="text-xs text-gray-400 mt-1">Max 2MB. JPG or PNG.</p>
+                                </div>
+                            </div>
                             <div>
                                 <label class="text-xs font-medium text-gray-500 mb-1 block">Full Name</label>
                                 <input type="text" name="name" value="{{ Auth::user()->name }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">

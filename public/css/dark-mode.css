@@ -636,6 +636,42 @@ html.theme-transitioning *::after {
 [data-theme="dark"] .section-body label,
 [data-theme="dark"] .form-group label { color: #d1d5db !important; }
 
+/* Form inputs, textareas, selects in CMS cards */
+[data-theme="dark"] .form-control,
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="number"],
+[data-theme="dark"] input[type="tel"],
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background-color: #1a2422 !important;
+  color: #e2e8f0 !important;
+  border-color: #374151 !important;
+}
+
+/* CMS save/cancel buttons inline border-top */
+[data-theme="dark"] .section-body [style*="border-top:1px solid #ece8df"] { border-color: #374151 !important; }
+
+/* CMS section card inner form wrapper */
+[data-theme="dark"] .section-body form { color: #e2e8f0 !important; }
+
+/* CMS section header onclick hover state */
+[data-theme="dark"] .section-card .section-header { cursor: pointer; }
+
+/* CMS danger button (Reset to Default) */
+[data-theme="dark"] .btn-danger { background-color: #3b1419 !important; color: #fca5a5 !important; border-color: #7f1d1d !important; }
+[data-theme="dark"] .btn-danger:hover { background-color: #7f1d1d !important; }
+
+/* CMS grid layout */
+[data-theme="dark"] .grid-2 { border-color: #374151 !important; }
+
+/* CMS image upload wrapper */
+[data-theme="dark"] .image-upload-wrapper { border-color: #374151 !important; background-color: #1a2422 !important; }
+
+/* Flash messages on CMS page */
+[data-theme="dark"] .flash-success { background-color: #14532d !important; color: #86efac !important; border-color: #166534 !important; }
+[data-theme="dark"] .flash-error { background-color: #7f1d1d !important; color: #fca5a5 !important; border-color: #991b1b !important; }
+
 /* Stats mode label text */
 [data-theme="dark"] #stats-mode-label { color: #9ca3af !important; }
 

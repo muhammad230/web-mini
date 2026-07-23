@@ -71,9 +71,13 @@
         <!-- Profile Dropdown -->
         <div class="relative group">
             <div class="flex items-center gap-2 cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-[#E8823C] flex items-center justify-center text-white font-bold">
-                    {{ substr(Auth::user()->name, 0, 1) }}
-                </div>
+                @if(Auth::user()->profile_photo)
+                    <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" class="w-10 h-10 rounded-full object-cover">
+                @else
+                    <div class="w-10 h-10 rounded-full bg-[#E8823C] flex items-center justify-center text-white font-bold">
+                        {{ substr(Auth::user()->name, 0, 1) }}
+                    </div>
+                @endif
                 <span class="text-white text-sm font-medium hidden lg:block">{{ Auth::user()->name }}</span>
                 <svg width="16" height="16" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
