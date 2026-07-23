@@ -288,9 +288,7 @@
             <button class="hamburger-btn" onclick="toggleMobileSidebar()">
                 <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
-            <button class="toggle-btn" onclick="toggleSidebar()">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-            </button>
+
             <form method="GET" action="{{ route('admin.dashboard') }}" class="search-box" style="display:flex;align-items:center;gap:8px;">
                 <svg width="16" height="16" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
                 <input type="text" name="q" value="{{ request('q') }}" placeholder="Search jobs, users, professionals..." style="background:transparent;border:none;outline:none;width:100%;">

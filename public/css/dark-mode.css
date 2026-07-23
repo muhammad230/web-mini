@@ -658,29 +658,7 @@ html, body {
     max-width: 100vw !important;
   }
 
-  /* Desktop Toggle Button hidden */
-  .toggle-btn {
-    display: none !important;
-  }
 
-  /* Mobile Hamburger Button visible */
-  .hamburger-btn {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px;
-    color: inherit;
-    border-radius: 6px;
-  }
-  .hamburger-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
-  }
-  [data-theme="dark"] .hamburger-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
 
   /* Sidebar Drawer */
   .sidebar,
