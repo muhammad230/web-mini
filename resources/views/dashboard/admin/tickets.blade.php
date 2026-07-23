@@ -69,12 +69,25 @@
         .detail-content .label { font-size: 0.72rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
         .detail-content .body-text { font-size: 0.92rem; line-height: 1.7; color: #374151; white-space: pre-wrap; background: #faf9f6; padding: 16px; border-radius: 8px; margin-top: 8px; }
         .close-modal { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #9ca3af; padding: 4px 8px; }
-        @media (max-width: 1024px) { .table-card { overflow-x: auto; } table { min-width: 600px; } }
+        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 90; }
+        .sidebar-overlay.active { display: block; }
+        .sidebar.mobile-open { transform: translateX(0) !important; }
+        @media (max-width: 1024px) {
+            .table-card { overflow-x: auto; } table { min-width: 600px; }
+            .sidebar { transform: translateX(-100%); width: 280px !important; transition: transform 0.3s ease; }
+            .sidebar.collapsed { transform: translateX(0); }
+            .sidebar .nav-item span, .sidebar .nav-label, .sidebar .sidebar-logo span, .sidebar .admin-info, .sidebar .logout-btn span { display: flex !important; }
+            .main { margin-left: 0; }
+            .hamburger-btn { display: block; }
+            .toggle-btn { display: none; }
+        }
         @media (max-width: 768px) { .content { padding: 20px 16px; } .topbar { padding: 12px 16px; } }
         @media (max-width: 600px) { h1.page-title { font-size: 1.15rem; } }
     </style>
 </head>
 <body>
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -223,6 +236,13 @@ function toggleSidebar() {
     const main = document.getElementById('main');
     sb.classList.toggle('collapsed');
     main.classList.toggle('expanded');
+}
+function toggleMobileSidebar() {
+    const sb = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sb.classList.toggle('collapsed');
+    if (overlay) overlay.classList.toggle('active');
+    document.body.style.overflow = sb.classList.contains('collapsed') ? 'hidden' : '';
 }
 
 const messages = @json($messages->items());

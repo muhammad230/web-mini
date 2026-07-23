@@ -64,10 +64,23 @@
         .section-toggle { display: none; }
         .section-toggle-label { cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 600; color: #16302A; padding: 8px 16px; background: #fff; border-radius: 10px; border: 1px solid #ece8df; margin-bottom: 16px; }
         .section-toggle-label:hover { background: #faf8f5; }
+        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 90; }
+        .sidebar-overlay.active { display: block; }
+        .sidebar.mobile-open { transform: translateX(0) !important; }
+        @media (max-width: 1024px) {
+            .sidebar { transform: translateX(-100%); width: 280px !important; transition: transform 0.3s ease; }
+            .sidebar.collapsed { transform: translateX(0); }
+            .sidebar .nav-item span, .sidebar .nav-label, .sidebar .sidebar-logo span, .sidebar .admin-info, .sidebar .logout-btn span { display: flex !important; }
+            .main { margin-left: 0; }
+            .hamburger-btn { display: block; }
+            .toggle-btn { display: none; }
+        }
         @media (max-width: 768px) { .content { padding: 20px 16px; } .topbar { padding: 12px 16px; } .stat-card { padding: 16px; } .stat-value { font-size: 1.4rem; } .table-wrap { overflow-x: auto; } }
     </style>
 </head>
 <body>
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z" fill="#E8823C"/></svg>
@@ -287,6 +300,13 @@ function toggleSidebar() {
     const main = document.getElementById('main');
     sb.classList.toggle('collapsed');
     main.classList.toggle('expanded');
+}
+function toggleMobileSidebar() {
+    const sb = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sb.classList.toggle('collapsed');
+    if (overlay) overlay.classList.toggle('active');
+    document.body.style.overflow = sb.classList.contains('collapsed') ? 'hidden' : '';
 }
 </script>
 <script src="/js/theme-toggle.js"></script>
