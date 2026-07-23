@@ -12,7 +12,7 @@
         <div class="home-testimonials-grid" style="display:grid; grid-template-columns:1fr; gap:20px; max-width:600px; margin:0 auto;">
 
             {{-- Testimonial 1: Fatima --}}
-            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:28px 24px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+            <div data-aos="fade-up" data-aos-delay="0" style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:28px 24px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
                 <div style="font-size:3.5rem; line-height:1; color:#D9A441; font-family:Georgia,serif; margin-bottom:6px; opacity:0.85;">&ldquo;</div>
                 <div style="display:flex; gap:3px; margin-bottom:12px;">
                     @for($i = 1; $i <= 5; $i++)<svg width="16" height="16" viewBox="0 0 24 24" fill="#D9A441" stroke="#D9A441" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>@endfor
@@ -30,7 +30,7 @@
             </div>
 
             {{-- Testimonial 2: Ahmed --}}
-            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:28px 24px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+            <div data-aos="fade-up" data-aos-delay="100" style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:28px 24px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
                 <div style="font-size:3.5rem; line-height:1; color:#D9A441; font-family:Georgia,serif; margin-bottom:6px; opacity:0.85;">&ldquo;</div>
                 <div style="display:flex; gap:3px; margin-bottom:12px;">
                     @for($i = 1; $i <= 5; $i++)<svg width="16" height="16" viewBox="0 0 24 24" fill="{{ $i <= 4 ? '#D9A441' : 'none' }}" stroke="#D9A441" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>@endfor
@@ -48,7 +48,7 @@
             </div>
 
             {{-- Testimonial 3: Zainab --}}
-            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:28px 24px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+            <div data-aos="fade-up" data-aos-delay="200" style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:28px 24px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
                 <div style="font-size:3.5rem; line-height:1; color:#D9A441; font-family:Georgia,serif; margin-bottom:6px; opacity:0.85;">&ldquo;</div>
                 <div style="display:flex; gap:3px; margin-bottom:12px;">
                     @for($i = 1; $i <= 5; $i++)<svg width="16" height="16" viewBox="0 0 24 24" fill="#D9A441" stroke="#D9A441" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>@endfor

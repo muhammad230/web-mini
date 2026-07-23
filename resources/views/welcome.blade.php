@@ -185,6 +185,9 @@
         }
     </style>
     <link rel="stylesheet" href="/css/dark-mode.css">
+
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body style="margin:0; padding:0; font-family:'Inter',sans-serif; background:#fff; color:#1f2937;">
 
@@ -217,5 +220,76 @@
 
     @include('partials.chat-widget')
     <script src="/js/theme-toggle.js"></script>
+
+    <!-- AOS JS + Init -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 80,
+                easing: 'ease-out-cubic'
+            });
+        });
+    </script>
+
+    <!-- Number Counter Animation -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const statsSection = document.querySelector('.home-stats');
+        if (!statsSection) return;
+
+        const counters = statsSection.querySelectorAll('.stat-number');
+        let animated = false;
+
+        function animateCounters() {
+            if (animated) return;
+            animated = true;
+            counters.forEach(function(el) {
+                const text = el.getAttribute('data-target') || el.textContent.trim();
+                const suffix = text.replace(/[0-9,]/g, '');
+                const target = parseInt(text.replace(/[^0-9]/g, ''), 10);
+                if (isNaN(target)) return;
+                const duration = 2000;
+                const startTime = performance.now();
+
+                function update(now) {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.floor(eased * target);
+                    el.textContent = current.toLocaleString() + suffix;
+                    if (progress < 1) requestAnimationFrame(update);
+                }
+                requestAnimationFrame(update);
+            });
+        }
+
+        const observer = new IntersectionObserver(function(entries) {
+            if (entries[0].isIntersecting) animateCounters();
+        }, { threshold: 0.3 });
+        observer.observe(statsSection);
+    });
+    </script>
+
+    <!-- Hover Micro-Interactions -->
+    <style>
+        .trade-card { transition: transform 0.25s ease, box-shadow 0.25s ease; cursor: default; }
+        .trade-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+
+        .home-pros-grid > div { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        .home-pros-grid > div:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+
+        .home-stats-grid > div { transition: transform 0.25s ease, box-shadow 0.25s ease; cursor: default; }
+        .home-stats-grid > div:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+
+        .home-testimonials-grid > div { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        .home-testimonials-grid > div:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+
+        .touch-btn { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .touch-btn:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(232,130,60,0.4); }
+        .touch-btn:active { transform: scale(0.98); }
+    </style>
 </body>
 </html>

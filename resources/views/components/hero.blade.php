@@ -24,11 +24,11 @@
 
         {{-- Hero text content --}}
         <div class="hero-text-wrap" style="position:relative; z-index:10; padding:100px 56px 160px; max-width:560px;">
-            <h1 style="margin:0 0 20px 0; font-size:3.1rem; font-weight:800;
+            <h1 class="hero-anim hero-anim-1" style="margin:0 0 20px 0; font-size:3.1rem; font-weight:800;
                        color:#ffffff; line-height:1.13; letter-spacing:-0.5px;">
                 {!! $hero['heading_prefix'] ?? 'Get Your Home<br>Jobs Done&nbsp;' !!}<span style="color:#e8a84c;">{!! $hero['highlight_word'] ?? 'Fast&nbsp;&amp;<br>Reliably' !!}</span>
             </h1>
-            <p style="margin:0; font-size:0.88rem; color:#c8d8d2; line-height:1.8; max-width:340px;">
+            <p class="hero-anim hero-anim-2" style="margin:0; font-size:0.88rem; color:#c8d8d2; line-height:1.8; max-width:340px;">
                 {!! $hero['subheading'] ?? 'Connect with vetted local professionals for plumbing,<br>electrical, carpentry, and more. Book in minutes,<br>get the job done right.' !!}
             </p>
         </div>
@@ -36,7 +36,7 @@
     </section>
 
     {{-- ══ SEARCH CARD — absolute, centered, overlaps hero bottom ══ --}}
-    <div class="search-card-wrap" style="position:absolute; bottom:-100px; left:0; right:0; z-index:30; padding:0 56px;">
+    <div class="search-card-wrap hero-anim hero-anim-3" style="position:absolute; bottom:-100px; left:0; right:0; z-index:30; padding:0 56px;">
         <div class="search-card-inner" style="max-width:920px; margin:0 auto; background:#ffffff;
                     border-radius:18px; box-shadow:0 10px 50px rgba(0,0,0,0.16);
                     padding:26px 30px 22px;">
@@ -137,4 +137,22 @@
     border-color: #E8823C !important;
     color: #E8823C !important;
 }
+
+/* Hero entrance animations */
+@keyframes heroTextIn {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes heroCardIn {
+    from { opacity: 0; transform: translateY(60px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.hero-anim {
+    animation-fill-mode: both;
+    animation-duration: 0.8s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hero-anim-1 { animation-name: heroTextIn; animation-delay: 0.2s; }
+.hero-anim-2 { animation-name: heroTextIn; animation-delay: 0.4s; }
+.hero-anim-3 { animation-name: heroCardIn; animation-delay: 0.6s; }
 </style>

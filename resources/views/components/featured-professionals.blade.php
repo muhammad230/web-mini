@@ -12,7 +12,7 @@
         <div class="home-pros-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
 
             {{-- Muhammad Jamil --}}
-            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:24px 20px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+            <div data-aos="fade-up" data-aos-delay="0" style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:24px 20px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
                 <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:14px;">
                     <div style="position:relative; flex-shrink:0;">
                         <div style="width:72px; height:72px; border-radius:50%; background:#E8823C; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; font-weight:700;">M</div>
@@ -38,7 +38,7 @@
             </div>
 
             {{-- Sarah Ahmed --}}
-            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:24px 20px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+            <div data-aos="fade-up" data-aos-delay="100" style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:24px 20px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
                 <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:14px;">
                     <div style="position:relative; flex-shrink:0;">
                         <div style="width:72px; height:72px; border-radius:50%; background:#E8823C; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; font-weight:700;">S</div>
@@ -64,7 +64,7 @@
             </div>
 
             {{-- Rizwan Khan --}}
-            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:24px 20px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+            <div data-aos="fade-up" data-aos-delay="200" style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:24px 20px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
                 <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:14px;">
                     <div style="position:relative; flex-shrink:0;">
                         <div style="width:72px; height:72px; border-radius:50%; background:#E8823C; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; font-weight:700;">R</div>

@@ -21,7 +21,7 @@
         {{-- Steps --}}
         <div class="home-how-it-works-grid" style="display:flex; align-items:flex-start; gap:0;">
             @foreach($howItWorks['steps'] ?? [] as $step)
-            <div class="hiw-step" style="flex:1; display:flex; flex-direction:column; align-items:center; text-align:left; padding:0 16px;">
+            <div class="hiw-step" data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 }}" style="flex:1; display:flex; flex-direction:column; align-items:center; text-align:left; padding:0 16px;">
                 {{-- Number badge + circle --}}
                 <div style="position:relative; margin-bottom:20px;">
                     <div style="position:absolute; top:-6px; left:-6px; z-index:2;

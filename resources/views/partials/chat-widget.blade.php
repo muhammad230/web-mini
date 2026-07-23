@@ -45,6 +45,15 @@
 <style>
 #fixly-chat-widget * { box-sizing: border-box; }
 
+/* FAB pulse glow */
+@keyframes fabPulse {
+    0% { box-shadow: 0 4px 16px rgba(232,130,60,0.4); }
+    50% { box-shadow: 0 4px 16px rgba(232,130,60,0.4), 0 0 0 8px rgba(232,130,60,0.15); }
+    100% { box-shadow: 0 4px 16px rgba(232,130,60,0.4); }
+}
+#chat-fab { animation: fabPulse 2s ease-in-out 3s infinite; }
+#fixly-chat-widget.chat-open #chat-fab { animation: none; }
+
 /* Window background */
 #chat-window { background: #fff; }
 

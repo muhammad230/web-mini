@@ -14,12 +14,12 @@
 <section class="home-stats" style="background:#f2f1ec; padding:32px 56px 40px;">
     <div class="home-stats-grid" style="max-width:960px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:16px;">
         @foreach($statsBar['stats'] ?? [] as $stat)
-        <div style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:20px 20px; display:flex; align-items:center; gap:16px;">
+        <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}" style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:20px 20px; display:flex; align-items:center; gap:16px;">
             <div style="flex-shrink:0; width:52px; height:52px; border-radius:50%; background:{{ $loop->index % 2 === 0 ? '#1b3a30' : '#d4900a' }}; display:flex; align-items:center; justify-content:center;">
                 {!! $icons[$stat['icon'] ?? 'shield'] !!}
             </div>
             <div>
-                <div style="font-size:1.4rem; font-weight:700; color:#111827; line-height:1.2;">{!! $stat['number'] ?? '' !!}</div>
+                <div class="stat-number" data-target="{!! strip_tags($stat['number'] ?? '0') !!}" style="font-size:1.4rem; font-weight:700; color:#111827; line-height:1.2;">{!! $stat['number'] ?? '' !!}</div>
                 <div style="font-size:0.75rem; color:#6b7280; line-height:1.4; margin-top:2px;">{!! $stat['label'] ?? '' !!}</div>
             </div>
         </div>

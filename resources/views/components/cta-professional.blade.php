@@ -1,5 +1,5 @@
 <section class="home-cta-pro-section" style="background:#f2f1ec; padding:0 56px 16px; box-sizing:border-box; width:100%;">
-    <div class="home-cta-pro-inner" style="background:#1b3a30; border-radius:14px; padding:24px 36px;
+    <div class="home-cta-pro-inner" data-aos="zoom-in" style="background:#1b3a30; border-radius:14px; padding:24px 36px;
                 display:flex; align-items:center; justify-content:space-between; gap:24px;
                 max-width:960px; margin:0 auto;">
 
