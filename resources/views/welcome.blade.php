@@ -275,8 +275,7 @@
 
     <!-- Hover Micro-Interactions -->
     <style>
-        .trade-card { transition: transform 0.25s ease, box-shadow 0.25s ease; cursor: default; }
-        .trade-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+        .trade-card { cursor: default; }
 
         .home-pros-grid > div { transition: transform 0.25s ease, box-shadow 0.25s ease; }
         .home-pros-grid > div:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }

@@ -11,7 +11,7 @@
         @foreach(array_chunk(array_values($activeTrades), 4) as $chunk)
         <div class="home-trades-grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; {{ !$loop->last ? 'margin-bottom:14px;' : '' }}">
             @foreach($chunk as $trade)
-            <a href="#" class="trade-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
+            <div class="trade-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
                 <div class="trade-icon-badge">
                     @include('components.trade-icons', ['icon' => $trade['icon'] ?? 'handyman', 'color' => '#ffffff'])
                 </div>
@@ -19,7 +19,7 @@
                     <div class="trade-name">{{ $trade['name'] ?? '' }}</div>
                     <div class="trade-desc">{!! $trade['description'] ?? '' !!}</div>
                 </div>
-            </a>
+            </div>
             @endforeach
         </div>
         @endforeach
@@ -38,9 +38,6 @@
     border: 1.5px solid #e5e7eb;
     transition: background 0.2s, border-color 0.2s;
     cursor: default;
-}
-.trade-card:hover {
-    border-color: #E8823C;
 }
 .trade-icon-badge {
     flex-shrink: 0;
