@@ -90,25 +90,25 @@ class SiteContentController extends Controller
                 [
                     'title' => 'Company',
                     'links' => [
-                        ['label' => 'About us', 'url' => '#'],
-                        ['label' => 'Careers', 'url' => '#'],
-                        ['label' => 'Press', 'url' => '#'],
+                        ['label' => 'About us', 'url' => '/about'],
+                        ['label' => 'Careers', 'url' => '/careers'],
+                        ['label' => 'Press', 'url' => '/press'],
                     ],
                 ],
                 [
                     'title' => 'For Customers',
                     'links' => [
-                        ['label' => 'How it works', 'url' => '#'],
-                        ['label' => 'Browse services', 'url' => '#'],
-                        ['label' => 'Help center', 'url' => '#'],
+                        ['label' => 'How it works', 'url' => '/#how-it-works'],
+                        ['label' => 'Browse services', 'url' => '/#browse'],
+                        ['label' => 'Help center', 'url' => '/contact'],
                     ],
                 ],
                 [
                     'title' => 'For Pros',
                     'links' => [
-                        ['label' => 'Join as a pro', 'url' => '#'],
-                        ['label' => 'Pro dashboard', 'url' => '#'],
-                        ['label' => 'Resources', 'url' => '#'],
+                        ['label' => 'Join as a pro', 'url' => '/professionals/why-join'],
+                        ['label' => 'Pro dashboard', 'url' => '/dashboard/professional'],
+                        ['label' => 'Resources', 'url' => '/resources'],
                     ],
                 ],
             ],

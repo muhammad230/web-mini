@@ -46,12 +46,25 @@
             </div>
 
             {{-- Link groups --}}
+            @php
+                $fallbackUrls = [
+                    'About us' => route('about'),
+                    'Careers' => route('careers'),
+                    'Press' => route('press'),
+                    'How it works' => '/#how-it-works',
+                    'Browse services' => '/#browse',
+                    'Help center' => route('contact'),
+                    'Join as a pro' => route('professionals.why-join'),
+                    'Pro dashboard' => route('dashboard.professional'),
+                    'Resources' => route('resources'),
+                ];
+            @endphp
             @foreach($footerData['link_groups'] ?? [] as $group)
             <div>
                 <h4 style="font-size:0.9rem; font-weight:700; color:#fff; margin:0 0 16px;">{{ $group['title'] ?? '' }}</h4>
                 <div style="display:flex; flex-direction:column; gap:10px;">
                     @foreach($group['links'] ?? [] as $link)
-                    <a href="{{ $link['url'] ?? '#' }}" style="font-size:0.8rem; color:#8aaa9e; text-decoration:none;">{{ $link['label'] ?? '' }}</a>
+                    <a href="{{ ($link['url'] ?? '#') === '#' ? ($fallbackUrls[$link['label'] ?? ''] ?? '#') : $link['url'] }}" style="font-size:0.8rem; color:#8aaa9e; text-decoration:none;">{{ $link['label'] ?? '' }}</a>
                     @endforeach
                 </div>
             </div>
@@ -65,9 +78,9 @@
             <p style="font-size:0.75rem; color:#8aaa9e; margin:0;">&copy; {{ date('Y') }} {{ $footerData['copyright'] ?? 'Fixly. All rights reserved.' }}</p>
             <div style="display:flex; gap:20px;">
                 <a href="{{ route('contact') }}" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Contact</a>
-                <a href="#" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Privacy Policy</a>
-                <a href="#" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Terms of Service</a>
-                <a href="#" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Legal</a>
+                <a href="{{ route('privacy') }}" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Privacy Policy</a>
+                <a href="{{ route('terms') }}" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Terms of Service</a>
+                <a href="{{ route('terms') }}" style="font-size:0.75rem; color:#8aaa9e; text-decoration:none;">Legal</a>
             </div>
         </div>
 
@@ -94,3 +107,17 @@
     .home-footer { padding: 20px 12px 80px !important; }
 }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var hash = window.location.hash;
+    if (hash) {
+        var target = document.querySelector(hash);
+        if (target) {
+            setTimeout(function() {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+    }
+});
+</script>

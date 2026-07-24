@@ -85,6 +85,14 @@ Route::get('/professionals/why-join', [\App\Http\Controllers\ProfessionalInfoCon
 Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'submit'])->name('contact.submit');
 
+// ── Public Pages ─────────────────────────────────────────────────────
+Route::get('/about', fn() => view('pages.about'))->name('about');
+Route::get('/careers', fn() => view('pages.careers'))->name('careers');
+Route::get('/press', fn() => view('pages.press'))->name('press');
+Route::get('/resources', fn() => view('pages.resources'))->name('resources');
+Route::get('/privacy', fn() => view('pages.privacy'))->name('privacy');
+Route::get('/terms', fn() => view('pages.terms'))->name('terms');
+
 // ── Public Auth (Login, Register, Logout) ─────────────────────────────────
 Route::prefix('auth')->name('')->group(function () {
     Route::get('/login', [PublicAuthController::class, 'showLogin'])->name('login');
