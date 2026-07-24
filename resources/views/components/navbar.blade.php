@@ -20,6 +20,15 @@
         {{-- Desktop auth buttons --}}
         <div class="hidden lg:flex items-center gap-4" style="color:#fff;">
             @auth
+                <a href="{{ Auth::user()->isCustomer() ? route('dashboard.customer') : (Auth::user()->isProfessional() ? route('dashboard.professional') : route('admin.dashboard')) }}" class="flex items-center gap-2 text-white hover:text-[#E8823C] transition-colors whitespace-nowrap">
+                    @if(Auth::user()->profile_photo)
+                        <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" class="w-8 h-8 rounded-full object-cover" alt="{{ Auth::user()->name }}">
+                    @else
+                        <div class="w-8 h-8 rounded-full bg-[#E8823C] flex items-center justify-center text-white font-bold text-xs">{{ substr(Auth::user()->name, 0, 1) }}</div>
+                    @endif
+                    <span class="font-medium">{{ Auth::user()->name }}</span>
+                </a>
+                <a href="{{ Auth::user()->isCustomer() ? route('dashboard.customer') : (Auth::user()->isProfessional() ? route('dashboard.professional') : route('admin.dashboard')) }}" class="bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap text-sm">Dashboard</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="text-white font-medium hover:text-[#E8823C] transition-colors whitespace-nowrap">Log out</button>

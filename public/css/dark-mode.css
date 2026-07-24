@@ -243,6 +243,8 @@ html.theme-transitioning *::after {
 [data-theme="dark"] .topbar { background-color: #1E2A28 !important; border-bottom: 1px solid #374151 !important; }
 [data-theme="dark"] .topbar-left button { color: #d1d5db !important; }
 [data-theme="dark"] .topbar-left button:hover { background-color: rgba(255,255,255,0.05) !important; }
+[data-theme="dark"] .topbar-left a > span { color: #ffffff !important; }
+[data-theme="dark"] .topbar-left a > span > span { color: #E8823C !important; }
 [data-theme="dark"] .topbar-right .profile-name { color: #e2e8f0 !important; }
 
 /* ═════════════════════════════════════════════════════════════════════

@@ -221,6 +221,10 @@
 <div class="main" id="main">
     <div class="topbar">
         <div class="topbar-left">
+            <a href="{{ route('home') }}" class="flex items-center gap-2" title="Back to Website" style="text-decoration:none; flex-shrink:0;">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H15v-5h-6v5H4a1 1 0 01-1-1V9.5z" fill="#E8823C"/></svg>
+                <span style="font-weight:700; font-size:1rem; color:#111827; white-space:nowrap;">Fix<span style="color:#E8823C;">ly</span></span>
+            </a>
             <button class="toggle-btn" onclick="toggleSidebar()">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>            <button class="hamburger-btn" onclick="toggleMobileSidebar()">
