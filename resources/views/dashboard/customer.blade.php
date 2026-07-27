@@ -21,14 +21,17 @@
             header nav a { flex-shrink: 0; }
             .main-content { padding-left: 1rem !important; padding-right: 1rem !important; }
             .post-job-btn { width: 100%; justify-content: center; }
-            .modal-inner { padding: 1.25rem !important; margin: 0.5rem; }
+            .modal-inner { padding: 1.25rem !important; margin: 0.5rem !important; max-height: 90vh !important; overflow-y: auto !important; }
             .modal-inner h3 { font-size: 1.25rem !important; }
+            .modal-inner .grid.grid-cols-2 { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 480px) {
             h1.text-3xl { font-size: 1.5rem !important; }
             h2.text-xl { font-size: 1.15rem !important; }
             .grid.gap-4 > div { padding: 1rem !important; }
             .grid.gap-4 > div .text-2xl { font-size: 1.25rem !important; }
+            .modal-inner { padding: 1rem !important; margin: 0.25rem !important; }
+            .modal-inner input, .modal-inner select, .modal-inner textarea { font-size: 0.875rem !important; padding: 0.625rem 0.75rem !important; }
         }
         @media (max-width: 420px) {
             header nav { gap: 0.125rem !important; }
@@ -37,6 +40,59 @@
         @media (max-width: 375px) {
             .profile-dropdown-text { display: none !important; }
             header nav a { font-size: 0.6rem !important; padding: 0.25rem 0.375rem !important; }
+            .modal-inner { padding: 0.875rem !important; }
+        }
+
+        /* Modal Dark Mode */
+        [data-theme="dark"] #post-job-modal > div,
+        [data-theme="dark"] #add-address-modal > div {
+            background: #1e293b !important;
+            border: 1px solid #374151 !important;
+        }
+        [data-theme="dark"] #post-job-modal h3,
+        [data-theme="dark"] #add-address-modal h3 {
+            color: #f3f4f6 !important;
+        }
+        [data-theme="dark"] #post-job-modal label,
+        [data-theme="dark"] #add-address-modal label {
+            color: #d1d5db !important;
+        }
+        [data-theme="dark"] #post-job-modal input,
+        [data-theme="dark"] #post-job-modal select,
+        [data-theme="dark"] #post-job-modal textarea,
+        [data-theme="dark"] #add-address-modal input,
+        [data-theme="dark"] #add-address-modal select,
+        [data-theme="dark"] #add-address-modal textarea {
+            background: #0f172a !important;
+            border-color: #374151 !important;
+            color: #e2e8f0 !important;
+        }
+        [data-theme="dark"] #post-job-modal input::placeholder,
+        [data-theme="dark"] #post-job-modal textarea::placeholder,
+        [data-theme="dark"] #add-address-modal input::placeholder,
+        [data-theme="dark"] #add-address-modal textarea::placeholder {
+            color: #6b7280 !important;
+        }
+        [data-theme="dark"] #post-job-modal .border-gray-300,
+        [data-theme="dark"] #add-address-modal .border-gray-300 {
+            border-color: #374151 !important;
+        }
+        [data-theme="dark"] #post-job-modal button[type="button"],
+        [data-theme="dark"] #add-address-modal button[type="button"] {
+            color: #d1d5db !important;
+            border-color: #4b5563 !important;
+        }
+        [data-theme="dark"] #post-job-modal button[type="button"]:hover,
+        [data-theme="dark"] #add-address-modal button[type="button"]:hover {
+            background: rgba(255,255,255,0.05) !important;
+        }
+        [data-theme="dark"] #post-job-modal .text-gray-500,
+        [data-theme="dark"] #add-address-modal .text-gray-500 {
+            color: #9ca3af !important;
+        }
+        [data-theme="dark"] #post-job-modal .text-gray-700,
+        [data-theme="dark"] #add-address-modal .text-gray-700 {
+            color: #d1d5db !important;
         }
     </style>
 </head>
@@ -808,7 +864,7 @@
     </div>
 
     <!-- Post Job Modal -->
-    <div id="post-job-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000]">
+    <div id="post-job-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000] overflow-y-auto">
         <div class="bg-white rounded-2xl p-8 w-full max-w-md modal-inner">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-2xl font-bold text-[#16302A]">Post a New Job</h3>
@@ -871,7 +927,7 @@
     </div>
 
     <!-- Add Address Modal -->
-    <div id="add-address-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000]">
+    <div id="add-address-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000] overflow-y-auto">
         <div class="bg-white rounded-2xl p-8 w-full max-w-md modal-inner">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-2xl font-bold text-[#16302A]">Add New Address</h3>
