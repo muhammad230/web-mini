@@ -21,7 +21,7 @@
             header nav a { flex-shrink: 0; }
             .main-content { padding-left: 1rem !important; padding-right: 1rem !important; }
             .post-job-btn { width: 100%; justify-content: center; }
-            .modal-inner { padding: 1.25rem !important; margin: 0.5rem !important; max-height: 90vh !important; overflow-y: auto !important; }
+            .modal-inner { padding: 1.25rem !important; margin: 0.75rem auto !important; max-width: calc(100vw - 1rem) !important; }
             .modal-inner h3 { font-size: 1.25rem !important; }
             .modal-inner .grid.grid-cols-2 { grid-template-columns: 1fr !important; }
         }
@@ -30,7 +30,7 @@
             h2.text-xl { font-size: 1.15rem !important; }
             .grid.gap-4 > div { padding: 1rem !important; }
             .grid.gap-4 > div .text-2xl { font-size: 1.25rem !important; }
-            .modal-inner { padding: 1rem !important; margin: 0.25rem !important; }
+            .modal-inner { padding: 1rem !important; margin: 0.5rem auto !important; }
             .modal-inner input, .modal-inner select, .modal-inner textarea { font-size: 0.875rem !important; padding: 0.625rem 0.75rem !important; }
         }
         @media (max-width: 420px) {
@@ -40,7 +40,7 @@
         @media (max-width: 375px) {
             .profile-dropdown-text { display: none !important; }
             header nav a { font-size: 0.6rem !important; padding: 0.25rem 0.375rem !important; }
-            .modal-inner { padding: 0.875rem !important; }
+            .modal-inner { padding: 0.875rem !important; margin: 0.25rem auto !important; }
         }
 
         /* Modal Dark Mode */
@@ -864,8 +864,8 @@
     </div>
 
     <!-- Post Job Modal -->
-    <div id="post-job-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000] overflow-y-auto">
-        <div class="bg-white rounded-2xl p-8 w-full max-w-md modal-inner">
+    <div id="post-job-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[1000] overflow-y-auto">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md modal-inner" style="margin: 2rem auto;">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-2xl font-bold text-[#16302A]">Post a New Job</h3>
                 <button onclick="document.getElementById('post-job-modal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">
@@ -927,8 +927,8 @@
     </div>
 
     <!-- Add Address Modal -->
-    <div id="add-address-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000] overflow-y-auto">
-        <div class="bg-white rounded-2xl p-8 w-full max-w-md modal-inner">
+    <div id="add-address-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[1000] overflow-y-auto">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md modal-inner" style="margin: 2rem auto;">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-2xl font-bold text-[#16302A]">Add New Address</h3>
                 <button onclick="document.getElementById('add-address-modal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">
