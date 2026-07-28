@@ -16,6 +16,9 @@
             $stat['number'] = 'Fast Response';
             $stat['label'] = 'Quick pro matching';
         }
+        if ($stat['icon'] === 'star' && $num === '4.8') {
+            $stat['number'] = '4.8';
+        }
     }
     unset($stat);
 @endphp

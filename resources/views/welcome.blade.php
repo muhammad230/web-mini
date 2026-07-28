@@ -248,9 +248,12 @@
             animated = true;
             counters.forEach(function(el) {
                 const text = el.getAttribute('data-target') || el.textContent.trim();
-                const suffix = text.replace(/[0-9,]/g, '');
-                const target = parseInt(text.replace(/[^0-9]/g, ''), 10);
+                const hasDecimal = text.includes('.');
+                const suffix = text.replace(/[0-9,.\-]/g, '');
+                const cleanNum = text.replace(/[^0-9.]/g, '');
+                const target = parseFloat(cleanNum);
                 if (isNaN(target)) return;
+                const decimals = hasDecimal ? (cleanNum.split('.')[1] || '').length : 0;
                 const duration = 2000;
                 const startTime = performance.now();
 
@@ -258,8 +261,9 @@
                     const elapsed = now - startTime;
                     const progress = Math.min(elapsed / duration, 1);
                     const eased = 1 - Math.pow(1 - progress, 3);
-                    const current = Math.floor(eased * target);
-                    el.textContent = current.toLocaleString() + suffix;
+                    const current = eased * target;
+                    const formatted = decimals > 0 ? current.toFixed(decimals) : Math.floor(current).toLocaleString();
+                    el.textContent = formatted + suffix;
                     if (progress < 1) requestAnimationFrame(update);
                 }
                 requestAnimationFrame(update);
