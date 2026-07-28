@@ -10,17 +10,6 @@
         'thumbsup' => '<svg width="24" height="24" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/></svg>',
     ];
     $stats = $statsBar['stats'] ?? [];
-    foreach ($stats as &$stat) {
-        $num = strip_tags($stat['number'] ?? '');
-        if ($stat['icon'] === 'lightning' && preg_match('/2\s*h/i', $num)) {
-            $stat['number'] = 'Fast Response';
-            $stat['label'] = 'Quick pro matching';
-        }
-        if ($stat['icon'] === 'star' && $num === '4.8') {
-            $stat['number'] = '4.8';
-        }
-    }
-    unset($stat);
 @endphp
 
 <section class="home-stats" style="background:#f2f1ec; padding:32px 56px 40px;">
