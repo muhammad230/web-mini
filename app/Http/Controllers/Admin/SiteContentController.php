@@ -23,7 +23,7 @@ class SiteContentController extends Controller
             'auto_calculate' => true,
             'stats' => [
                 ['icon' => 'shield', 'number' => '5,000+', 'label' => "Verified<br>Professionals"],
-                ['icon' => 'lightning', 'number' => '< 2h', 'label' => "Avg Response<br>Time"],
+                ['icon' => 'lightning', 'number' => 'Fast Response', 'label' => "Quick pro matching"],
                 ['icon' => 'briefcase', 'number' => '50,000+', 'label' => "Jobs<br>Completed"],
                 ['icon' => 'star', 'number' => '4.8', 'label' => "Avg<br>Rating"],
             ],
