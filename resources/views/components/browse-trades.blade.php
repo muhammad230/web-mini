@@ -11,7 +11,7 @@
         @foreach(array_chunk(array_values($activeTrades), 4) as $chunk)
         <div class="home-trades-grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; {{ !$loop->last ? 'margin-bottom:14px;' : '' }}">
             @foreach($chunk as $trade)
-            <div class="trade-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
+            <a class="trade-card" href="{{ route('job.search', ['trade' => $trade['name']]) }}" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
                 <div class="trade-icon-badge">
                     @include('components.trade-icons', ['icon' => $trade['icon'] ?? 'handyman', 'color' => '#ffffff'])
                 </div>
@@ -19,7 +19,7 @@
                     <div class="trade-name">{{ $trade['name'] ?? '' }}</div>
                     <div class="trade-desc">{!! $trade['description'] ?? '' !!}</div>
                 </div>
-            </div>
+            </a>
             @endforeach
         </div>
         @endforeach
@@ -36,8 +36,13 @@
     border-radius: 14px;
     padding: 18px 16px;
     border: 1.5px solid #e5e7eb;
-    transition: background 0.2s, border-color 0.2s;
-    cursor: default;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+.trade-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    border-color: #E8823C;
 }
 .trade-icon-badge {
     flex-shrink: 0;
@@ -69,7 +74,11 @@
 }
 [data-theme="dark"] .trade-card {
     border-color: #2d4a3a !important;
-    cursor: default !important;
+    cursor: pointer !important;
+}
+[data-theme="dark"] .trade-card:hover {
+    border-color: #E8823C !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
 }
 [data-theme="dark"] .trade-name {
     color: #e2e8f0 !important;
