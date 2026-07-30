@@ -53,7 +53,7 @@
                 <div style="display:flex; gap:3px; margin-bottom:12px;">
                     @for($i = 1; $i <= 5; $i++)<svg width="16" height="16" viewBox="0 0 24 24" fill="#D9A441" stroke="#D9A441" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>@endfor
                 </div>
-                <p style="font-size:0.88rem; color:#374151; line-height:1.7; margin:0 0 20px;">
+                <p class="testimonial-desc" style="font-size:0.88rem; color:#374151; line-height:1.7; margin:0 0 20px;">
                     &ldquo;Rizwan Khan built custom cabinets for our kitchen and they exceeded our expectations. His attention to detail is amazing. Will definitely hire again!&rdquo;
                 </p>
                 <div style="display:flex; align-items:center; gap:10px;">
@@ -69,3 +69,16 @@
 
     </div>
 </section>
+
+<style>
+.testimonial-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+[data-theme="dark"] .testimonial-desc {
+    color: #d1d5db !important;
+}
+</style>
