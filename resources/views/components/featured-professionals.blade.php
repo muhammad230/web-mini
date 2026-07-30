@@ -31,7 +31,7 @@
                         </div>
                     </div>
                 </div>
-                <p style="font-size:0.78rem; color:#6b7280; line-height:1.65; margin:0 0 14px;">
+                <p class="pro-desc" style="font-size:0.78rem; color:#6b7280; line-height:1.65; margin:0 0 14px;">
                     12+ years experience in plumbing and water system repairs. Verified professional ready to help with all your plumbing needs.
                 </p>
                 <div style="font-size:0.85rem; font-weight:700; color:#E8823C;">Starting from Rs. 1,500</div>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <p style="font-size:0.78rem; color:#6b7280; line-height:1.65; margin:0 0 14px;">
+                <p class="pro-desc" style="font-size:0.78rem; color:#6b7280; line-height:1.65; margin:0 0 14px;">
                     8+ years experience in residential and commercial electrical work. Expert in wiring, fixtures, and troubleshooting.
                 </p>
                 <div style="font-size:0.85rem; font-weight:700; color:#E8823C;">Starting from Rs. 2,000</div>
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-                <p style="font-size:0.78rem; color:#6b7280; line-height:1.65; margin:0 0 14px;">
+                <p class="pro-desc" style="font-size:0.78rem; color:#6b7280; line-height:1.65; margin:0 0 14px;">
                     15+ years experience in custom furniture, kitchen cabinets, and home renovations. Known for precision and quality craftsmanship.
                 </p>
                 <div style="font-size:0.85rem; font-weight:700; color:#E8823C;">Starting from Rs. 3,000</div>
@@ -92,4 +92,18 @@
         </div>
 
     </div>
+
 </section>
+
+<style>
+.pro-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+[data-theme="dark"] .pro-desc {
+    color: #9ca3af !important;
+}
+</style>
