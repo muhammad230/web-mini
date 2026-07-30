@@ -7,6 +7,10 @@ use App\Http\Controllers\CustomerController;
 
 use App\Helpers\SiteContentHelper;
 use App\Http\Controllers\Admin\SiteContentController;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 Route::get('/', function () {
     $hero        = SiteContentHelper::get('hero', \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['hero']);
@@ -22,6 +26,53 @@ Route::get('/', function () {
         'ctaBanner', 'footerData', 'navData'
     ));
 })->name('home');
+
+// ── Password Reset ──────────────────────────────────────────
+Route::get('/auth/forgot-password', function () {
+    return view('auth.forgot-password');
+})->name('password.request');
+
+Route::post('/auth/forgot-password', function (\Illuminate\Http\Request $request) {
+    $request->validate(['email' => 'required|email']);
+
+    $status = Password::sendResetLink(
+        $request->only('email')
+    );
+
+    return $status === Password::RESET_LINK_SENT
+        ? back()->with(['status' => __($status)])
+        : back()->withErrors(['email' => __($status)]);
+})->name('password.email');
+
+Route::get('/auth/reset-password/{token}', function (string $token, \Illuminate\Http\Request $request) {
+    return view('auth.reset-password', [
+        'token' => $token,
+        'email' => $request->query('email'),
+    ]);
+})->name('password.reset');
+
+Route::post('/auth/reset-password', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:8|confirmed',
+    ]);
+
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->forceFill([
+                'password' => Hash::make($password),
+            ])->setRememberToken(Str::random(60));
+            $user->save();
+            event(new PasswordReset($user));
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+        ? redirect()->route('login')->with('status', __($status))
+        : back()->withErrors(['email' => [__($status)]]);
+})->name('password.update');
 
 // ── Job Search & Post (from homepage CTAs) ──────────────────────────────
 Route::get('/job/search', function (\Illuminate\Http\Request $request) {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Fixly</title>
+    <title>Forgot Password - Fixly</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -16,6 +16,8 @@
             body { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
             .auth-card { padding: 1rem !important; }
         }
+        [data-theme="dark"] .bg-green-50 { background-color: #0f2e1a !important; border-color: #166534 !important; color: #86efac !important; }
+        [data-theme="dark"] .bg-red-50 { background-color: #2e0f0f !important; border-color: #991b1b !important; color: #fca5a5 !important; }
     </style>
     <link rel="stylesheet" href="/css/dark-mode.css">
 </head>
@@ -28,66 +30,50 @@
                 </svg>
                 <span class="text-[#16302A] text-2xl font-bold">Fix<span class="text-[#E8823C]">ly</span></span>
             </a>
-            <h1 class="text-[#16302A] text-2xl font-bold mb-2 auth-title">Welcome Back</h1>
-            <p class="text-gray-600 text-sm">Sign in to your Fixly account</p>
+            <h1 class="text-[#16302A] text-2xl font-bold mb-2 auth-title">Forgot Password</h1>
+            <p class="text-gray-600 text-sm">Enter your email and we'll send you a reset link</p>
         </div>
 
         <div class="bg-white rounded-2xl shadow-xl p-8 auth-card">
-            <form method="POST" action="{{ route('login.submit') }}">
+            @if (session('status'))
+                <div class="bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 mb-6 text-sm">
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="bg-red-50 border border-red-200 text-red-600 rounded-xl px-4 py-3 mb-6 text-sm">
+                    {{ $errors->first() }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('password.email') }}">
                 @csrf
 
                 <div class="mb-6">
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        value="{{ old('email') }}" 
-                        required 
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ old('email') }}"
+                        required
+                        autofocus
                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none transition-colors"
                         placeholder="you@example.com"
                     >
-                    @error('email')
-                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
                 </div>
 
-                <div class="mb-6">
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        required 
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none transition-colors"
-                        placeholder="••••••••"
-                    >
-                    @error('password')
-                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="flex items-center justify-between mb-6">
-                    <div class="flex items-center">
-                        <input type="checkbox" id="remember" name="remember" class="w-4 h-4 text-[#E8823C] focus:ring-[#E8823C] border-gray-300 rounded">
-                        <label for="remember" class="ml-2 text-sm text-gray-600">Remember me</label>
-                    </div>
-                    <a href="{{ route('password.request') }}" class="text-sm text-[#E8823C] hover:text-[#c96a2a] font-medium">Forgot password?</a>
-                </div>
-
-                <button 
-                    type="submit" 
+                <button
+                    type="submit"
                     class="w-full bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold py-3 px-6 rounded-xl transition-colors text-base"
                 >
-                    Sign In
+                    Send Reset Link
                 </button>
             </form>
 
             <div class="mt-6 text-center">
-                <p class="text-gray-600 text-sm">
-                    Don't have an account? 
-                    <a href="{{ route('register') }}" class="text-[#E8823C] hover:text-[#c96a2a] font-medium">Sign up</a>
-                </p>
+                <a href="{{ route('login') }}" class="text-sm text-[#E8823C] hover:text-[#c96a2a] font-medium">Back to Login</a>
             </div>
         </div>
     </div>
