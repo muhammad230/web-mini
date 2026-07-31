@@ -181,6 +181,9 @@ sendForm.addEventListener('submit', (e) => {
         return;
     }
 
+    // Capture form data BEFORE clearing messageInput!
+    const formData = new FormData(sendForm);
+
     // Optimistic UI: show the sender's own message immediately
     const tempId = 'temp-' + Date.now();
     const el = buildBubble({ message_text: text, created_at_human: 'Just now' }, true);
@@ -198,7 +201,7 @@ sendForm.addEventListener('submit', (e) => {
             'Accept': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         },
-        body: new FormData(sendForm),
+        body: formData,
     })
     .then(res => {
         if (!res.ok) {
@@ -223,6 +226,12 @@ window.Echo = new Echo({
     cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
     forceTLS: true,
     encrypted: true,
+    authEndpoint: '/broadcasting/auth',
+    auth: {
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    }
 });
 
 window.Echo.private('conversation.{{ $conversation->id }}')

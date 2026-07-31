@@ -10,7 +10,5 @@ Broadcast::channel('conversation.{conversationId}', function ($user, $conversati
     }
 
     return (int) $conversation->customer_id === (int) $user->id
-        || (int) $conversation->professional_id === (int) $user->id
-        ? ['id' => $user->id, 'name' => $user->name]
-        : false;
+        || (int) $conversation->professional_id === (int) $user->id;
 });

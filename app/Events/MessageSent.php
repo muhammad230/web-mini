@@ -21,7 +21,7 @@ class MessageSent implements ShouldBroadcastNow
      */
     public function __construct(Message $message)
     {
-        $this->message = $message;
+        $this->message = $message->relationLoaded('sender') ? $message : $message->load('sender');
     }
 
     /**

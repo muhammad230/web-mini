@@ -35,10 +35,10 @@ class MessageController extends Controller
         $conversation = Conversation::with(['job', 'customer', 'professional', 'messages.sender'])->findOrFail($id);
 
         // Check if user is part of this conversation
-        if ($user->isCustomer() && $conversation->customer_id !== $user->id) {
+        if ($user->isCustomer() && (int) $conversation->customer_id !== (int) $user->id) {
             abort(403);
         }
-        if ($user->isProfessional() && $conversation->professional_id !== $user->id) {
+        if ($user->isProfessional() && (int) $conversation->professional_id !== (int) $user->id) {
             abort(403);
         }
 
@@ -60,10 +60,10 @@ class MessageController extends Controller
         $conversation = Conversation::findOrFail($conversationId);
 
         // Check if user is part of this conversation
-        if ($user->isCustomer() && $conversation->customer_id !== $user->id) {
+        if ($user->isCustomer() && (int) $conversation->customer_id !== (int) $user->id) {
             abort(403);
         }
-        if ($user->isProfessional() && $conversation->professional_id !== $user->id) {
+        if ($user->isProfessional() && (int) $conversation->professional_id !== (int) $user->id) {
             abort(403);
         }
 
