@@ -100,24 +100,14 @@ const chatArea = document.getElementById('chat-area');
 const messagesContainer = document.querySelector('#chat-area .max-w-3xl');
 chatArea.scrollTop = chatArea.scrollHeight;
 
-// Auto-scroll when new message added
-document.getElementById('send-form').addEventListener('submit', () => {
-    setTimeout(() => {
-        chatArea.scrollTop = chatArea.scrollHeight;
-    }, 100);
-});
-
-// Track highest message id to avoid re-appending own broadcast
+// Track highest known server message id
 let lastMessageId = {{ $conversation->messages->last() ? $conversation->messages->last()->id : 0 }};
 const currentUserId = {{ Auth::id() }};
 
-function appendMessage(message) {
-    if (message.id <= lastMessageId) {
-        return;
-    }
-    lastMessageId = message.id;
+// Optimistic messages awaiting server confirmation (tempId -> meta)
+const pending = new Map();
 
-    const isOwn = parseInt(message.sender_id, 10) === currentUserId;
+function buildBubble(message, isOwn) {
     const wrapper = document.createElement('div');
     wrapper.className = 'flex ' + (isOwn ? 'justify-end' : 'justify-start');
 
@@ -138,9 +128,94 @@ function appendMessage(message) {
     inner.appendChild(bubble);
     inner.appendChild(time);
     wrapper.appendChild(inner);
-    messagesContainer.appendChild(wrapper);
+
+    return { wrapper, time };
+}
+
+function isNearBottom() {
+    return chatArea.scrollHeight - chatArea.scrollTop - chatArea.clientHeight < 120;
+}
+
+function scrollToBottom() {
     chatArea.scrollTop = chatArea.scrollHeight;
 }
+
+// Confirm an optimistic message with the server's real id/timestamp
+function confirmMessage(tempId, serverMessage) {
+    const item = pending.get(tempId);
+    if (item) {
+        pending.delete(tempId);
+        if (serverMessage && serverMessage.created_at_human) {
+            item.time.textContent = serverMessage.created_at_human;
+        }
+    }
+    const serverId = parseInt(serverMessage && serverMessage.id, 10);
+    if (!isNaN(serverId) && serverId > lastMessageId) {
+        lastMessageId = serverId;
+    }
+}
+
+function appendIncoming(message) {
+    const id = parseInt(message.id, 10);
+    if (!isNaN(id) && id <= lastMessageId) {
+        return;
+    }
+    if (!isNaN(id)) {
+        lastMessageId = id;
+    }
+    const el = buildBubble(message, false);
+    messagesContainer.appendChild(el.wrapper);
+    if (isNearBottom()) {
+        scrollToBottom();
+    }
+}
+
+const sendForm = document.getElementById('send-form');
+const messageInput = document.getElementById('message-input');
+
+sendForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const text = messageInput.value.trim();
+    if (!text || sendForm.dataset.sending === '1') {
+        return;
+    }
+
+    // Optimistic UI: show the sender's own message immediately
+    const tempId = 'temp-' + Date.now();
+    const el = buildBubble({ message_text: text, created_at_human: 'Just now' }, true);
+    messagesContainer.appendChild(el.wrapper);
+    pending.set(tempId, { text: text, time: el.time });
+    scrollToBottom();
+
+    messageInput.value = '';
+    messageInput.focus();
+    sendForm.dataset.sending = '1';
+
+    fetch(sendForm.action, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: new FormData(sendForm),
+    })
+    .then(res => {
+        if (!res.ok) {
+            return res.json().then(err => Promise.reject(err));
+        }
+        return res.json();
+    })
+    .then(data => {
+        confirmMessage(tempId, data && data.message);
+    })
+    .catch(() => {
+        // Keep the optimistic bubble; the server-side broadcast is its fallback.
+    })
+    .finally(() => {
+        delete sendForm.dataset.sending;
+    });
+});
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
@@ -152,7 +227,34 @@ window.Echo = new Echo({
 
 window.Echo.private('conversation.{{ $conversation->id }}')
     .listen('.message.sent', (e) => {
-        appendMessage(e.message);
+        const msg = e.message;
+
+        // Own message: Pusher echo of an optimistic bubble (or sent from another tab)
+        if (parseInt(msg.sender_id, 10) === currentUserId) {
+            const id = parseInt(msg.id, 10);
+            let matched = null;
+            for (const [tempId, item] of pending.entries()) {
+                if (item.text === msg.message_text) {
+                    matched = tempId;
+                    break;
+                }
+            }
+            if (matched) {
+                confirmMessage(matched, msg);
+                return;
+            }
+            if (isNaN(id) || id <= lastMessageId) {
+                return;
+            }
+            lastMessageId = id;
+            const el = buildBubble(msg, true);
+            messagesContainer.appendChild(el.wrapper);
+            scrollToBottom();
+            return;
+        }
+
+        // Incoming message from the other party
+        appendIncoming(msg);
     });
 </script>
 <script src="/js/theme-toggle.js"></script>

@@ -98,6 +98,21 @@ class MessageController extends Controller
             report($e);
         }
 
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => [
+                    'id' => $message->id,
+                    'conversation_id' => $message->conversation_id,
+                    'sender_id' => $message->sender_id,
+                    'sender_role' => $message->sender_role,
+                    'sender_name' => $user->name,
+                    'message_text' => $message->message_text,
+                    'created_at' => $message->created_at ? $message->created_at->toDateTimeString() : null,
+                    'created_at_human' => $message->created_at ? $message->created_at->format('g:i A • M j') : '',
+                ],
+            ], 201);
+        }
+
         return back();
     }
 
