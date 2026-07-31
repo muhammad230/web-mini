@@ -149,18 +149,36 @@ class MessageController extends Controller
         return response()->json(['count' => $user->unreadMessagesCount()]);
     }
 
-    public function getMessages($conversationId)
+    public function getMessages(Request $request, $conversationId)
     {
         $user = Auth::user();
         $conversation = Conversation::findOrFail($conversationId);
 
-        if ($user->isCustomer() && $conversation->customer_id !== $user->id) {
+        if ($user->isCustomer() && (int) $conversation->customer_id !== (int) $user->id) {
             abort(403);
         }
-        if ($user->isProfessional() && $conversation->professional_id !== $user->id) {
+        if ($user->isProfessional() && (int) $conversation->professional_id !== (int) $user->id) {
             abort(403);
         }
 
-        return response()->json($conversation->messages()->with('sender')->get());
+        $query = $conversation->messages()->with('sender');
+        if ($request->has('after_id')) {
+            $query->where('id', '>', (int) $request->after_id);
+        }
+
+        $messages = $query->get()->map(function ($msg) {
+            return [
+                'id' => $msg->id,
+                'conversation_id' => $msg->conversation_id,
+                'sender_id' => $msg->sender_id,
+                'sender_role' => $msg->sender_role,
+                'sender_name' => $msg->sender ? $msg->sender->name : null,
+                'message_text' => $msg->message_text,
+                'created_at' => $msg->created_at ? $msg->created_at->toDateTimeString() : null,
+                'created_at_human' => $msg->created_at ? $msg->created_at->format('g:i A • M j') : '',
+            ];
+        });
+
+        return response()->json($messages);
     }
 }

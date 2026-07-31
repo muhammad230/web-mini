@@ -101,7 +101,7 @@ const messagesContainer = document.querySelector('#chat-area .max-w-3xl');
 chatArea.scrollTop = chatArea.scrollHeight;
 
 // Track highest known server message id
-let lastMessageId = {{ $conversation->messages->last() ? $conversation->messages->last()->id : 0 }};
+let lastMessageId = {{ $conversation->messages->max('id') ?? 0 }};
 const currentUserId = {{ Auth::id() }};
 
 // Optimistic messages awaiting server confirmation (tempId -> meta)
@@ -123,17 +123,13 @@ function buildBubble(message, isOwn) {
 
     const time = document.createElement('p');
     time.className = 'text-[10px] text-gray-500 mt-1 ' + (isOwn ? 'text-right' : 'text-left');
-    time.textContent = message.created_at_human || '';
+    time.textContent = message.created_at_human || (message.created_at ? new Date(message.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Just now');
 
     inner.appendChild(bubble);
     inner.appendChild(time);
     wrapper.appendChild(inner);
 
     return { wrapper, time };
-}
-
-function isNearBottom() {
-    return chatArea.scrollHeight - chatArea.scrollTop - chatArea.clientHeight < 120;
 }
 
 function scrollToBottom() {
@@ -156,6 +152,7 @@ function confirmMessage(tempId, serverMessage) {
 }
 
 function appendIncoming(message) {
+    if (!message || !message.id) return;
     const id = parseInt(message.id, 10);
     if (!isNaN(id) && id <= lastMessageId) {
         return;
@@ -163,11 +160,26 @@ function appendIncoming(message) {
     if (!isNaN(id)) {
         lastMessageId = id;
     }
-    const el = buildBubble(message, false);
-    messagesContainer.appendChild(el.wrapper);
-    if (isNearBottom()) {
-        scrollToBottom();
+    const isOwn = parseInt(message.sender_id, 10) === currentUserId;
+
+    // Check if matching an optimistic pending item
+    if (isOwn) {
+        let matched = null;
+        for (const [tempId, item] of pending.entries()) {
+            if (item.text === message.message_text) {
+                matched = tempId;
+                break;
+            }
+        }
+        if (matched) {
+            confirmMessage(matched, message);
+            return;
+        }
     }
+
+    const el = buildBubble(message, isOwn);
+    messagesContainer.appendChild(el.wrapper);
+    scrollToBottom();
 }
 
 const sendForm = document.getElementById('send-form');
@@ -212,59 +224,61 @@ sendForm.addEventListener('submit', (e) => {
     .then(data => {
         confirmMessage(tempId, data && data.message);
     })
-    .catch(() => {
-        // Keep the optimistic bubble; the server-side broadcast is its fallback.
-    })
+    .catch(() => {})
     .finally(() => {
         delete sendForm.dataset.sending;
     });
 });
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: '{{ config('broadcasting.connections.pusher.key') }}',
-    cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
-    forceTLS: true,
-    encrypted: true,
-    authEndpoint: '/broadcasting/auth',
-    auth: {
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    }
-});
-
-window.Echo.private('conversation.{{ $conversation->id }}')
-    .listen('.message.sent', (e) => {
-        const msg = e.message;
-
-        // Own message: Pusher echo of an optimistic bubble (or sent from another tab)
-        if (parseInt(msg.sender_id, 10) === currentUserId) {
-            const id = parseInt(msg.id, 10);
-            let matched = null;
-            for (const [tempId, item] of pending.entries()) {
-                if (item.text === msg.message_text) {
-                    matched = tempId;
-                    break;
+// Setup Echo WebSockets listener
+if (typeof Echo !== 'undefined') {
+    try {
+        const echoClient = new Echo({
+            broadcaster: 'pusher',
+            key: '{{ config('broadcasting.connections.pusher.key') }}',
+            cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
+            forceTLS: true,
+            encrypted: true,
+            authEndpoint: '/broadcasting/auth',
+            auth: {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
             }
-            if (matched) {
-                confirmMessage(matched, msg);
-                return;
-            }
-            if (isNaN(id) || id <= lastMessageId) {
-                return;
-            }
-            lastMessageId = id;
-            const el = buildBubble(msg, true);
-            messagesContainer.appendChild(el.wrapper);
-            scrollToBottom();
-            return;
-        }
+        });
 
-        // Incoming message from the other party
-        appendIncoming(msg);
-    });
+        echoClient.private('conversation.{{ $conversation->id }}')
+            .listen('.message.sent', (e) => {
+                if (e && e.message) appendIncoming(e.message);
+            })
+            .listen('MessageSent', (e) => {
+                if (e && e.message) appendIncoming(e.message);
+            });
+    } catch (err) {
+        console.warn('Echo initialization error:', err);
+    }
+}
+
+// Live polling check every 1 second
+function checkNewMessages() {
+    fetch(`/messages/api/{{ $conversation->id }}/messages?after_id=${lastMessageId}`, {
+        headers: {
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        }
+    })
+    .then(res => res.ok ? res.json() : [])
+    .then(messages => {
+        if (Array.isArray(messages)) {
+            messages.forEach(msg => {
+                appendIncoming(msg);
+            });
+        }
+    })
+    .catch(() => {});
+}
+
+setInterval(checkNewMessages, 1000);
 </script>
 <script src="/js/theme-toggle.js"></script>
 </body>
