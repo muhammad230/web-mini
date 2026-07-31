@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\CustomerJob;
 use App\Models\Message;
@@ -90,6 +91,12 @@ class MessageController extends Controller
             'message'       => $user->name . ' sent you a message: "' . \Illuminate\Support\Str::limit($request->message_text, 80) . '"',
             'related_job_id'=> $conversation->job_id,
         ]);
+
+        try {
+            broadcast(new MessageSent($message));
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         return back();
     }

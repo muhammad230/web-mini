@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Conversation - Fixly</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.pusher.com/8.x/pusher.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@8/dist/echo.iife.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
@@ -94,6 +97,7 @@
 <script>
 // Scroll to bottom of chat on load
 const chatArea = document.getElementById('chat-area');
+const messagesContainer = document.querySelector('#chat-area .max-w-3xl');
 chatArea.scrollTop = chatArea.scrollHeight;
 
 // Auto-scroll when new message added
@@ -103,22 +107,53 @@ document.getElementById('send-form').addEventListener('submit', () => {
     }, 100);
 });
 
-// Poll for new messages every 5 seconds
+// Track highest message id to avoid re-appending own broadcast
 let lastMessageId = {{ $conversation->messages->last() ? $conversation->messages->last()->id : 0 }};
-setInterval(async () => {
-    try {
-        const response = await fetch('{{ route('messages.api.messages', $conversation->id) }}');
-        const messages = await response.json();
-        if (messages.length > 0) {
-            const newMessages = messages.filter(m => m.id > lastMessageId);
-            if (newMessages.length > 0) {
-                location.reload();
-            }
-        }
-    } catch (e) {
-        console.log('Poll error:', e);
+const currentUserId = {{ Auth::id() }};
+
+function appendMessage(message) {
+    if (message.id <= lastMessageId) {
+        return;
     }
-}, 5000);
+    lastMessageId = message.id;
+
+    const isOwn = parseInt(message.sender_id, 10) === currentUserId;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'flex ' + (isOwn ? 'justify-end' : 'justify-start');
+
+    const inner = document.createElement('div');
+    inner.className = 'max-w-[80%] chat-bubble';
+
+    const bubble = document.createElement('div');
+    bubble.className = (isOwn ? 'message-sent' : 'message-received') + ' px-4 py-3 rounded-2xl shadow-sm chat-bubble-text';
+    const text = document.createElement('p');
+    text.className = 'text-sm';
+    text.textContent = message.message_text;
+    bubble.appendChild(text);
+
+    const time = document.createElement('p');
+    time.className = 'text-[10px] text-gray-500 mt-1 ' + (isOwn ? 'text-right' : 'text-left');
+    time.textContent = message.created_at_human || '';
+
+    inner.appendChild(bubble);
+    inner.appendChild(time);
+    wrapper.appendChild(inner);
+    messagesContainer.appendChild(wrapper);
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '{{ config('broadcasting.connections.pusher.key') }}',
+    cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
+    forceTLS: true,
+    encrypted: true,
+});
+
+window.Echo.private('conversation.{{ $conversation->id }}')
+    .listen('.message.sent', (e) => {
+        appendMessage(e.message);
+    });
 </script>
 <script src="/js/theme-toggle.js"></script>
 </body>
