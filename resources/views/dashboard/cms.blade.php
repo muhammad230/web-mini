@@ -19,7 +19,8 @@
         .sidebar-logo span { font-size: 1.2rem; font-weight: 800; color: #fff; white-space: nowrap; }
         .sidebar-logo span em { color: #E8823C; font-style: normal; }
         .sidebar.collapsed .sidebar-logo span { display: none; }
-        .nav-section { padding: 12px 0; flex: 1; overflow-y: auto; min-height: 0; }
+        .nav-section { padding: 12px 0; flex: 1; overflow-y: auto; min-height: 0; scrollbar-width: none; -ms-overflow-style: none; }
+        .nav-section::-webkit-scrollbar { display: none; }
         .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 18px; cursor: pointer; color: #8aaa9e; font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: all 0.15s; white-space: nowrap; position: relative; border-left: 3px solid transparent; }
         .nav-item:hover { color: #fff; background: rgba(255,255,255,0.06); }
         .nav-item.active { color: #fff; background: rgba(232,130,60,0.12); border-left-color: #E8823C; }
