@@ -530,6 +530,8 @@ html.theme-transitioning *::after {
 [data-theme="dark"] .card-icon { background-color: rgba(232,130,60,0.1) !important; }
 [data-theme="dark"] .card-title { color: #f3f4f6 !important; }
 [data-theme="dark"] .card-text { color: #9ca3af !important; }
+[data-theme="dark"] .info-label { color: #9ca3af !important; }
+[data-theme="dark"] .info-value { color: #f3f4f6 !important; }
 
 /* ═════════════════════════════════════════════════════════════════════
    41. ADMIN — PAYMENTS PAGE
