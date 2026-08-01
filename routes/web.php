@@ -323,6 +323,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             // ── Admin Dashboard Pages ───────────────────────────────
             Route::get('/professionals', [\App\Http\Controllers\Admin\AdminController::class, 'professionals'])->name('professionals');
             Route::get('/professionals/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'professionalDetail'])->name('professionals.detail');
+            Route::get('/professionals/{id}/document/{type}', [\App\Http\Controllers\Admin\AdminController::class, 'viewDocument'])->name('professionals.document');
             Route::post('/professionals/{id}/toggle', [\App\Http\Controllers\Admin\AdminController::class, 'toggleProfessionalActive'])->name('professionals.toggle');
 
             Route::get('/customers', [\App\Http\Controllers\Admin\AdminController::class, 'customers'])->name('customers');

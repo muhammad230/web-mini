@@ -215,6 +215,18 @@
                         <span class="info-value">{{ $professional->location ?: 'N/A' }}</span>
                     </div>
                     <div class="info-row">
+                        <span class="info-label">Experience:</span>
+                        <span class="info-value">{{ $professional->years_experience !== null ? $professional->years_experience . ' years' : 'N/A' }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">ID Document:</span>
+                        @if($professional->id_document_path)
+                            <a href="{{ route('admin.professionals.document', [$professional->id, 'id']) }}" target="_blank" class="action-btn btn-primary" style="text-decoration:none;">View ID Document</a>
+                        @else
+                            <span class="info-value text-red-500">Not uploaded</span>
+                        @endif
+                    </div>
+                    <div class="info-row">
                         <span class="info-label">Rating:</span>
                         <span class="info-value">{{ number_format($professional->avg_rating ?: 0, 1) }} ★</span>
                     </div>

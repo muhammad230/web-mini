@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -62,6 +63,26 @@ class AdminController extends Controller
         $professional->save();
 
         return back()->with('success', 'Professional status updated!');
+    }
+
+    public function viewDocument($id, $type)
+    {
+        $professional = User::where('role', 'professional')->findOrFail($id);
+
+        $column = match ($type) {
+            'id'             => 'id_document_path',
+            'selfie'         => 'selfie_document_path',
+            'certification'  => 'certification_document_path',
+            default          => abort(404),
+        };
+
+        $path = $professional->{$column};
+
+        if (!$path || !Storage::disk('local')->exists($path)) {
+            abort(404);
+        }
+
+        return Storage::disk('local')->response($path);
     }
 
     // Customers

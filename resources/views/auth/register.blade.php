@@ -114,6 +114,7 @@
                         <select 
                             id="trade" 
                             name="trade" 
+                            required
                             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none transition-colors"
                         >
                             <option value="">Select your trade</option>
@@ -137,6 +138,7 @@
                             id="location" 
                             name="location" 
                             value="{{ old('location') }}" 
+                            required
                             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none transition-colors"
                             placeholder="City, State"
                         >
@@ -145,14 +147,34 @@
                         @enderror
                     </div>
                     <div class="mb-5">
-                        <label for="id_document" class="block text-sm font-medium text-gray-700 mb-2">National ID / CNIC Photo (Front) <span class="text-gray-500">(Optional)</span></label>
+                        <label for="years_experience" class="block text-sm font-medium text-gray-700 mb-2">Years of Experience</label>
+                        <input 
+                            type="number" 
+                            id="years_experience" 
+                            name="years_experience" 
+                            value="{{ old('years_experience') }}" 
+                            required
+                            min="0"
+                            max="50"
+                            inputmode="numeric"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none transition-colors"
+                            placeholder="e.g. 5"
+                        >
+                        @error('years_experience')
+                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="mb-5">
+                        <label for="id_document" class="block text-sm font-medium text-gray-700 mb-2">National ID / CNIC Photo (Front)</label>
                         <input 
                             type="file" 
                             id="id_document" 
                             name="id_document" 
                             accept="image/*"
+                            required
                             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none transition-colors"
                         >
+                        <p class="text-gray-500 text-xs mt-1">Required for verification. This is reviewed by our team before your account is approved.</p>
                         @error('id_document')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                         @enderror
@@ -235,6 +257,25 @@
             document.getElementById('professional-fields').className = 
                 role === 'professional' ? '' : 'hidden';
         }
+
+        // Clear client-side validation messages for the required professional fields
+        document.addEventListener('DOMContentLoaded', function () {
+            var messages = {
+                trade: 'Please select your trade.',
+                location: 'Please enter your service location.',
+                years_experience: 'Please enter your years of experience.',
+                id_document: 'Please upload your National ID / CNIC photo for verification.',
+            };
+            Object.keys(messages).forEach(function (name) {
+                var el = document.querySelector('[name="' + name + '"]');
+                if (!el) return;
+                el.addEventListener('invalid', function () {
+                    if (this.validity.valueMissing) this.setCustomValidity(messages[name]);
+                });
+                el.addEventListener('input', function () { this.setCustomValidity(''); });
+                el.addEventListener('change', function () { this.setCustomValidity(''); });
+            });
+        });
     </script>
     <div style="position:fixed;top:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.12);padding:4px 8px;border-radius:8px;">
         @include('partials.theme-toggle')

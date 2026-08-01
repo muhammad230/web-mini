@@ -453,7 +453,7 @@
             </div>
             <table>
                 <thead><tr>
-                    <th>Professional</th><th>Trade</th><th>Submitted</th><th>Actions</th>
+                    <th>Professional</th><th>Trade</th><th>Location</th><th>Experience</th><th>ID Document</th><th>Submitted</th><th>Actions</th>
                 </tr></thead>
                 <tbody>
                     @if($pendingPros->count() > 0)
@@ -461,8 +461,18 @@
                             <tr>
                                 <td><div style="display:flex;align-items:center;gap:10px;"><div style="width:34px;height:34px;border-radius:50%;background:#E8823C;display:flex;align-items:center;justify-content:center;color:white;font-weight:600;">{{ substr($pro->name, 0, 1) }}</div><div><div style="font-weight:600;color:#111827;">{{ $pro->name }}</div><div style="font-size:0.72rem;color:#9ca3af;">{{ $pro->email }}</div></div></div></td>
                                 <td><span class="trade-tag" style="background:#fff8e6;color:#a16207;">{{ $pro->trade }}</span></td>
+                                <td>{{ $pro->location ?: 'N/A' }}</td>
+                                <td>{{ $pro->years_experience !== null ? $pro->years_experience . ' yrs' : 'N/A' }}</td>
+                                <td>
+                                    @if($pro->id_document_path)
+                                        <a href="{{ route('admin.professionals.document', [$pro->id, 'id']) }}" target="_blank" style="color:#E8823C;font-weight:600;text-decoration:underline;font-size:0.78rem;">View</a>
+                                    @else
+                                        <span style="color:#b91c1c;font-size:0.78rem;">Missing</span>
+                                    @endif
+                                </td>
                                 <td>{{ $pro->created_at->format('M d, Y') }}</td>
                                 <td>
+                                    <a href="{{ route('admin.professionals.detail', $pro->id) }}" style="background:#16302A;color:#fff;border:none;padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;margin-right:6px;text-decoration:none;">Review</a>
                                     <form method="POST" action="{{ route('admin.pro.approve', $pro->id) }}" style="display:inline;">
                                         @csrf
                                         <button type="submit" style="background:#E8823C;color:#fff;border:none;padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;margin-right:6px;">Approve</button>
@@ -475,7 +485,7 @@
                             </tr>
                         @endforeach
                     @else
-                        <tr><td colspan="4" style="text-align:center;padding:30px;color:#9ca3af;">No pending approvals right now!</td></tr>
+                        <tr><td colspan="7" style="text-align:center;padding:30px;color:#9ca3af;">No pending approvals right now!</td></tr>
                     @endif
                 </tbody>
             </table>

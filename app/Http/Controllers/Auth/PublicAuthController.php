@@ -72,10 +72,11 @@ class PublicAuthController extends Controller
         ];
 
         if ($role === 'professional') {
-            $rules['trade']    = 'required|string|max:100';
-            $rules['location'] = 'required|string|max:150';
-            $rules['id_document'] = 'nullable|image|max:10240'; // 10MB max, optional
-            $rules['selfie_document'] = 'nullable|image|max:10240';
+            $rules['trade']              = 'required|string|max:100';
+            $rules['location']           = 'required|string|max:150';
+            $rules['years_experience']   = 'required|integer|min:0|max:50';
+            $rules['id_document']        = 'required|image|max:10240'; // 10MB max
+            $rules['selfie_document']    = 'nullable|image|max:10240';
             $rules['certification_document'] = 'nullable|image|max:10240';
         }
 
@@ -89,19 +90,20 @@ class PublicAuthController extends Controller
             'role'                => $role,
             'trade'               => $role === 'professional' ? $request->trade : null,
             'location'            => $role === 'professional' ? $request->location : null,
-            'verification_status' => $role === 'professional' ? 'verified' : 'verified',
+            'years_experience'    => $role === 'professional' ? $request->years_experience : null,
+            'verification_status' => $role === 'professional' ? 'pending' : 'verified',
         ];
 
         if ($role === 'professional') {
             // Store documents if provided
             if ($request->hasFile('id_document')) {
-                $userData['id_document_path'] = $request->file('id_document')->store('verification-docs', 'private');
+                $userData['id_document_path'] = $request->file('id_document')->store('verification-docs', 'local');
             }
             if ($request->hasFile('selfie_document')) {
-                $userData['selfie_document_path'] = $request->file('selfie_document')->store('verification-docs', 'private');
+                $userData['selfie_document_path'] = $request->file('selfie_document')->store('verification-docs', 'local');
             }
             if ($request->hasFile('certification_document')) {
-                $userData['certification_document_path'] = $request->file('certification_document')->store('verification-docs', 'private');
+                $userData['certification_document_path'] = $request->file('certification_document')->store('verification-docs', 'local');
             }
         }
 

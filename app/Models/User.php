@@ -15,6 +15,7 @@ class User extends Authenticatable
         'role', 'trade', 'location', 'verification_status',
         'available', 'bio', 'years_experience', 'starting_price',
         'service_area', 'trades', 'profile_photo', 'total_earnings',
+        'id_document_path', 'selfie_document_path', 'certification_document_path',
     ];
 
     protected $hidden = ['password', 'remember_token'];
