@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $admin = User::factory()->create([
             'name'                => 'Muhammad Ali',
             'email'               => 'admin@fixly.com',
-            'password'            => Hash::make('password123'),
+            'password'            => Hash::make('password1234'),
             'phone'               => '+1234567890',
             'role'                => 'admin',
             'verification_status' => 'verified',
