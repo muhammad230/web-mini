@@ -427,11 +427,9 @@
                                     <label>Icon</label>
                                     <div class="icon-select">
                                         @foreach(['plumbing','electrical','carpentry','painting','ac','cleaning','appliance','handyman'] as $ic)
-                                        <label>
-                                            <input type="radio" name="trades[{{ $i }}][icon]" value="{{ $ic }}" {{ ($trade['icon'] ?? '') === $ic ? 'checked' : '' }}>
-                                            <label for="trades_{{ $i }}_icon_{{ $ic }}" style="border-color:{{ ($trade['icon'] ?? '') === $ic ? '#E8823C' : '#e2e8f0' }};background:{{ ($trade['icon'] ?? '') === $ic ? 'rgba(232,130,60,0.1)' : 'transparent' }};">
-                                                <span style="font-size:0.7rem;">{{ ucfirst($ic) }}</span>
-                                            </label>
+                                        <input type="radio" id="trades_{{ $i }}_icon_{{ $ic }}" name="trades[{{ $i }}][icon]" value="{{ $ic }}" {{ ($trade['icon'] ?? '') === $ic ? 'checked' : '' }}>
+                                        <label for="trades_{{ $i }}_icon_{{ $ic }}">
+                                            <span style="font-size:0.7rem;">{{ ucfirst($ic) }}</span>
                                         </label>
                                         @endforeach
                                     </div>
