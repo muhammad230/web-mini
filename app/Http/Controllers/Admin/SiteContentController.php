@@ -13,9 +13,9 @@ class SiteContentController extends Controller
 {
     public const DEFAULTS = [
         'hero' => [
-            'heading_prefix' => 'Get Your Home<br>Jobs Done&nbsp;',
-            'highlight_word' => 'Fast &amp;<br>Reliably',
-            'subheading' => 'Connect with vetted local professionals for plumbing,<br>electrical, carpentry, and more. Book in minutes,<br>get the job done right.',
+            'heading_prefix' => 'Find <span style="color:#e8a84c;">Trusted Professionals</span> For Every Home Job',
+            'highlight_word' => '',
+            'subheading' => 'Fixly connects you with verified local plumbers, electricians, carpenters, and more. Compare quotes, choose the best pro, and get it done right.',
             'hero_image' => 'images/slider.png',
             'search_placeholder' => 'Enter your city or zip code',
         ],

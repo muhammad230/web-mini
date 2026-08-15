@@ -286,16 +286,16 @@
                     <div class="grid-2">
                         <div class="form-group">
                             <label>Heading Prefix (before highlight)</label>
-                            <input type="text" name="heading_prefix" class="form-control" value="{{ old('heading_prefix', $hero?->content['heading_prefix'] ?? 'Get Your Home<br>Jobs Done&nbsp;') }}">
+                            <input type="text" name="heading_prefix" class="form-control" value="{{ old('heading_prefix', $hero?->content['heading_prefix'] ?? 'Find <span style="color:#e8a84c;">Trusted Professionals</span> For Every Home Job') }}">
                         </div>
                         <div class="form-group">
                             <label>Highlight Word (orange)</label>
-                            <input type="text" name="highlight_word" class="form-control" value="{{ old('highlight_word', $hero?->content['highlight_word'] ?? "Fast &amp;<br>Reliably") }}">
+                            <input type="text" name="highlight_word" class="form-control" value="{{ old('highlight_word', $hero?->content['highlight_word'] ?? '') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Subheading</label>
-                        <textarea name="subheading" class="form-control" rows="3">{{ old('subheading', $hero?->content['subheading'] ?? 'Connect with vetted local professionals for plumbing,<br>electrical, carpentry, and more. Book in minutes,<br>get the job done right.') }}</textarea>
+                        <textarea name="subheading" class="form-control" rows="3">{{ old('subheading', $hero?->content['subheading'] ?? 'Fixly connects you with verified local plumbers, electricians, carpenters, and more. Compare quotes, choose the best pro, and get it done right.') }}</textarea>
                     </div>
                     <div class="form-group">
                         <label>Hero Image</label>
