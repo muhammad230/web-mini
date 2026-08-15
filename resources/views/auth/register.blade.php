@@ -248,6 +248,14 @@
         </div>
     </div>
     <script>
+        var professionalFields = document.querySelectorAll('#professional-fields [name]');
+
+        function setProfessionalFields(visible) {
+            professionalFields.forEach(function (el) {
+                el.disabled = !visible;
+            });
+        }
+
         function switchRole(role) {
             document.getElementById('role-input').value = role;
             document.getElementById('customer-tab').className = 
@@ -256,10 +264,13 @@
                 role === 'professional' ? 'flex-1 py-3 px-4 rounded-lg font-semibold text-sm transition-all tab-active' : 'flex-1 py-3 px-4 rounded-lg font-semibold text-sm transition-all tab-inactive';
             document.getElementById('professional-fields').className = 
                 role === 'professional' ? '' : 'hidden';
+            setProfessionalFields(role === 'professional');
         }
 
         // Clear client-side validation messages for the required professional fields
         document.addEventListener('DOMContentLoaded', function () {
+            setProfessionalFields(document.getElementById('role-input').value === 'professional');
+
             var messages = {
                 trade: 'Please select your trade.',
                 location: 'Please enter your service location.',
