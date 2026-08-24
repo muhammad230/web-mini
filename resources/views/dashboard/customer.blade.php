@@ -189,7 +189,7 @@
             </h1>
             <p class="text-gray-600 text-sm mt-4">Here's what's happening with your Fixly jobs</p>
         </div>
-        <button onclick="document.getElementById('post-job-modal').classList.remove('hidden')" class="mt-4 md:mt-0 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-6 py-3 rounded-xl transition flex items-center gap-2">
+        <button onclick="document.getElementById('post-job-modal').classList.remove('hidden'); if (typeof lp_job_refresh === 'function') lp_job_refresh();" class="mt-4 md:mt-0 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-6 py-3 rounded-xl transition flex items-center gap-2">
             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
@@ -303,7 +303,7 @@
                     @else
                         <div class="text-center py-8 text-gray-500">
                             <p class="mb-2">No active jobs yet</p>
-                            <button onclick="document.getElementById('post-job-modal').classList.remove('hidden')" class="text-[#E8823C] text-sm font-semibold">Post your first job</button>
+                            <button onclick="document.getElementById('post-job-modal').classList.remove('hidden'); if (typeof lp_job_refresh === 'function') lp_job_refresh();" class="text-[#E8823C] text-sm font-semibold">Post your first job</button>
                         </div>
                     @endif
                 </div>
@@ -728,7 +728,7 @@
                 @else
                     <div class="text-center py-8 text-gray-500">
                         <p class="mb-2">No jobs yet</p>
-                        <button onclick="document.getElementById('post-job-modal').classList.remove('hidden')" class="text-[#E8823C] text-sm font-semibold">Post your first job</button>
+                        <button onclick="document.getElementById('post-job-modal').classList.remove('hidden'); if (typeof lp_job_refresh === 'function') lp_job_refresh();" class="text-[#E8823C] text-sm font-semibold">Post your first job</button>
                     </div>
                 @endif
             </div>
@@ -893,6 +893,9 @@
                     <div>
                         <label class="text-sm font-medium text-gray-700 mb-2 block">Location</label>
                         <input type="text" name="location" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none" placeholder="Enter the job location" required>
+                        <p class="text-sm font-medium text-gray-700 mt-4 mb-1">Pin the Exact Job Spot</p>
+                        <p class="text-xs text-gray-500 mb-2">Pros within ~20 km will receive this job — drop the pin precisely (auto-fills the text field).</p>
+                        @include('partials.location-picker', ['prefix' => 'job'])
                     </div>
                     <div>
                         <label class="text-sm font-medium text-gray-700 mb-2 block">Budget Type</label>

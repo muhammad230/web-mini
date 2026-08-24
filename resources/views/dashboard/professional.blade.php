@@ -308,6 +308,9 @@
                                             <p class="text-xs text-gray-600 mt-1 line-clamp-2">{{ $lead->description }}</p>
                                             <div class="flex items-center flex-wrap gap-3 mt-2 text-xs text-gray-500">
                                                 <span>📍 {{ $lead->location }}</span>
+                                                @if(!is_null($lead->distance_km))
+                                                    <span class="font-semibold text-[#16302A]">📏 {{ number_format($lead->distance_km, 1) }} km away</span>
+                                                @endif
                                                 @if($lead->budget_min || $lead->budget_max)
                                                     <span>💰 Rs. {{ number_format($lead->budget_min) }} – {{ number_format($lead->budget_max) }}</span>
                                                 @endif
@@ -577,6 +580,9 @@
                                     <p class="text-sm text-gray-600 mb-3">{{ $lead->description }}</p>
                                     <div class="flex items-center flex-wrap gap-4 text-sm text-gray-500">
                                         <span>📍 {{ $lead->location }}</span>
+                                        @if(!is_null($lead->distance_km))
+                                            <span class="font-semibold text-[#16302A]">📏 {{ number_format($lead->distance_km, 1) }} km away</span>
+                                        @endif
                                         @if($lead->budget_min || $lead->budget_max)
                                             <span>💰 Rs. {{ number_format($lead->budget_min) }} – {{ number_format($lead->budget_max) }}</span>
                                         @endif
@@ -879,6 +885,8 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-500 mb-2 block">Service Area / Location <span class="text-gray-400 font-normal">(drives lead matching)</span></label>
                                 <input type="text" name="location" value="{{ $pro->location ?? '' }}" placeholder="e.g. Karachi, DHA" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] outline-none">
+                                <p class="text-sm font-medium text-gray-500 mt-4 mb-1">Pin Your Exact Service Location</p>
+                                @include('partials.location-picker', ['prefix' => 'prof', 'initialLat' => $pro->latitude, 'initialLng' => $pro->longitude])
                             </div>
                         </div>
                     </div>

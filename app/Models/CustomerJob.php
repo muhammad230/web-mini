@@ -8,7 +8,7 @@ class CustomerJob extends Model
 {
     protected $fillable = [
         'customer_id', 'assigned_pro_id', 'trade_category', 'description',
-        'location', 'budget_type', 'budget_min', 'budget_max', 'schedule',
+        'location', 'latitude', 'longitude', 'budget_type', 'budget_min', 'budget_max', 'schedule',
         'status', 'amount_paid', 'completed_at'
     ];
 

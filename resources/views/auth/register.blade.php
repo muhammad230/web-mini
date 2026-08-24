@@ -147,6 +147,11 @@
                         @enderror
                     </div>
                     <div class="mb-5">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Pin Your Exact Service Location</label>
+                        <p class="text-gray-500 text-xs mb-2">Customers within ~20 km of your pin will see your quotes — set it precisely.</p>
+                        @include('partials.location-picker', ['prefix' => 'reg'])
+                    </div>
+                    <div class="mb-5">
                         <label for="years_experience" class="block text-sm font-medium text-gray-700 mb-2">Years of Experience</label>
                         <input 
                             type="number" 
@@ -291,6 +296,9 @@
             document.getElementById('professional-fields').className = 
                 role === 'professional' ? '' : 'hidden';
             setProfessionalFields(role === 'professional');
+            if (role === 'professional' && typeof lp_reg_refresh === 'function') {
+                setTimeout(lp_reg_refresh, 50);
+            }
         }
 
         // Clear client-side validation messages for the required professional fields

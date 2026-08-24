@@ -60,6 +60,9 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
                 <input type="text" name="location" value="{{ $location }}" required placeholder="Enter your city or zip code" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                <p class="block text-sm font-medium text-gray-700 mt-5 mb-1">Pin the Exact Job Spot</p>
+                <p class="text-xs text-gray-500 mb-2">Pros within ~20 km will receive this job — drop the pin precisely (auto-fills the text field).</p>
+                @include('partials.location-picker', ['prefix' => 'jobcreate'])
             </div>
 
             <div>

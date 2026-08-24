@@ -74,6 +74,8 @@ class PublicAuthController extends Controller
         if ($role === 'professional') {
             $rules['trade']              = 'required|string|max:100';
             $rules['location']           = 'required|string|max:150';
+            $rules['latitude']           = 'nullable|numeric|between:-90,90';
+            $rules['longitude']          = 'nullable|numeric|between:-180,180';
             $rules['years_experience']   = 'required|integer|min:0|max:50';
             $rules['id_document']        = 'required|image|max:10240'; // 10MB max
             $rules['selfie_document']    = 'nullable|image|max:10240';
@@ -90,6 +92,8 @@ class PublicAuthController extends Controller
             'role'                => $role,
             'trade'               => $role === 'professional' ? $request->trade : null,
             'location'            => $role === 'professional' ? $request->location : null,
+            'latitude'            => $role === 'professional' ? $request->latitude : null,
+            'longitude'           => $role === 'professional' ? $request->longitude : null,
             'years_experience'    => $role === 'professional' ? $request->years_experience : null,
             'verification_status' => $role === 'professional' ? 'pending' : 'verified',
         ];

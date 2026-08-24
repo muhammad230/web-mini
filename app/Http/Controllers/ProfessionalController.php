@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Hash;
 
 class ProfessionalController extends Controller
 {
+    // ── Max distance (km) between a pro's pin and a job pin to show a lead ──
+    private const LEAD_RADIUS_KM = 20;
+
     // ── Get the logged-in pro's trade list ─────────────────────────
     private function getProTrades(User $pro): array
     {
@@ -55,34 +58,65 @@ class ProfessionalController extends Controller
 
             $serviceArea = $pro->service_area ?? null;
             $location    = $pro->location    ?? null;
-
-            if ($serviceArea) {
-                $leadsQuery->where(function($q) use ($serviceArea, $location) {
-                    $q->where('location', 'like', '%' . $serviceArea . '%');
-                    if ($location) $q->orWhere('location', 'like', '%' . $location . '%');
-                });
-            } elseif ($location) {
-                $leadsQuery->where('location', 'like', '%' . $location . '%');
-            }
+            $proLat      = $pro->latitude    ?? null;
+            $proLng      = $pro->longitude   ?? null;
 
             if (!empty($excludedIds)) {
                 $leadsQuery->whereNotIn('id', $excludedIds);
             }
 
-            $newLeads = $leadsQuery
+            // Fetch candidates first, then filter by real distance (Haversine).
+            // Backward compat: jobs without coordinates fall back to text matching.
+            $candidates = $leadsQuery
                 ->orderByDesc('created_at')
-                ->limit(20)
-                ->get()
-                ->map(function($job) {
-                    $fullName = DB::table('users')
-                        ->where('id', $job->customer_id)
-                        ->value('name') ?? 'Customer';
-                    $job->customer_first_name = explode(' ', $fullName)[0];
-                    $job->time_ago            = $this->timeAgo($job->created_at ?? '');
-                    $job->budget_min          = $job->budget_min ?? 0;
-                    $job->budget_max          = $job->budget_max ?? 0;
-                    return $job;
-                });
+                ->limit(100)
+                ->get();
+
+            foreach ($candidates as $job) {
+                $distanceKm = null;
+
+                if ($proLat !== null && $proLng !== null) {
+                    if ($job->latitude !== null && $job->longitude !== null) {
+                        // Both pinned: use real great-circle distance
+                        $distanceKm = \App\Helpers\GeoHelper::haversineKm(
+                            (float) $proLat, (float) $proLng,
+                            (float) $job->latitude, (float) $job->longitude
+                        );
+
+                        if ($distanceKm > self::LEAD_RADIUS_KM) {
+                            continue; // too far — hide this job entirely
+                        }
+
+                        $distanceKm = round($distanceKm, 1);
+                    } else {
+                        // Legacy job without a pin: old text-based city match
+                        $textMatch = false;
+                        if ($serviceArea) {
+                            $textMatch = stripos((string) $job->location, (string) $serviceArea) !== false
+                                || ($location && stripos((string) $job->location, (string) $location) !== false);
+                        } elseif ($location) {
+                            $textMatch = stripos((string) $job->location, (string) $location) !== false;
+                        }
+                        if (!$textMatch) {
+                            continue;
+                        }
+                    }
+                }
+                // Pro without own pin: no location filtering possible (legacy behavior)
+
+                $fullName = DB::table('users')
+                    ->where('id', $job->customer_id)
+                    ->value('name') ?? 'Customer';
+                $job->customer_first_name = explode(' ', $fullName)[0];
+                $job->time_ago            = $this->timeAgo($job->created_at ?? '');
+                $job->budget_min          = $job->budget_min ?? 0;
+                $job->budget_max          = $job->budget_max ?? 0;
+                $job->distance_km         = $distanceKm;
+
+                $newLeads->push($job);
+
+                if ($newLeads->count() >= 20) break;
+            }
         }
 
         // ── Quick Stats ──────────────────────────────────────────
@@ -343,12 +377,14 @@ class ProfessionalController extends Controller
             'starting_price'  => 'nullable|numeric|min:0',
             'service_area'    => 'nullable|string|max:200',
             'location'        => 'nullable|string|max:200',
+            'latitude'        => 'nullable|numeric|between:-90,90',
+            'longitude'       => 'nullable|numeric|between:-180,180',
             'profile_photo'   => 'nullable|image|max:2048',
         ]);
 
         $data = $request->only([
             'name', 'email', 'bio', 'trade', 'years_experience',
-            'starting_price', 'service_area', 'location'
+            'starting_price', 'service_area', 'location', 'latitude', 'longitude'
         ]);
 
         if ($request->has('trades')) {
