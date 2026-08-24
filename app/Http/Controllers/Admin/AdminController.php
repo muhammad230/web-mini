@@ -217,6 +217,149 @@ class AdminController extends Controller
         return redirect()->route('admin.settings')->with('success', 'Settings updated!');
     }
 
+    // Categories / Trades
+    private const TRADE_ICONS = [
+        'plumbing'   => ['color' => '#1b3a30', 'bg' => '#e8f4f1'],
+        'electrical' => ['color' => '#d4900a', 'bg' => '#fff8e6'],
+        'carpentry'  => ['color' => '#111827', 'bg' => '#fef3ee'],
+        'painting'   => ['color' => '#111827', 'bg' => '#fef0f0'],
+        'ac'         => ['color' => '#111827', 'bg' => '#eef6fb'],
+        'cleaning'   => ['color' => '#111827', 'bg' => '#e8f4f1'],
+        'appliance'  => ['color' => '#111827', 'bg' => '#f0eef8'],
+        'handyman'   => ['color' => '#111827', 'bg' => '#faf3e8'],
+    ];
+
+    public function categories()
+    {
+        $trades = $this->getTrades();
+
+        $jobCounts = CustomerJob::select('trade_category', \DB::raw('count(*) as total'))
+            ->groupBy('trade_category')
+            ->pluck('total', 'trade_category');
+
+        return view('dashboard.admin.categories', compact('trades', 'jobCounts'));
+    }
+
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'name'        => 'required|string|max:100',
+            'description' => 'nullable|string|max:200',
+            'icon'        => 'nullable|string|max:50',
+        ]);
+
+        $trades = $this->getTrades();
+
+        foreach ($trades as $trade) {
+            if (strcasecmp($trade['name'], $request->name) === 0) {
+                return back()->with('error', 'This trade already exists.');
+            }
+        }
+
+        $trades[] = $this->makeTrade($request->name, $request->description, $request->icon);
+
+        $this->saveTrades($trades);
+
+        return back()->with('success', 'Trade added successfully.');
+    }
+
+    public function updateCategory(Request $request, $index)
+    {
+        $request->validate([
+            'name'        => 'required|string|max:100',
+            'description' => 'nullable|string|max:200',
+            'icon'        => 'nullable|string|max:50',
+        ]);
+
+        $trades = $this->getTrades();
+
+        if (!isset($trades[$index])) {
+            return back()->with('error', 'Trade not found.');
+        }
+
+        foreach ($trades as $i => $trade) {
+            if ($i != $index && strcasecmp($trade['name'], $request->name) === 0) {
+                return back()->with('error', 'Another trade with this name already exists.');
+            }
+        }
+
+        $active = $trades[$index]['active'] ?? true;
+        $trades[$index] = $this->makeTrade($request->name, $request->description, $request->icon);
+        $trades[$index]['active'] = $active;
+
+        $this->saveTrades($trades);
+
+        return back()->with('success', 'Trade updated successfully.');
+    }
+
+    public function toggleCategory($index)
+    {
+        $trades = $this->getTrades();
+
+        if (!isset($trades[$index])) {
+            return back()->with('error', 'Trade not found.');
+        }
+
+        $trades[$index]['active'] = !($trades[$index]['active'] ?? true);
+
+        $this->saveTrades($trades);
+
+        return back()->with('success', 'Trade status updated!');
+    }
+
+    public function deleteCategory($index)
+    {
+        $trades = $this->getTrades();
+
+        if (!isset($trades[$index])) {
+            return back()->with('error', 'Trade not found.');
+        }
+
+        array_splice($trades, $index, 1);
+
+        $this->saveTrades($trades);
+
+        return back()->with('success', 'Trade deleted successfully.');
+    }
+
+    private function getTrades(): array
+    {
+        $data = \App\Helpers\SiteContentHelper::get(
+            'browse_trades',
+            \App\Http\Controllers\Admin\SiteContentController::DEFAULTS['browse_trades']
+        );
+
+        return $data['trades'] ?? [];
+    }
+
+    private function saveTrades(array $trades): void
+    {
+        \App\Models\SiteContent::updateOrCreate(
+            ['section' => 'browse_trades'],
+            [
+                'content'         => ['trades' => $trades],
+                'last_updated_by' => Auth::id(),
+            ]
+        );
+
+        \App\Helpers\SiteContentHelper::flush('browse_trades');
+    }
+
+    private function makeTrade(string $name, ?string $description, ?string $icon): array
+    {
+        $icon = $icon ?: 'handyman';
+        $palette = self::TRADE_ICONS[$icon] ?? ['color' => '#111827', 'bg' => '#f0eef8'];
+
+        return [
+            'name'        => $name,
+            'description' => $description ?: '',
+            'icon'        => $icon,
+            'color'       => $palette['color'],
+            'bg'          => $palette['bg'],
+            'active'      => true,
+        ];
+    }
+
     // Reports
     public function reports(Request $request)
     {

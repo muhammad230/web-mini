@@ -341,10 +341,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
             Route::get('/reports', [\App\Http\Controllers\Admin\AdminController::class, 'reports'])->name('reports');
 
-            // Redirect categories/trades to CMS since we already have that
-            Route::get('/categories', function () {
-                return redirect()->route('admin.cms');
-            })->name('categories');
+            // ── Categories / Trades Management ──────────────────────
+            Route::get('/categories', [\App\Http\Controllers\Admin\AdminController::class, 'categories'])->name('categories');
+            Route::post('/categories', [\App\Http\Controllers\Admin\AdminController::class, 'storeCategory'])->name('categories.store');
+            Route::post('/categories/{index}/update', [\App\Http\Controllers\Admin\AdminController::class, 'updateCategory'])->name('categories.update');
+            Route::post('/categories/{index}/toggle', [\App\Http\Controllers\Admin\AdminController::class, 'toggleCategory'])->name('categories.toggle');
+            Route::post('/categories/{index}/delete', [\App\Http\Controllers\Admin\AdminController::class, 'deleteCategory'])->name('categories.delete');
 
             // Payments & Payouts
             Route::get('/payments', [\App\Http\Controllers\PaymentController::class, 'adminPayments'])->name('payments');
