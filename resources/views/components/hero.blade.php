@@ -7,7 +7,7 @@
         @include('components.navbar')
 
         {{-- Room photo fills the right side --}}
-        <img src="{{ asset($hero['hero_image'] ?? 'images/slider.png') }}"
+        <img src="{{ \App\Helpers\SiteContentHelper::imageUrl($hero['hero_image'] ?? null, 'images/slider.png') }}"
              alt="" aria-hidden="true"
              class="hero-overlay-img" style="position:absolute; top:0; right:0; width:75%; height:100%;
                      object-fit:cover; object-position:center center;" />

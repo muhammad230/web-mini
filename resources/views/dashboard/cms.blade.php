@@ -300,8 +300,8 @@
                     <div class="form-group">
                         <label>Hero Image</label>
                         <div class="image-upload-wrapper">
-                            <img src="{{ asset(old('hero_image', $hero?->content['hero_image'] ?? 'images/ChatGPT Image Jul 5, 2026, 05_16_55 PM.png')) }}" class="image-preview" id="hero-preview">
-                            <input type="hidden" name="hero_image" value="{{ old('hero_image', $hero?->content['hero_image'] ?? 'images/ChatGPT Image Jul 5, 2026, 05_16_55 PM.png') }}" id="hero_image_input">
+                            <img src="{{ \App\Helpers\SiteContentHelper::imageUrl(old('hero_image', $hero?->content['hero_image']), 'images/slider.png') }}" class="image-preview" id="hero-preview">
+                            <input type="hidden" name="hero_image" value="{{ old('hero_image', $hero?->content['hero_image'] ?? 'images/slider.png') }}" id="hero_image_input">
                             <div class="image-upload-btn">
                                 <button type="button" class="btn btn-secondary btn-sm">Upload New</button>
                                 <input type="file" accept="image/*" onchange="uploadImage(this, 'hero_image_input', 'hero-preview')">

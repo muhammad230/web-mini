@@ -18,6 +18,28 @@ class SiteContentHelper
         });
     }
 
+    /**
+     * Resolve a CMS image path to a URL, falling back to a bundled asset
+     * when the file does not exist on disk (e.g. missing storage symlink,
+     * or uploads not present on an ephemeral deploy).
+     */
+    public static function imageUrl(?string $path, string $fallback = 'images/slider.png'): string
+    {
+        $path = trim((string) $path);
+
+        if ($path === '' || preg_match('#^(https?:)?//#i', $path)) {
+            return asset($path !== '' ? $path : $fallback);
+        }
+
+        $relative = preg_replace('#^/?storage/#', '', $path);
+
+        if (is_file(public_path($path)) || is_file(storage_path('app/public/' . $relative))) {
+            return asset($path);
+        }
+
+        return asset($fallback);
+    }
+
     public static function flush(string $section): void
     {
         Cache::forget("site_content_{$section}");
