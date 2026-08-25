@@ -78,7 +78,7 @@
         .page-sub { font-size: 0.82rem; color: #9ca3af; margin-bottom: 24px; }
 
         /* ── KPI Cards ── */
-        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 28px; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-bottom: 28px; }
         .kpi-card { background: #fff; border-radius: 14px; padding: 20px 24px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: space-between; }
         .kpi-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
         .kpi-value { font-size: 1.6rem; font-weight: 800; color: #111827; margin-bottom: 2px; }
