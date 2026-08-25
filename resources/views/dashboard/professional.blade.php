@@ -446,6 +446,48 @@
             </div>
         </div>
 
+        {{-- ── MY QUOTES (Sent Quotes with Message option) ── --}}
+        @if($quotedLeads->count() > 0)
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+            <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">My Quotes</h2>
+            <div class="space-y-4">
+                @foreach($quotedLeads as $ql)
+                @php
+                    $conv = \App\Models\Conversation::where('job_id', $ql->id)->where('professional_id', $pro->id)->first();
+                @endphp
+                <div class="border border-gray-200 rounded-xl p-4 hover:border-[#E8823C]/50 transition">
+                    <div class="flex items-start justify-between gap-4 flex-wrap">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 mb-1">
+                                <h4 class="font-semibold text-[#16302A] text-sm">{{ $ql->trade_category }}</h4>
+                                <span class="text-xs px-2 py-0.5 rounded-full
+                                    @if($ql->quote_status === 'pending') bg-blue-100 text-blue-700
+                                    @elseif($ql->quote_status === 'accepted') bg-green-100 text-green-700
+                                    @else bg-red-100 text-red-700
+                                    @endif font-medium">
+                                    {{ ucfirst($ql->quote_status) }}
+                                </span>
+                            </div>
+                            <p class="text-xs text-gray-500">Customer: {{ $ql->customer_name }}</p>
+                            <p class="text-xs text-gray-500">Your Quote: Rs. {{ number_format($ql->quote_price) }}</p>
+                        </div>
+                        <div class="flex gap-2 flex-shrink-0">
+                            @if($conv)
+                                <a href="{{ route('messages.show', $conv->id) }}" class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Message Customer</a>
+                            @else
+                                <a href="{{ route('messages.quote', \App\Models\Quote::where('job_id', $ql->id)->where('pro_id', $pro->id)->first()->id) }}" class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Message Customer</a>
+                            @endif
+                            @if($ql->status === 'quotes_received' || $ql->status === 'pending_match')
+                                <a href="{{ route('messages.job', $ql->id) }}" class="text-xs text-[#E8823C] font-semibold hover:text-[#c96a2a]">View Job</a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </section>
+        @endif
+
         {{-- ── JOB HISTORY ── --}}
         <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
             <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Job History</h2>

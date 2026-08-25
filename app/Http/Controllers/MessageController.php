@@ -7,9 +7,11 @@ use App\Models\Conversation;
 use App\Models\CustomerJob;
 use App\Models\Message;
 use App\Models\Notification;
+use App\Models\Quote;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
 {
@@ -22,7 +24,7 @@ class MessageController extends Controller
                 $q->where('customer_id', $user->id)
                   ->orWhere('professional_id', $user->id);
             })
-            ->with(['customer', 'professional', 'job', 'lastMessage'])
+            ->with(['customer', 'professional', 'job', 'lastMessage', 'quote'])
             ->latest()
             ->get();
 
@@ -124,19 +126,85 @@ class MessageController extends Controller
         if ($user->isCustomer() && $job->customer_id !== $user->id) {
             abort(403);
         }
-        if ($user->isProfessional() && $job->assigned_pro_id !== $user->id) {
+        if ($user->isProfessional()) {
+            // Professional must either be the assigned pro or have a quote on this job
+            $hasQuote = DB::table('quotes')
+                ->where('job_id', $jobId)
+                ->where('pro_id', $user->id)
+                ->exists();
+            if (!$hasQuote && $job->assigned_pro_id !== $user->id) {
+                abort(403);
+            }
+        }
+
+        // For professionals, find their specific conversation for this job
+        if ($user->isProfessional()) {
+            $conversation = Conversation::where('job_id', $jobId)
+                ->where('professional_id', $user->id)
+                ->first();
+
+            if ($conversation) {
+                return redirect()->route('messages.show', $conversation->id);
+            }
+
+            // Fallback: create conversation for the assigned pro (backward compat)
+            if ($job->assigned_pro_id && (int) $job->assigned_pro_id === (int) $user->id) {
+                $conversation = Conversation::firstOrCreate(
+                    ['job_id' => $job->id, 'professional_id' => $user->id],
+                    [
+                        'customer_id' => $job->customer_id,
+                        'professional_id' => $user->id,
+                    ]
+                );
+                return redirect()->route('messages.show', $conversation->id);
+            }
+
+            return back()->with('error', 'No conversation available for this job.');
+        }
+
+        // For customers: find the conversation for the accepted/active quote
+        if ($job->assigned_pro_id) {
+            $conversation = Conversation::where('job_id', $jobId)
+                ->where('professional_id', $job->assigned_pro_id)
+                ->first();
+
+            if ($conversation) {
+                return redirect()->route('messages.show', $conversation->id);
+            }
+
+            // Fallback: create conversation for the assigned pro
+            $conversation = Conversation::firstOrCreate(
+                ['job_id' => $job->id, 'professional_id' => $job->assigned_pro_id],
+                [
+                    'customer_id' => $job->customer_id,
+                    'professional_id' => $job->assigned_pro_id,
+                ]
+            );
+            return redirect()->route('messages.show', $conversation->id);
+        }
+
+        return back()->with('error', 'No professional assigned to this job yet.');
+    }
+
+    public function getOrCreateByQuote($quoteId)
+    {
+        $user = Auth::user();
+        $quote = Quote::findOrFail($quoteId);
+        $job = $quote->job;
+
+        // Authorization: must be the customer who owns the job or the professional who sent the quote
+        if ($user->isCustomer() && $job->customer_id !== $user->id) {
+            abort(403);
+        }
+        if ($user->isProfessional() && $quote->pro_id !== $user->id) {
             abort(403);
         }
 
-        if (!$job->assigned_pro_id) {
-            return back()->with('error', 'No professional assigned to this job yet.');
-        }
-
         $conversation = Conversation::firstOrCreate(
-            ['job_id' => $job->id],
+            ['job_id' => $job->id, 'quote_id' => $quote->id],
             [
-                'customer_id' => $job->customer_id,
-                'professional_id' => $job->assigned_pro_id,
+                'customer_id'     => $job->customer_id,
+                'professional_id' => $quote->pro_id,
             ]
         );
 

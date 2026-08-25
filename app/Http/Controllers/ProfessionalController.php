@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conversation;
 use App\Models\CustomerJob;
 use App\Models\Notification;
 use App\Models\User;
@@ -246,7 +247,7 @@ class ProfessionalController extends Controller
         if ($existing) return back()->with('info', 'You have already sent a quote for this job.');
 
         // Create quote
-        DB::table('quotes')->insert([
+        $quoteId = DB::table('quotes')->insertGetId([
             'job_id'     => $jobId,
             'pro_id'     => $pro->id,
             'amount'     => $request->price,
@@ -255,6 +256,15 @@ class ProfessionalController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        // Auto-create conversation for this quote
+        Conversation::firstOrCreate(
+            ['job_id' => $jobId, 'quote_id' => $quoteId],
+            [
+                'customer_id'     => $job->customer_id,
+                'professional_id' => $pro->id,
+            ]
+        );
 
         // Update job status to quotes_received
         DB::table('customer_jobs')

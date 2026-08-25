@@ -97,9 +97,11 @@ class CustomerController extends Controller
             abort(403);
         }
         $job->load(['quotes.pro', 'assignedPro', 'review.customer']);
-        $conversation = \App\Models\Conversation::where('job_id', $job->id)
-            ->with('messages.sender')
-            ->first();
+        $conversationQuery = \App\Models\Conversation::where('job_id', $job->id)->with('messages.sender');
+        if ($job->assigned_pro_id) {
+            $conversationQuery->where('professional_id', $job->assigned_pro_id);
+        }
+        $conversation = $conversationQuery->first();
         return view('dashboard.customer-job-detail', compact('job', 'conversation'));
     }
 

@@ -8,11 +8,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Conversation extends Model
 {
-    protected $fillable = ['job_id', 'customer_id', 'professional_id'];
+    protected $fillable = ['job_id', 'customer_id', 'professional_id', 'quote_id'];
 
     public function job(): BelongsTo
     {
         return $this->belongsTo(CustomerJob::class, 'job_id');
+    }
+
+    public function quote(): BelongsTo
+    {
+        return $this->belongsTo(Quote::class, 'quote_id');
     }
 
     public function customer(): BelongsTo

@@ -77,6 +77,15 @@
                                 </div>
                             </div>
                             <p class="text-sm text-[#D9A441] mb-1">{{ $conv->job->trade_category }}</p>
+                            @if(Auth::user()->isCustomer() && $conv->quote)
+                                @if($conv->quote->status === 'rejected')
+                                    <p class="text-xs text-red-500 font-medium mb-1">Quote not accepted</p>
+                                @elseif($conv->quote->status === 'accepted')
+                                    <p class="text-xs text-green-600 font-medium mb-1">Quote accepted</p>
+                                @else
+                                    <p class="text-xs text-blue-500 font-medium mb-1">Quote: Rs. {{ number_format($conv->quote->amount) }}</p>
+                                @endif
+                            @endif
                             <p class="text-xs text-gray-600 truncate msg-card-text">
                                 @if($conv->lastMessage)
                                     {{ $conv->lastMessage->message_text }}

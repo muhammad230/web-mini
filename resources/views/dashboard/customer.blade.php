@@ -336,6 +336,7 @@
                                 <p class="text-xs text-gray-600 mt-3">{{ $quote->message }}</p>
                             @endif
                             <div class="flex gap-3 mt-4">
+                                <a href="{{ route('messages.quote', $quote) }}" class="flex-1 text-center bg-gray-100 text-gray-700 font-semibold py-2 px-4 rounded-lg text-sm hover:bg-gray-200 transition">Message</a>
                                 <form method="POST" action="{{ route('dashboard.customer.quotes.accept', $quote) }}" style="display: inline-block; flex: 1;">
                                     @csrf
                                     <button type="submit" class="w-full bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold py-2 px-4 rounded-lg text-sm transition">Accept</button>

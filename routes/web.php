@@ -208,6 +208,7 @@ Route::prefix('messages')->name('messages.')->middleware(['auth'])->group(functi
     Route::get('/{id}', [\App\Http\Controllers\MessageController::class, 'show'])->name('show');
     Route::post('/{id}/send', [\App\Http\Controllers\MessageController::class, 'store'])->name('store');
     Route::get('/job/{jobId}', [\App\Http\Controllers\MessageController::class, 'getOrCreate'])->name('job');
+    Route::get('/quote/{quoteId}', [\App\Http\Controllers\MessageController::class, 'getOrCreateByQuote'])->name('quote');
     Route::get('/api/unread-count', [\App\Http\Controllers\MessageController::class, 'getUnreadCount'])->name('unread');
     Route::get('/api/{conversationId}/messages', [\App\Http\Controllers\MessageController::class, 'getMessages'])->name('api.messages');
 });
