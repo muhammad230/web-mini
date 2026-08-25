@@ -45,7 +45,7 @@
         .sidebar.collapsed .logout-btn span { display: none; }
 
         /* Main */
-        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s ease; }
+        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s ease; min-width: 0; overflow: hidden; }
         .main.expanded { margin-left: 64px; }
 
         /* Topbar */
@@ -60,7 +60,7 @@
         .admin-topbar .trole { font-size: 0.72rem; color: #9ca3af; }
 
         /* Content */
-        .content { padding: 28px; flex: 1; }
+        .content { padding: 28px; flex: 1; min-width: 0; overflow: hidden; }
         .page-title { font-size: 1.4rem; font-weight: 800; color: #111827; margin-bottom: 4px; }
         .page-sub { font-size: 0.82rem; color: #9ca3af; margin-bottom: 24px; }
 

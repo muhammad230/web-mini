@@ -37,13 +37,13 @@
         .sidebar.collapsed .admin-info { display: none; }
         .logout-btn { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 12px; border-radius: 8px; background: rgba(232,130,60,0.12); color: #E8823C; font-size: 0.8rem; font-weight: 600; cursor: pointer; border: none; width: 100%; }
         .sidebar.collapsed .logout-btn span { display: none; }
-        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s; }
+        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s; min-width: 0; overflow: hidden; }
         .main.expanded { margin-left: 64px; }
         .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ece8df; position: sticky; top: 0; z-index: 50; }
         .topbar-left { display: flex; align-items: center; gap: 12px; }
         .toggle-btn { background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
         .hamburger-btn { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
-        .content { padding: 28px; flex: 1; }
+        .content { padding: 28px; flex: 1; min-width: 0; overflow: hidden; }
         .page-title { font-size: 1.4rem; font-weight: 800; color: #111827; margin-bottom: 4px; }
         .page-sub { font-size: 0.82rem; color: #9ca3af; margin-bottom: 24px; }
         .stat-card { background: #fff; border-radius: 14px; padding: 20px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }

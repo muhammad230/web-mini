@@ -45,7 +45,7 @@
         .sidebar.collapsed .logout-btn span { display: none; }
 
         /* Main */
-        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s ease; }
+        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s ease; min-width: 0; overflow: hidden; }
         .main.expanded { margin-left: 64px; }
 
         /* Topbar */
