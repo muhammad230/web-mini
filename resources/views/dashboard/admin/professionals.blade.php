@@ -67,7 +67,7 @@
         .btn-secondary { background: #fff; color: #6b7280; border: 1px solid #e5e7eb; }
         .btn-danger { background: #fee2e2; color: #b91c1c; border: none; }
         .btn-success { background: #dcfce7; color: #15803d; border: none; }
-        .pro-avatar { width: 20px; height: 20px; border-radius: 50%; background: #E8823C; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
+        .pro-avatar { width: 20px; height: 20px; border-radius: 50%; background: #E8823C; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; overflow: hidden; }
         .pagination { display: flex; justify-content: center; gap: 8px; padding: 16px 20px; }
         .pagination a, .pagination span { padding: 8px 12px; border-radius: 6px; border: 1px solid #e5e7eb; text-decoration: none; color: #374151; font-size: 0.85rem; }
         .pagination .active { background: #E8823C; color: #fff; border-color: #E8823C; }
@@ -230,7 +230,13 @@
                             <tr>
                                 <td>
                                     <div style="display:flex;align-items:center;gap:8px;">
-                                        <div class="pro-avatar">{{ substr($pro->name, 0, 1) }}</div>
+                                        <div class="pro-avatar">
+                                            @if($pro->profile_photo)
+                                                <img src="{{ asset('storage/' . $pro->profile_photo) }}" alt="{{ $pro->name }}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+                                            @else
+                                                {{ substr($pro->name, 0, 1) }}
+                                            @endif
+                                        </div>
                                         <div>
                                             <div style="font-weight:600;color:#111827;line-height:1.2;">{{ $pro->name }}</div>
                                             <div style="font-size:0.68rem;color:#9ca3af;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $pro->email }}</div>

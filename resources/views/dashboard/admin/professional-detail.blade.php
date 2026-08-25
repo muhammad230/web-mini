@@ -49,7 +49,7 @@
         .card { background: #fff; border-radius: 14px; padding: 24px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 24px; }
         .card-title { font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 16px; }
         .pro-header { display: flex; gap: 20px; align-items: flex-start; }
-        .pro-avatar { width: 90px; height: 90px; border-radius: 50%; background: #E8823C; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 2.2rem; flex-shrink: 0; }
+        .pro-avatar { width: 90px; height: 90px; border-radius: 50%; background: #E8823C; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 2.2rem; flex-shrink: 0; overflow: hidden; }
         .pro-info { flex: 1; min-width: 0; width: 100%; }
         .info-row { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; flex-wrap: wrap; }
         .info-label { font-weight: 600; color: #6b7280; flex-shrink: 0; width: auto; min-width: 80px; }
@@ -205,7 +205,13 @@
         <div class="page-sub">Professional Details</div>
         <div class="card">
             <div class="pro-header">
-                <div class="pro-avatar">{{ substr($professional->name, 0, 1) }}</div>
+                <div class="pro-avatar">
+                    @if($professional->profile_photo)
+                        <img src="{{ asset('storage/' . $professional->profile_photo) }}" alt="{{ $professional->name }}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+                    @else
+                        {{ substr($professional->name, 0, 1) }}
+                    @endif
+                </div>
                 <div class="pro-info">
                     <div class="info-row">
                         <span class="info-label">Name:</span>

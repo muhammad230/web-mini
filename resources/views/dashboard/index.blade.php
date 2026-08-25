@@ -457,7 +457,7 @@
                     @if($pendingPros->count() > 0)
                         @foreach($pendingPros as $pro)
                             <tr>
-                                <td><div style="display:flex;align-items:center;gap:10px;"><div style="width:34px;height:34px;border-radius:50%;background:#E8823C;display:flex;align-items:center;justify-content:center;color:white;font-weight:600;">{{ substr($pro->name, 0, 1) }}</div><div><div style="font-weight:600;color:#111827;">{{ $pro->name }}</div><div style="font-size:0.72rem;color:#9ca3af;">{{ $pro->email }}</div></div></div></td>
+                                <td><div style="display:flex;align-items:center;gap:10px;"><div style="width:34px;height:34px;border-radius:50%;background:#E8823C;display:flex;align-items:center;justify-content:center;color:white;font-weight:600;overflow:hidden;flex-shrink:0;">@if($pro->profile_photo)<img src="{{ asset('storage/' . $pro->profile_photo) }}" alt="{{ $pro->name }}" style="width:100%;height:100%;object-fit:cover;">@else{{ substr($pro->name, 0, 1) }}@endif</div><div><div style="font-weight:600;color:#111827;">{{ $pro->name }}</div><div style="font-size:0.72rem;color:#9ca3af;">{{ $pro->email }}</div></div></div></td>
                                 <td><span class="trade-tag" style="background:#fff8e6;color:#a16207;">{{ $pro->trade }}</span></td>
                                 <td>{{ $pro->location ?: 'N/A' }}</td>
                                 <td>{{ $pro->years_experience !== null ? $pro->years_experience . ' yrs' : 'N/A' }}</td>

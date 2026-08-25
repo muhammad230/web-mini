@@ -49,7 +49,7 @@
         .card { background: #fff; border-radius: 14px; padding: 24px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 24px; }
         .card-title { font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 16px; }
         .customer-header { display: flex; gap: 20px; align-items: flex-start; }
-        .customer-avatar { width: 90px; height: 90px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 2.2rem; flex-shrink: 0; }
+        .customer-avatar { width: 90px; height: 90px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 2.2rem; flex-shrink: 0; overflow: hidden; }
         .customer-info { flex: 1; min-width: 0; width: 100%; }
         .info-row { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; flex-wrap: wrap; }
         .info-label { font-weight: 600; color: #6b7280; width: 130px; flex-shrink: 0; }
@@ -203,7 +203,13 @@
         <div class="page-sub">Customer Details</div>
         <div class="card">
             <div class="customer-header">
-                <div class="customer-avatar">{{ substr($customer->name, 0, 1) }}</div>
+                <div class="customer-avatar">
+                    @if($customer->profile_photo)
+                        <img src="{{ asset('storage/' . $customer->profile_photo) }}" alt="{{ $customer->name }}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+                    @else
+                        {{ substr($customer->name, 0, 1) }}
+                    @endif
+                </div>
                 <div class="customer-info">
                     <div class="info-row">
                         <span class="info-label">Name:</span>

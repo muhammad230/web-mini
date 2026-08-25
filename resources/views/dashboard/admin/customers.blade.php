@@ -61,7 +61,7 @@
         .action-btn { padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
         .btn-primary { background: #E8823C; color: #fff; border: none; }
         .btn-secondary { background: #fff; color: #6b7280; border: 1px solid #e5e7eb; }
-        .customer-avatar { width: 30px; height: 30px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.8rem; flex-shrink: 0; }
+        .customer-avatar { width: 30px; height: 30px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.8rem; flex-shrink: 0; overflow: hidden; }
         .pagination { display: flex; justify-content: center; gap: 8px; padding: 20px; }
         .pagination a, .pagination span { padding: 8px 12px; border-radius: 6px; border: 1px solid #e5e7eb; text-decoration: none; color: #374151; font-size: 0.85rem; }
         .pagination .active { background: #E8823C; color: #fff; border-color: #E8823C; }
@@ -207,7 +207,13 @@
                             <tr>
                                 <td>
                                     <div style="display:flex;align-items:center;gap:8px;">
-                                        <div class="customer-avatar">{{ substr($customer->name, 0, 1) }}</div>
+                                        <div class="customer-avatar">
+                                            @if($customer->profile_photo)
+                                                <img src="{{ asset('storage/' . $customer->profile_photo) }}" alt="{{ $customer->name }}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+                                            @else
+                                                {{ substr($customer->name, 0, 1) }}
+                                            @endif
+                                        </div>
                                         <div style="font-weight:600;color:#111827;line-height:1.2;">{{ $customer->name }}</div>
                                     </div>
                                 </td>
