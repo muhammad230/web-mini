@@ -49,29 +49,29 @@
         .card { background: #fff; border-radius: 14px; padding: 24px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 24px; }
         .card-title { font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 16px; }
         .pro-header { display: flex; gap: 20px; align-items: flex-start; }
-        .pro-avatar { width: 100px; height: 100px; border-radius: 50%; background: #E8823C; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 2.5rem; }
-        .pro-info { flex: 1; }
-        .info-row { display: flex; gap: 12px; margin-bottom: 8px; }
-        .info-label { font-weight: 600; color: #6b7280; width: 140px; }
-        .info-value { color: #111827; }
+        .pro-avatar { width: 90px; height: 90px; border-radius: 50%; background: #E8823C; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 2.2rem; flex-shrink: 0; }
+        .pro-info { flex: 1; min-width: 0; width: 100%; }
+        .info-row { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; flex-wrap: wrap; }
+        .info-label { font-weight: 600; color: #6b7280; flex-shrink: 0; width: auto; min-width: 80px; }
+        .info-value { color: #111827; word-break: break-word; min-width: 0; flex: 1; }
         .table-card { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 28px; width: 100%; max-width: 100%; overflow: hidden; }
         .table-wrapper { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         table { width: 100%; border-collapse: collapse; }
-        th { padding: 8px 10px; text-align: left; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; white-space: nowrap; }
-        td { padding: 8px 10px; font-size: 0.8125rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
-        tr:last-child td { border-bottom: none; }
+        th { padding: 6px 8px; text-align: left; font-size: 0.68rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; white-space: nowrap; }
+        td { padding: 6px 8px; font-size: 0.75rem; color: #374151; border-bottom: 1px solid #f5f1ea; word-break: break-word; overflow-wrap: anywhere; }
         tr:hover td { background: #faf9f6; }
-        .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+        .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; display: inline-block; white-space: nowrap; }
         .status-completed { background: #dcfce7; color: #15803d; }
         .status-in_progress { background: #fff7ed; color: #c2410c; }
         .status-scheduled { background: #fff7ed; color: #c2410c; }
         .status-pending_match { background: #f3f4f6; color: #6b7280; }
         .status-quotes_received { background: #f3f4f6; color: #6b7280; }
         .status-cancelled { background: #fee2e2; color: #b91c1c; }
-        .action-btn { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; }
+        .action-btn { padding: 2px 6px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; transition: all 0.15s; }
         .btn-primary { background: #E8823C; color: #fff; border: none; }
         .btn-secondary { background: #fff; color: #6b7280; border: 1px solid #e5e7eb; }
-                .back-btn { display: inline-flex; align-items: center; gap: 6px; color: #E8823C; text-decoration: none; font-weight: 600; margin-bottom: 16px; }
+        .action-buttons-wrapper { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; width: 100%; }
+        .back-btn { display: inline-flex; align-items: center; gap: 6px; color: #E8823C; text-decoration: none; font-weight: 600; margin-bottom: 16px; }
         .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 90; }
         .sidebar-overlay.active { display: block; }
         .sidebar.mobile-open { transform: translateX(0) !important; }
@@ -84,7 +84,18 @@
             .toggle-btn { display: none; }
         }
         @media (max-width: 768px) { .content { padding: 20px 16px; } .topbar { padding: 12px 16px; } }
-        @media (max-width: 600px) { h1.page-title { font-size: 1.15rem; } .detail-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 640px) {
+            .card { padding: 16px; }
+            .pro-header { flex-direction: column; align-items: center; text-align: center; gap: 16px; }
+            .pro-avatar { width: 72px; height: 72px; font-size: 1.8rem; }
+        }
+        @media (max-width: 480px) {
+            .info-row { flex-direction: column; gap: 2px; align-items: flex-start; text-align: left; }
+            .info-label { width: 100%; font-size: 0.75rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.04em; }
+            .info-value { width: 100%; font-size: 0.88rem; font-weight: 500; }
+            .action-buttons-wrapper form { flex: 1; }
+            .action-buttons-wrapper .action-btn { width: 100%; }
+        }
     </style>
 
 
@@ -248,19 +259,19 @@
                         <span class="info-label">Joined:</span>
                         <span class="info-value">{{ $professional->created_at->format('M d, Y') }}</span>
                     </div>
-                    <div class="info-row" style="margin-top:16px;">
-                        <form method="POST" action="{{ route('admin.professionals.toggle', $professional->id) }}" style="display:inline;margin-right:8px;">
+                    <div class="action-buttons-wrapper">
+                        <form method="POST" action="{{ route('admin.professionals.toggle', $professional->id) }}">
                             @csrf
                             <button type="submit" class="action-btn {{ $professional->available ? 'btn-secondary' : 'btn-primary' }}">
                                 {{ $professional->available ? 'Suspend' : 'Activate' }}
                             </button>
                         </form>
                         @if($professional->verification_status == 'pending')
-                            <form method="POST" action="{{ route('admin.pro.approve', $professional->id) }}" style="display:inline;margin-right:8px;">
+                            <form method="POST" action="{{ route('admin.pro.approve', $professional->id) }}">
                                 @csrf
                                 <button type="submit" class="action-btn btn-primary">Approve</button>
                             </form>
-                            <form method="POST" action="{{ route('admin.pro.reject', $professional->id) }}" style="display:inline;">
+                            <form method="POST" action="{{ route('admin.pro.reject', $professional->id) }}">
                                 @csrf
                                 <button type="submit" class="action-btn btn-secondary">Reject</button>
                             </form>

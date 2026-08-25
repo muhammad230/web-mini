@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -36,27 +36,28 @@
         .sidebar.collapsed .admin-info { display: none; }
         .logout-btn { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 12px; border-radius: 8px; background: rgba(232,130,60,0.12); color: #E8823C; font-size: 0.8rem; font-weight: 600; cursor: pointer; border: none; width: 100%; }
         .sidebar.collapsed .logout-btn span { display: none; }
-        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s; min-width: 0; overflow: hidden; }
+        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s; min-width: 0; max-width: 100%; overflow-x: hidden; }
         .main.expanded { margin-left: 64px; }
-        .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ece8df; position: sticky; top: 0; z-index: 50; }
+        .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ece8df; position: sticky; top: 0; z-index: 50; width: 100%; flex-shrink: 0; }
         .topbar-left { display: flex; align-items: center; gap: 12px; }
         .toggle-btn { background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
         .hamburger-btn { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
-        .content { padding: 28px; flex: 1; min-width: 0; overflow: hidden; }
+        .content { padding: 28px; flex: 1; min-width: 0; max-width: 100%; overflow-x: hidden; }
         .page-title { font-size: 1.4rem; font-weight: 800; color: #111827; margin-bottom: 4px; }
         .page-sub { font-size: 0.82rem; color: #9ca3af; margin-bottom: 24px; }
         .card { background: #fff; border-radius: 14px; padding: 24px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 24px; }
         .card-title { font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 16px; }
-        .info-row { display: flex; gap: 12px; margin-bottom: 8px; }
-        .info-label { font-weight: 600; color: #6b7280; width: 140px; }
-        .info-value { color: #111827; }
-        .table-card { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 28px; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th { padding: 10px 16px; text-align: left; font-size: 0.72rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; }
-        td { padding: 12px 16px; font-size: 0.82rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
+        .info-row { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; flex-wrap: wrap; }
+        .info-label { font-weight: 600; color: #6b7280; width: 130px; flex-shrink: 0; }
+        .info-value { color: #111827; word-break: break-word; min-width: 0; flex: 1; }
+        .table-card { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 28px; width: 100%; max-width: 100%; overflow: hidden; }
+        .table-wrapper { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; }
+        th { padding: 8px 10px; text-align: left; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; white-space: nowrap; }
+        td { padding: 8px 10px; font-size: 0.8125rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #faf9f6; }
-        .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+        .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; display: inline-block; white-space: nowrap; }
         .status-completed { background: #dcfce7; color: #15803d; }
         .status-in_progress { background: #fff7ed; color: #c2410c; }
         .status-scheduled { background: #fff7ed; color: #c2410c; }
@@ -76,7 +77,12 @@
             .toggle-btn { display: none; }
         }
         @media (max-width: 768px) { .content { padding: 20px 16px; } .topbar { padding: 12px 16px; } }
-        @media (max-width: 600px) { h1.page-title { font-size: 1.15rem; } .detail-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 640px) { .card { padding: 16px; } }
+        @media (max-width: 480px) {
+            .info-row { flex-direction: column; gap: 2px; align-items: flex-start; text-align: left; }
+            .info-label { width: 100%; font-size: 0.75rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.04em; }
+            .info-value { width: 100%; font-size: 0.88rem; font-weight: 500; }
+        }
     </style>
 </head>
 <body>

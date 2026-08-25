@@ -49,11 +49,11 @@
         .card { background: #fff; border-radius: 14px; padding: 24px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 24px; }
         .card-title { font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 16px; }
         .customer-header { display: flex; gap: 20px; align-items: flex-start; }
-        .customer-avatar { width: 100px; height: 100px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 2.5rem; }
-        .customer-info { flex: 1; }
-        .info-row { display: flex; gap: 12px; margin-bottom: 8px; }
-        .info-label { font-weight: 600; color: #6b7280; width: 140px; }
-        .info-value { color: #111827; }
+        .customer-avatar { width: 90px; height: 90px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 2.2rem; flex-shrink: 0; }
+        .customer-info { flex: 1; min-width: 0; width: 100%; }
+        .info-row { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; flex-wrap: wrap; }
+        .info-label { font-weight: 600; color: #6b7280; width: 130px; flex-shrink: 0; }
+        .info-value { color: #111827; word-break: break-word; min-width: 0; flex: 1; }
         .table-card { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 28px; width: 100%; max-width: 100%; overflow: hidden; }
         .table-wrapper { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         table { width: 100%; border-collapse: collapse; }
@@ -61,14 +61,14 @@
         td { padding: 8px 10px; font-size: 0.8125rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #faf9f6; }
-        .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+        .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; display: inline-block; white-space: nowrap; }
         .status-completed { background: #dcfce7; color: #15803d; }
         .status-in_progress { background: #fff7ed; color: #c2410c; }
         .status-scheduled { background: #fff7ed; color: #c2410c; }
         .status-pending_match { background: #f3f4f6; color: #6b7280; }
         .status-quotes_received { background: #f3f4f6; color: #6b7280; }
         .status-cancelled { background: #fee2e2; color: #b91c1c; }
-        .action-btn { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; }
+        .action-btn { padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; transition: all 0.15s; }
         .btn-primary { background: #E8823C; color: #fff; border: none; }
         .btn-secondary { background: #fff; color: #6b7280; border: 1px solid #e5e7eb; }
         .back-btn { display: inline-flex; align-items: center; gap: 6px; color: #E8823C; text-decoration: none; font-weight: 600; margin-bottom: 16px; }
@@ -84,7 +84,18 @@
             .toggle-btn { display: none; }
         }
         @media (max-width: 768px) { .content { padding: 20px 16px; } .topbar { padding: 12px 16px; } }
-        @media (max-width: 600px) { h1.page-title { font-size: 1.15rem; } .detail-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 640px) {
+            .card { padding: 16px; }
+            .customer-header { flex-direction: column; align-items: center; text-align: center; gap: 16px; }
+            .customer-avatar { width: 72px; height: 72px; font-size: 1.8rem; }
+        }
+        @media (max-width: 480px) {
+            .info-row { flex-direction: column; gap: 2px; align-items: flex-start; text-align: left; }
+            .info-label { width: 100%; font-size: 0.75rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.04em; }
+            .info-value { width: 100%; font-size: 0.88rem; font-weight: 500; }
+            .info-row form { width: 100%; }
+            .info-row .action-btn { width: 100%; }
+        }
     </style>
 </head>
 <body>

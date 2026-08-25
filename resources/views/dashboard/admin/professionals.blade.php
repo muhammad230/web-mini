@@ -54,20 +54,20 @@
         .filters { display: flex; gap: 12px; flex-wrap: wrap; }
         .filter-input { padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 0.85rem; }
         table { width: 100%; border-collapse: collapse; }
-        th { padding: 8px 10px; text-align: left; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; white-space: nowrap; }
-        td { padding: 8px 10px; font-size: 0.8125rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
+        th { padding: 6px 8px; text-align: left; font-size: 0.68rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; white-space: nowrap; }
+        td { padding: 6px 8px; font-size: 0.75rem; color: #374151; border-bottom: 1px solid #f5f1ea; word-break: break-word; overflow-wrap: anywhere; }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #faf9f6; }
-        .status-badge { padding: 3px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; display: inline-block; }
+        .status-badge { padding: 2px 6px; border-radius: 20px; font-size: 0.65rem; font-weight: 600; white-space: nowrap; display: inline-block; }
         .status-verified { background: #dcfce7; color: #15803d; }
         .status-pending { background: #fef9c3; color: #a16207; }
         .status-rejected { background: #fee2e2; color: #b91c1c; }
-        .action-btn { padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
+        .action-btn { padding: 2px 6px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
         .btn-primary { background: #E8823C; color: #fff; border: none; }
         .btn-secondary { background: #fff; color: #6b7280; border: 1px solid #e5e7eb; }
         .btn-danger { background: #fee2e2; color: #b91c1c; border: none; }
         .btn-success { background: #dcfce7; color: #15803d; border: none; }
-        .pro-avatar { width: 30px; height: 30px; border-radius: 50%; background: #E8823C; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.8rem; flex-shrink: 0; }
+        .pro-avatar { width: 20px; height: 20px; border-radius: 50%; background: #E8823C; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
         .pagination { display: flex; justify-content: center; gap: 8px; padding: 16px 20px; }
         .pagination a, .pagination span { padding: 8px 12px; border-radius: 6px; border: 1px solid #e5e7eb; text-decoration: none; color: #374151; font-size: 0.85rem; }
         .pagination .active { background: #E8823C; color: #fff; border-color: #E8823C; }
@@ -233,7 +233,7 @@
                                         <div class="pro-avatar">{{ substr($pro->name, 0, 1) }}</div>
                                         <div>
                                             <div style="font-weight:600;color:#111827;line-height:1.2;">{{ $pro->name }}</div>
-                                            <div style="font-size:0.72rem;color:#9ca3af;">{{ $pro->email }}</div>
+                                            <div style="font-size:0.68rem;color:#9ca3af;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $pro->email }}</div>
                                         </div>
                                     </div>
                                 </td>
@@ -246,7 +246,7 @@
                                         {{ ucfirst($pro->verification_status) }}
                                     </span>
                                 </td>
-                                <td style="white-space:nowrap;">{{ $pro->created_at->format('M j, Y') }}</td>
+                                <td style="white-space:nowrap;">{{ $pro->created_at->format('M j') }}</td>
                                 <td>
                                     <div style="display:flex;align-items:center;gap:4px;white-space:nowrap;">
                                         <a href="{{ route('admin.professionals.detail', $pro->id) }}" class="action-btn btn-secondary">View</a>
