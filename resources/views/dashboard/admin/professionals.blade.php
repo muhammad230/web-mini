@@ -53,22 +53,22 @@
         .table-header { padding: 20px 24px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
         .filters { display: flex; gap: 12px; flex-wrap: wrap; }
         .filter-input { padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 0.85rem; }
-        table { width: 100%; border-collapse: collapse; min-width: 900px; }
-        th { padding: 10px 16px; text-align: left; font-size: 0.72rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; }
-        td { padding: 12px 16px; font-size: 0.82rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
+        table { width: 100%; border-collapse: collapse; }
+        th { padding: 8px 10px; text-align: left; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; white-space: nowrap; }
+        td { padding: 8px 10px; font-size: 0.8125rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #faf9f6; }
-        .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+        .status-badge { padding: 3px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; display: inline-block; }
         .status-verified { background: #dcfce7; color: #15803d; }
         .status-pending { background: #fef9c3; color: #a16207; }
         .status-rejected { background: #fee2e2; color: #b91c1c; }
-        .action-btn { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; margin-right: 6px; }
+        .action-btn { padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
         .btn-primary { background: #E8823C; color: #fff; border: none; }
         .btn-secondary { background: #fff; color: #6b7280; border: 1px solid #e5e7eb; }
         .btn-danger { background: #fee2e2; color: #b91c1c; border: none; }
         .btn-success { background: #dcfce7; color: #15803d; border: none; }
-        .pro-avatar { width: 36px; height: 36px; border-radius: 50%; background: #E8823C; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.9rem; }
-        .pagination { display: flex; justify-content: center; gap: 8px; padding: 20px; }
+        .pro-avatar { width: 30px; height: 30px; border-radius: 50%; background: #E8823C; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.8rem; flex-shrink: 0; }
+        .pagination { display: flex; justify-content: center; gap: 8px; padding: 16px 20px; }
         .pagination a, .pagination span { padding: 8px 12px; border-radius: 6px; border: 1px solid #e5e7eb; text-decoration: none; color: #374151; font-size: 0.85rem; }
         .pagination .active { background: #E8823C; color: #fff; border-color: #E8823C; }
         .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 90; }
@@ -229,42 +229,44 @@
                         @foreach($professionals as $pro)
                             <tr>
                                 <td>
-                                    <div style="display:flex;align-items:center;gap:10px;">
+                                    <div style="display:flex;align-items:center;gap:8px;">
                                         <div class="pro-avatar">{{ substr($pro->name, 0, 1) }}</div>
                                         <div>
-                                            <div style="font-weight:600;color:#111827;">{{ $pro->name }}</div>
-                                            <div style="font-size:0.75rem;color:#9ca3af;">{{ $pro->email }}</div>
+                                            <div style="font-weight:600;color:#111827;line-height:1.2;">{{ $pro->name }}</div>
+                                            <div style="font-size:0.72rem;color:#9ca3af;">{{ $pro->email }}</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{ $pro->trade ?: 'N/A' }}</td>
-                                <td>{{ $pro->location ?: 'N/A' }}</td>
-                                <td>{{ number_format($pro->avg_rating ?: 0, 1) }} ★</td>
-                                <td>{{ $pro->jobs_completed }}</td>
-                                <td>
+                                <td style="white-space:nowrap;">{{ $pro->trade ?: 'N/A' }}</td>
+                                <td style="white-space:nowrap;">{{ $pro->location ?: 'N/A' }}</td>
+                                <td style="white-space:nowrap;">{{ number_format($pro->avg_rating ?: 0, 1) }} ★</td>
+                                <td style="white-space:nowrap;text-align:center;">{{ $pro->jobs_completed }}</td>
+                                <td style="white-space:nowrap;">
                                     <span class="status-badge status-{{ $pro->verification_status }}">
                                         {{ ucfirst($pro->verification_status) }}
                                     </span>
                                 </td>
-                                <td>{{ $pro->created_at->format('M d, Y') }}</td>
+                                <td style="white-space:nowrap;">{{ $pro->created_at->format('M j, Y') }}</td>
                                 <td>
-                                    <a href="{{ route('admin.professionals.detail', $pro->id) }}" class="action-btn btn-secondary">View</a>
-                                    @if($pro->verification_status == 'pending')
-                                        <form method="POST" action="{{ route('admin.pro.approve', $pro->id) }}" style="display:inline;">
+                                    <div style="display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                                        <a href="{{ route('admin.professionals.detail', $pro->id) }}" class="action-btn btn-secondary">View</a>
+                                        @if($pro->verification_status == 'pending')
+                                            <form method="POST" action="{{ route('admin.pro.approve', $pro->id) }}" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="action-btn btn-success">Approve</button>
+                                            </form>
+                                            <form method="POST" action="{{ route('admin.pro.reject', $pro->id) }}" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="action-btn btn-danger">Reject</button>
+                                            </form>
+                                        @endif
+                                        <form method="POST" action="{{ route('admin.professionals.toggle', $pro->id) }}" style="display:inline;">
                                             @csrf
-                                            <button type="submit" class="action-btn btn-success">Approve</button>
+                                            <button type="submit" class="action-btn {{ $pro->available ? 'btn-secondary' : 'btn-primary' }}">
+                                                {{ $pro->available ? 'Suspend' : 'Activate' }}
+                                            </button>
                                         </form>
-                                        <form method="POST" action="{{ route('admin.pro.reject', $pro->id) }}" style="display:inline;">
-                                            @csrf
-                                            <button type="submit" class="action-btn btn-danger">Reject</button>
-                                        </form>
-                                    @endif
-                                    <form method="POST" action="{{ route('admin.professionals.toggle', $pro->id) }}" style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="action-btn {{ $pro->available ? 'btn-secondary' : 'btn-primary' }}">
-                                            {{ $pro->available ? 'Suspend' : 'Activate' }}
-                                        </button>
-                                    </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

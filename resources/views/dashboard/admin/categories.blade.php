@@ -79,23 +79,23 @@
         .form-input:focus { outline: none; border-color: #E8823C; box-shadow: 0 0 0 3px rgba(232,130,60,0.15); }
 
         /* Table */
-        table { width: 100%; border-collapse: collapse; min-width: 800px; }
-        th { padding: 10px 16px; text-align: left; font-size: 0.72rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; }
-        td { padding: 12px 16px; font-size: 0.82rem; color: #374151; border-bottom: 1px solid #f5f1ea; vertical-align: middle; }
+        table { width: 100%; border-collapse: collapse; }
+        th { padding: 8px 10px; text-align: left; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; white-space: nowrap; }
+        td { padding: 8px 10px; font-size: 0.8125rem; color: #374151; border-bottom: 1px solid #f5f1ea; vertical-align: middle; }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #faf9f6; }
-        .trade-cell { display: flex; align-items: center; gap: 12px; }
-        .trade-icon { width: 46px; height: 46px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .trade-cell { display: flex; align-items: center; gap: 8px; }
+        .trade-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .trade-name { font-weight: 600; color: #111827; }
         .trade-desc { font-size: 0.75rem; color: #9ca3af; }
 
         /* Status Badges */
-        .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+        .status-badge { padding: 3px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; display: inline-block; }
         .status-active { background: #dcfce7; color: #15803d; }
         .status-inactive { background: #f3f4f6; color: #6b7280; }
 
         /* Action Buttons */
-        .action-btn { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; margin-right: 6px; border: none; }
+        .action-btn { padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
         .btn-primary { background: #E8823C; color: #fff; }
         .btn-secondary { background: #f3f4f6; color: #374151; }
         .btn-danger { background: #fee2e2; color: #b91c1c; }
@@ -332,18 +332,20 @@
                                         {{ ($trade['active'] ?? true) ? 'Active' : 'Inactive' }}
                                     </span>
                                 </td>
-                                <td style="white-space:nowrap;">
-                                    <button type="button" class="action-btn btn-secondary" onclick="openEditModal({{ $index }})">Edit</button>
-                                    <form method="POST" action="{{ route('admin.categories.toggle', $index) }}" style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="action-btn {{ ($trade['active'] ?? true) ? 'btn-secondary' : 'btn-primary' }}">
-                                            {{ ($trade['active'] ?? true) ? 'Deactivate' : 'Activate' }}
-                                        </button>
-                                    </form>
-                                    <form method="POST" action="{{ route('admin.categories.delete', $index) }}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this trade? This cannot be undone.');">
-                                        @csrf
-                                        <button type="submit" class="action-btn btn-danger">Delete</button>
-                                    </form>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                                        <button type="button" class="action-btn btn-secondary" onclick="openEditModal({{ $index }})">Edit</button>
+                                        <form method="POST" action="{{ route('admin.categories.toggle', $index) }}" style="display:inline;">
+                                            @csrf
+                                            <button type="submit" class="action-btn {{ ($trade['active'] ?? true) ? 'btn-secondary' : 'btn-primary' }}">
+                                                {{ ($trade['active'] ?? true) ? 'Deactivate' : 'Activate' }}
+                                            </button>
+                                        </form>
+                                        <form method="POST" action="{{ route('admin.categories.delete', $index) }}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this trade? This cannot be undone.');">
+                                            @csrf
+                                            <button type="submit" class="action-btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

@@ -53,15 +53,15 @@
         .table-header { padding: 20px 24px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
         .filters { display: flex; gap: 12px; flex-wrap: wrap; }
         .filter-input { padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 0.85rem; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th { padding: 10px 16px; text-align: left; font-size: 0.72rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; }
-        td { padding: 12px 16px; font-size: 0.82rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
+        table { width: 100%; border-collapse: collapse; }
+        th { padding: 8px 10px; text-align: left; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; white-space: nowrap; }
+        td { padding: 8px 10px; font-size: 0.8125rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #faf9f6; }
-        .action-btn { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; margin-right: 6px; }
+        .action-btn { padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
         .btn-primary { background: #E8823C; color: #fff; border: none; }
         .btn-secondary { background: #fff; color: #6b7280; border: 1px solid #e5e7eb; }
-        .customer-avatar { width: 36px; height: 36px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.9rem; }
+        .customer-avatar { width: 30px; height: 30px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.8rem; flex-shrink: 0; }
         .pagination { display: flex; justify-content: center; gap: 8px; padding: 20px; }
         .pagination a, .pagination span { padding: 8px 12px; border-radius: 6px; border: 1px solid #e5e7eb; text-decoration: none; color: #374151; font-size: 0.85rem; }
         .pagination .active { background: #E8823C; color: #fff; border-color: #E8823C; }
@@ -206,23 +206,25 @@
                         @foreach($customers as $customer)
                             <tr>
                                 <td>
-                                    <div style="display:flex;align-items:center;gap:10px;">
+                                    <div style="display:flex;align-items:center;gap:8px;">
                                         <div class="customer-avatar">{{ substr($customer->name, 0, 1) }}</div>
-                                        <div style="font-weight:600;color:#111827;">{{ $customer->name }}</div>
+                                        <div style="font-weight:600;color:#111827;line-height:1.2;">{{ $customer->name }}</div>
                                     </div>
                                 </td>
                                 <td>{{ $customer->email }}</td>
-                                <td>{{ $customer->phone ?: 'N/A' }}</td>
-                                <td>{{ $customer->customer_jobs_count }}</td>
-                                <td>{{ $customer->created_at->format('M d, Y') }}</td>
+                                <td style="white-space:nowrap;">{{ $customer->phone ?: 'N/A' }}</td>
+                                <td style="white-space:nowrap;text-align:center;">{{ $customer->customer_jobs_count }}</td>
+                                <td style="white-space:nowrap;">{{ $customer->created_at->format('M j, Y') }}</td>
                                 <td>
-                                    <a href="{{ route('admin.customers.detail', $customer->id) }}" class="action-btn btn-secondary">View</a>
-                                    <form method="POST" action="{{ route('admin.customers.toggle', $customer->id) }}" style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="action-btn {{ $customer->available ? 'btn-secondary' : 'btn-primary' }}">
-                                            {{ $customer->available ? 'Suspend' : 'Activate' }}
-                                        </button>
-                                    </form>
+                                    <div style="display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                                        <a href="{{ route('admin.customers.detail', $customer->id) }}" class="action-btn btn-secondary">View</a>
+                                        <form method="POST" action="{{ route('admin.customers.toggle', $customer->id) }}" style="display:inline;">
+                                            @csrf
+                                            <button type="submit" class="action-btn {{ $customer->available ? 'btn-secondary' : 'btn-primary' }}">
+                                                {{ $customer->available ? 'Suspend' : 'Activate' }}
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

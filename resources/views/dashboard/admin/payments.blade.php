@@ -52,17 +52,17 @@
         .table-wrap { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; margin-bottom: 28px; width: 100%; max-width: 100%; }
         .table-wrapper { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .table-wrap h2 { font-size: 1.05rem; font-weight: 700; color: #111827; padding: 18px 20px 0; }
-        .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-        .table-wrap th { text-align: left; padding: 14px 16px; font-size: 0.7rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; }
-        .table-wrap td { padding: 12px 16px; border-bottom: 1px solid #f3f0ea; color: #374151; }
+        .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
+        .table-wrap th { text-align: left; padding: 8px 10px; font-size: 0.7rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; white-space: nowrap; }
+        .table-wrap td { padding: 8px 10px; border-bottom: 1px solid #f3f0ea; color: #374151; }
         .table-wrap tbody tr:hover { background: #faf8f5; }
-        .badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.7rem; font-weight: 600; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; }
         .badge-pending { background: #fef3c7; color: #92400e; }
         .badge-paid { background: #d1fae5; color: #065f46; }
         .badge-failed { background: #fee2e2; color: #991b1b; }
         .badge-approved { background: #dbeafe; color: #1e40af; }
         .badge-rejected { background: #fee2e2; color: #991b1b; }
-        .btn-sm { padding: 4px 12px; border-radius: 8px; font-size: 0.72rem; font-weight: 600; border: none; cursor: pointer; }
+        .btn-sm { padding: 4px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: 600; border: none; cursor: pointer; white-space: nowrap; }
         .section-toggle { display: none; }
         .section-toggle-label { cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 600; color: #16302A; padding: 8px 16px; background: #fff; border-radius: 10px; border: 1px solid #ece8df; margin-bottom: 16px; }
         .section-toggle-label:hover { background: #faf8f5; }

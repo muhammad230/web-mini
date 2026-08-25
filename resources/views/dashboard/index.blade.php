@@ -95,9 +95,9 @@
         .table-wrapper { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .table-header { padding: 20px 24px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
         .view-all { font-size: 0.8rem; font-weight: 600; color: #E8823C; text-decoration: none; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th { padding: 10px 16px; text-align: left; font-size: 0.72rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; }
-        td { padding: 12px 16px; font-size: 0.82rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
+        table { width: 100%; border-collapse: collapse; }
+        th { padding: 8px 10px; text-align: left; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; white-space: nowrap; }
+        td { padding: 8px 10px; font-size: 0.8125rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #faf9f6; }
 
@@ -468,17 +468,19 @@
                                         <span style="color:#b91c1c;font-size:0.78rem;">Missing</span>
                                     @endif
                                 </td>
-                                <td>{{ $pro->created_at->format('M d, Y') }}</td>
+                                <td>{{ $pro->created_at->format('M j, Y') }}</td>
                                 <td>
-                                    <a href="{{ route('admin.professionals.detail', $pro->id) }}" style="background:#16302A;color:#fff;border:none;padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;margin-right:6px;text-decoration:none;">Review</a>
-                                    <form method="POST" action="{{ route('admin.pro.approve', $pro->id) }}" style="display:inline;">
-                                        @csrf
-                                        <button type="submit" style="background:#E8823C;color:#fff;border:none;padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;margin-right:6px;">Approve</button>
-                                    </form>
-                                    <form method="POST" action="{{ route('admin.pro.reject', $pro->id) }}" style="display:inline;">
-                                        @csrf
-                                        <button type="submit" style="background:#fff;color:#6b7280;border:1.5px solid #e5e7eb;padding:6px 14px;border-radius:7px;font-weight:600;cursor:pointer;">Reject</button>
-                                    </form>
+                                    <div style="display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                                        <a href="{{ route('admin.professionals.detail', $pro->id) }}" style="background:#16302A;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:0.75rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Review</a>
+                                        <form method="POST" action="{{ route('admin.pro.approve', $pro->id) }}" style="display:inline;">
+                                            @csrf
+                                            <button type="submit" style="background:#E8823C;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:0.75rem;font-weight:600;cursor:pointer;">Approve</button>
+                                        </form>
+                                        <form method="POST" action="{{ route('admin.pro.reject', $pro->id) }}" style="display:inline;">
+                                            @csrf
+                                            <button type="submit" style="background:#fff;color:#6b7280;border:1px solid #e5e7eb;padding:4px 8px;border-radius:6px;font-size:0.75rem;font-weight:600;cursor:pointer;">Reject</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

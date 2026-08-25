@@ -71,11 +71,12 @@
         .filters { display: flex; gap: 12px; flex-wrap: wrap; }
         .filter-input { padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 0.85rem; }
         .card-title { font-size: 1rem; font-weight: 700; color: #111827; }
-        table { width: 100%; border-collapse: collapse; min-width: 800px; }
-        th { padding: 10px 16px; text-align: left; font-size: 0.72rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; }
-        td { padding: 12px 16px; font-size: 0.82rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
+        table { width: 100%; border-collapse: collapse; }
+        th { padding: 8px 10px; text-align: left; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; white-space: nowrap; }
+        td { padding: 8px 10px; font-size: 0.8125rem; color: #374151; border-bottom: 1px solid #f5f1ea; }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #faf9f6; }
+        .action-btn { padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
 
         /* Status Badges */
         .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
@@ -287,14 +288,14 @@
                     @if($jobs->count() > 0)
                         @foreach($jobs as $job)
                             <tr>
-                                <td style="font-weight:600;color:#E8823C;">#JB-{{ $job->id }}</td>
-                                <td>{{ $job->customer ? $job->customer->name : 'N/A' }}</td>
-                                <td>{{ $job->assignedPro ? $job->assignedPro->name : 'N/A' }}</td>
-                                <td>{{ $job->trade_category ?: 'N/A' }}</td>
-                                <td><span class="status-badge status-{{ $job->status }}">{{ ucwords(str_replace('_', ' ', $job->status)) }}</span></td>
-                                <td style="font-weight:600;">Rs. {{ number_format($job->amount_paid ?: 0, 2) }}</td>
-                                <td>{{ $job->created_at->format('M d, Y') }}</td>
-                                <td><a href="{{ route('admin.jobs.detail', $job->id) }}" class="action-btn btn-primary">View</a></td>
+                                <td style="font-weight:600;color:#E8823C;white-space:nowrap;">#JB-{{ $job->id }}</td>
+                                <td style="white-space:nowrap;">{{ $job->customer ? $job->customer->name : 'N/A' }}</td>
+                                <td style="white-space:nowrap;">{{ $job->assignedPro ? $job->assignedPro->name : 'N/A' }}</td>
+                                <td style="white-space:nowrap;">{{ $job->trade_category ?: 'N/A' }}</td>
+                                <td style="white-space:nowrap;"><span class="status-badge status-{{ $job->status }}">{{ ucwords(str_replace('_', ' ', $job->status)) }}</span></td>
+                                <td style="font-weight:600;white-space:nowrap;">Rs. {{ number_format($job->amount_paid ?: 0, 2) }}</td>
+                                <td style="white-space:nowrap;">{{ $job->created_at->format('M j, Y') }}</td>
+                                <td style="white-space:nowrap;"><a href="{{ route('admin.jobs.detail', $job->id) }}" class="action-btn btn-primary">View</a></td>
                             </tr>
                         @endforeach
                     @else
