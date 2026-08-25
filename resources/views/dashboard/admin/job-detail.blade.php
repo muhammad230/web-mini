@@ -222,7 +222,19 @@
                 <span class="info-label">Schedule:</span>
                 <span class="info-value">
                     @if($job->schedule)
-                        {{ $job->schedule->format('M d, Y h:i A') }}
+                        @php
+                            try {
+                                if (is_string($job->schedule)) {
+                                    echo \Illuminate\Support\Carbon::parse($job->schedule)->format('M d, Y h:i A');
+                                } elseif (method_exists($job->schedule, 'format')) {
+                                    echo $job->schedule->format('M d, Y h:i A');
+                                } else {
+                                    echo $job->schedule;
+                                }
+                            } catch (\Exception $e) {
+                                echo $job->schedule;
+                            }
+                        @endphp
                     @else
                         N/A
                     @endif
