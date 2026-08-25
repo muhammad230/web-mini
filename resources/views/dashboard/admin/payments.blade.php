@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { max-width: 100vw; overflow-x: hidden; }
         body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; display: flex; min-height: 100vh; }
         .sidebar { width: 240px; height: 100vh; background: #16302A; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; z-index: 100; transition: width 0.2s; overflow: hidden; }
         .sidebar.collapsed { width: 64px; }
@@ -34,22 +35,22 @@
         .admin-info .name { font-size: 0.82rem; font-weight: 600; color: #fff; white-space: nowrap; }
         .admin-info .role { font-size: 0.72rem; color: #8aaa9e; }
         .sidebar.collapsed .admin-info { display: none; }
-        .sidebar.collapsed .admin-info { display: none; }
         .logout-btn { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 12px; border-radius: 8px; background: rgba(232,130,60,0.12); color: #E8823C; font-size: 0.8rem; font-weight: 600; cursor: pointer; border: none; width: 100%; }
         .sidebar.collapsed .logout-btn span { display: none; }
-        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s; min-width: 0; overflow: hidden; }
+        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s; min-width: 0; max-width: 100%; overflow-x: hidden; }
         .main.expanded { margin-left: 64px; }
-        .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ece8df; position: sticky; top: 0; z-index: 50; }
+        .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ece8df; position: sticky; top: 0; z-index: 50; width: 100%; flex-shrink: 0; }
         .topbar-left { display: flex; align-items: center; gap: 12px; }
         .toggle-btn { background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
         .hamburger-btn { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
-        .content { padding: 28px; flex: 1; min-width: 0; overflow: hidden; }
+        .content { padding: 28px; flex: 1; min-width: 0; max-width: 100%; overflow-x: hidden; }
         .page-title { font-size: 1.4rem; font-weight: 800; color: #111827; margin-bottom: 4px; }
         .page-sub { font-size: 0.82rem; color: #9ca3af; margin-bottom: 24px; }
         .stat-card { background: #fff; border-radius: 14px; padding: 20px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
         .stat-value { font-size: 1.8rem; font-weight: 800; }
         .stat-label { font-size: 0.78rem; color: #6b7280; margin-top: 2px; }
-        .table-wrap { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; margin-bottom: 28px; }
+        .table-wrap { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; margin-bottom: 28px; width: 100%; max-width: 100%; }
+        .table-wrapper { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .table-wrap h2 { font-size: 1.05rem; font-weight: 700; color: #111827; padding: 18px 20px 0; }
         .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
         .table-wrap th { text-align: left; padding: 14px 16px; font-size: 0.7rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; background: #faf9f6; border-bottom: 1px solid #ece8df; }
@@ -165,7 +166,7 @@
         <!-- Payments Table -->
         <div class="table-wrap">
             <h2>All Payments</h2>
-            <div style="overflow-x:auto;">
+            <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
@@ -230,7 +231,7 @@
         <!-- Payout Requests -->
         <div class="table-wrap">
             <h2>Payout Requests</h2>
-            <div style="overflow-x:auto;">
+            <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { max-width: 100vw; overflow-x: hidden; }
         body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; display: flex; min-height: 100vh; }
 
         /* Sidebar Overlay for Mobile */
@@ -45,11 +46,11 @@
         .sidebar.collapsed .logout-btn span { display: none; }
 
         /* Main */
-        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s ease; min-width: 0; overflow: hidden; }
+        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s ease; min-width: 0; max-width: 100%; overflow-x: hidden; }
         .main.expanded { margin-left: 64px; }
 
         /* Topbar */
-        .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ece8df; position: sticky; top: 0; z-index: 50; }
+        .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ece8df; position: sticky; top: 0; z-index: 50; width: 100%; flex-shrink: 0; }
         .topbar-left { display: flex; align-items: center; gap: 12px; }
         .toggle-btn { background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
         .hamburger-btn { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
@@ -60,12 +61,13 @@
         .admin-topbar .trole { font-size: 0.72rem; color: #9ca3af; }
 
         /* Content */
-        .content { padding: 28px; flex: 1; min-width: 0; overflow: hidden; }
+        .content { padding: 28px; flex: 1; min-width: 0; max-width: 100%; overflow-x: hidden; }
         .page-title { font-size: 1.4rem; font-weight: 800; color: #111827; margin-bottom: 4px; }
         .page-sub { font-size: 0.82rem; color: #9ca3af; margin-bottom: 24px; }
 
         /* Cards */
-        .card { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 28px; }
+        .card { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 28px; width: 100%; max-width: 100%; overflow: hidden; }
+        .table-wrapper { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .card-header { padding: 20px 24px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
         .card-title { font-size: 1rem; font-weight: 700; color: #111827; }
         .card-body { padding: 0 24px 24px; }
@@ -296,10 +298,11 @@
         </div>
 
         <!-- Trades Table -->
-        <div class="card" style="overflow-x:auto;">
+        <div class="card">
             <div class="card-header">
                 <div class="card-title">All Trades ({{ count($trades) }})</div>
             </div>
+            <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
@@ -349,6 +352,7 @@
                     @endif
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </div>

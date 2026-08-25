@@ -48,11 +48,11 @@
         .sidebar.collapsed .logout-btn span { display: none; }
 
         /* ── Main ── */
-        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s ease; overflow-y: auto; height: 100vh; }
+        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s ease; min-width: 0; max-width: 100%; overflow-x: hidden; height: 100vh; }
         .main.expanded { margin-left: 64px; }
 
         /* ── Topbar ── */
-        .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ece8df; position: sticky; top: 0; z-index: 50; }
+        .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ece8df; position: sticky; top: 0; z-index: 50; width: 100%; flex-shrink: 0; }
         .topbar-left { display: flex; align-items: center; gap: 12px; }
         .toggle-btn { background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
         .hamburger-btn { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
@@ -64,29 +64,25 @@
         .admin-topbar { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .admin-topbar img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
         .admin-topbar .tname { font-size: 0.85rem; font-weight: 600; color: #111827; }
-.admin-topbar .trole { font-size: 0.72rem; color: #9ca3af; }
-.admin-topbar-wrapper { position: relative; }
-.admin-dropdown { position:absolute; top:calc(100% + 10px); right:0; background:#fff; border:1px solid #ece8df; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.1); min-width:190px; padding:6px; z-index:100; display:none; }
-.admin-dropdown.show { display:block; }
-.admin-dropdown-item { display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:8px; font-size:0.82rem; font-weight:500; color:#374151; background:none; border:none; cursor:pointer; width:100%; text-align:left; text-decoration:none; transition:background 0.15s; }
-.admin-dropdown-item:hover { background:#f5f1ea; }
-.admin-dropdown-item svg { width:16px; height:16px; flex-shrink:0; }
+        .admin-topbar .trole { font-size: 0.72rem; color: #9ca3af; }
+        .admin-topbar-wrapper { position: relative; }
+        .admin-dropdown { position:absolute; top:calc(100% + 10px); right:0; background:#fff; border:1px solid #ece8df; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.1); min-width:190px; padding:6px; z-index:100; display:none; }
+        .admin-dropdown.show { display:block; }
+        .admin-dropdown-item { display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:8px; font-size:0.82rem; font-weight:500; color:#374151; background:none; border:none; cursor:pointer; width:100%; text-align:left; text-decoration:none; transition:background 0.15s; }
+        .admin-dropdown-item:hover { background:#f5f1ea; }
+        .admin-dropdown-item svg { width:16px; height:16px; flex-shrink:0; }
 
-/* ── Content ── */
-        .content { padding: 28px; flex: 1; }
+        /* ── Content ── */
+        .content { padding: 28px; flex: 1; min-width: 0; max-width: 100%; overflow-x: hidden; }
         .page-title { font-size: 1.4rem; font-weight: 800; color: #111827; margin-bottom: 4px; }
         .page-sub { font-size: 0.82rem; color: #9ca3af; margin-bottom: 24px; }
 
         /* ── KPI Cards ── */
-        .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 28px; }
-        .kpi-card { background: #fff; border-radius: 14px; padding: 20px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .kpi-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
-        .kpi-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .kpi-badge { font-size: 0.7rem; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
-        .badge-up { background: #dcfce7; color: #16a34a; }
-        .badge-down { background: #fee2e2; color: #dc2626; }
-        .kpi-value { font-size: 1.6rem; font-weight: 800; color: #111827; line-height: 1; margin-bottom: 4px; }
-        .kpi-label { font-size: 0.75rem; color: #9ca3af; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 28px; }
+        .kpi-card { background: #fff; border-radius: 14px; padding: 20px 24px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: space-between; }
+        .kpi-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .kpi-value { font-size: 1.6rem; font-weight: 800; color: #111827; margin-bottom: 2px; }
+        .kpi-label { font-size: 0.78rem; color: #9ca3af; }
 
         /* ── Charts ── */
         .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
@@ -95,7 +91,8 @@
         .card-sub { font-size: 0.75rem; color: #9ca3af; margin-bottom: 18px; }
 
         /* ── Tables ── */
-        .table-card { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 28px; overflow-x: auto; }
+        .table-card { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 28px; width: 100%; max-width: 100%; overflow: hidden; }
+        .table-wrapper { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .table-header { padding: 20px 24px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
         .view-all { font-size: 0.8rem; font-weight: 600; color: #E8823C; text-decoration: none; }
         table { width: 100%; border-collapse: collapse; min-width: 600px; }
@@ -451,6 +448,7 @@
                 </div>
                 <a href="{{ route('admin.professionals') }}" class="view-all">View all →</a>
             </div>
+            <div class="table-wrapper">
             <table>
                 <thead><tr>
                     <th>Professional</th><th>Trade</th><th>Location</th><th>Experience</th><th>ID Document</th><th>Submitted</th><th>Actions</th>
@@ -489,6 +487,7 @@
                     @endif
                 </tbody>
             </table>
+            </div>
         </div>
 
         <!-- Recent Jobs -->
@@ -500,6 +499,7 @@
                 </div>
                 <a href="{{ route('admin.jobs') }}" class="view-all">View all →</a>
             </div>
+            <div class="table-wrapper">
             <table>
                 <thead><tr>
                     <th>Job ID</th><th>Customer</th><th>Professional</th><th>Trade</th><th>Status</th><th>Amount</th><th>Date</th>
@@ -533,6 +533,7 @@
                     @endif
                 </tbody>
             </table>
+            </div>
         </div>
 
         <!-- Bottom 3-Column Grid -->

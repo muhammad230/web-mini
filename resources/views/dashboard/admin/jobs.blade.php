@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { max-width: 100vw; overflow-x: hidden; }
         body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; display: flex; min-height: 100vh; }
 
         /* Sidebar Overlay for Mobile */
@@ -24,14 +25,13 @@
         .sidebar-logo { padding: 20px 20px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #1e4238; }
         .sidebar-logo span { font-size: 1.2rem; font-weight: 800; color: #fff; white-space: nowrap; }
         .sidebar-logo span em { color: #E8823C; font-style: normal; }
-        .sidebar.collapsed .sidebar-logo span { display: none; }
+
         .nav-section { padding: 12px 0; flex: 1; overflow-y: auto; min-height: 0; scrollbar-width: none; -ms-overflow-style: none; }
         .nav-section::-webkit-scrollbar { display: none; }
         .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 18px; cursor: pointer; color: #8aaa9e; font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: all 0.15s; white-space: nowrap; position: relative; border-left: 3px solid transparent; }
         .nav-item:hover { color: #fff; background: rgba(255,255,255,0.06); }
         .nav-item.active { color: #fff; background: rgba(232,130,60,0.12); border-left-color: #E8823C; }
         .nav-item svg { flex-shrink: 0; }
-        .sidebar.collapsed .nav-item span { display: none; }
         .nav-label { font-size: 0.65rem; font-weight: 700; color: #4a7a6a; text-transform: uppercase; letter-spacing: 0.08em; padding: 16px 20px 4px; }
         .sidebar.collapsed .nav-label { display: none; }
         .sidebar-bottom { padding: 16px; border-top: 1px solid #1e4238; margin-top: auto; }
@@ -45,11 +45,11 @@
         .sidebar.collapsed .logout-btn span { display: none; }
 
         /* Main */
-        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s ease; min-width: 0; overflow: hidden; }
+        .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; transition: margin-left 0.2s ease; min-width: 0; max-width: 100%; overflow-x: hidden; }
         .main.expanded { margin-left: 64px; }
 
         /* Topbar */
-        .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ece8df; position: sticky; top: 0; z-index: 50; }
+        .topbar { background: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ece8df; position: sticky; top: 0; z-index: 50; width: 100%; flex-shrink: 0; }
         .topbar-left { display: flex; align-items: center; gap: 12px; }
         .toggle-btn { background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
         .hamburger-btn { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #6b7280; }
@@ -60,12 +60,13 @@
         .admin-topbar .trole { font-size: 0.72rem; color: #9ca3af; }
 
         /* Content */
-        .content { padding: 28px; flex: 1; }
+        .content { padding: 28px; flex: 1; min-width: 0; max-width: 100%; overflow-x: hidden; }
         .page-title { font-size: 1.4rem; font-weight: 800; color: #111827; margin-bottom: 4px; }
         .page-sub { font-size: 0.82rem; color: #9ca3af; margin-bottom: 24px; }
 
         /* Table Card */
-        .table-card { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 28px; overflow-x: auto; }
+        .table-card { background: #fff; border-radius: 14px; border: 1px solid #ece8df; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 28px; width: 100%; max-width: 100%; overflow: hidden; }
+        .table-wrapper { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .table-header { padding: 20px 24px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
         .filters { display: flex; gap: 12px; flex-wrap: wrap; }
         .filter-input { padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 0.85rem; }
@@ -268,6 +269,7 @@
                     <button type="submit" class="action-btn btn-primary">Filter</button>
                 </form>
             </div>
+            <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
@@ -300,6 +302,7 @@
                     @endif
                 </tbody>
             </table>
+            </div>
             @if($jobs->hasPages())
                 <div class="pagination">
                     {{ $jobs->links() }}
