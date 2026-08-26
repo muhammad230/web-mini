@@ -1,0 +1,45 @@
+{
+  "buildCommand": "composer install --no-dev --optimize-autoloader && npm install && npm run build",
+  "outputDirectory": "public",
+  "framework": null,
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@1.0.0",
+      "maxDuration": 30
+    }
+  },
+  "routes": [
+    {
+      "src": "/build/(.*)",
+      "dest": "/public/build/$1"
+    },
+    {
+      "src": "/storage/(.*)",
+      "dest": "/public/storage/$1"
+    },
+    {
+      "src": "/favicon\\.ico",
+      "dest": "/public/favicon.ico"
+    },
+    {
+      "src": "/robots\\.txt",
+      "dest": "/public/robots.txt"
+    },
+    {
+      "src": "/images/(.*)",
+      "dest": "/public/images/$1"
+    },
+    {
+      "src": "/css/(.*)",
+      "dest": "/public/css/$1"
+    },
+    {
+      "src": "/js/(.*)",
+      "dest": "/public/js/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.php"
+    }
+  ]
+}
