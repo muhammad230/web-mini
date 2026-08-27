@@ -2,6 +2,7 @@ node_modules/
 .env
 .env.*
 !.env.example
+bootstrap/cache/
 storage/framework/views/*.php
 storage/framework/cache/*
 storage/framework/sessions/*
