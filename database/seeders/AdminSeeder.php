@@ -22,7 +22,7 @@ class AdminSeeder extends Seeder
             [
                 'name'                => 'Muhammad Ali',
                 'email'               => 'admin@fixly.com',
-                'password'            => Hash::make('password123'),
+                'password'            => Hash::make('password1234'),
                 'phone'               => '+1234567890',
                 'role'                => 'admin',
                 'verification_status' => 'verified',
@@ -32,6 +32,6 @@ class AdminSeeder extends Seeder
             ]
         );
 
-        $this->command->info('Admin account ready: admin@fixly.com / password123');
+        $this->command->info('Admin account ready: admin@fixly.com / password1234');
     }
 }
