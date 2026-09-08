@@ -1,7 +1,5 @@
 .git
 .gitignore
-.vercel
-.vercelignore
 node_modules
 vendor
 public/build
