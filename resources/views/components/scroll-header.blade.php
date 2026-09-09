@@ -17,11 +17,6 @@
         </nav>
 
         <div class="scroll-header-actions" style="display:flex; align-items:center; gap:12px; flex-shrink:0;">
-            {{-- Theme toggle --}}
-            <div style="display:flex; align-items:center;">
-                @include('partials.theme-toggle')
-            </div>
-
             {{-- Auth buttons --}}
             @auth
                 <a href="{{ Auth::user()->isCustomer() ? route('dashboard.customer') : (Auth::user()->isProfessional() ? route('dashboard.professional') : route('admin.dashboard')) }}" class="flex items-center gap-2 text-[#1f2937] hover:text-[#E8823C] transition-colors whitespace-nowrap text-sm" style="text-decoration:none;">
@@ -50,6 +45,11 @@
                     </div>
                 </div>
             @endauth
+
+            {{-- Theme toggle --}}
+            <div style="display:flex; align-items:center;">
+                @include('partials.theme-toggle')
+            </div>
         </div>
 
     </div>
