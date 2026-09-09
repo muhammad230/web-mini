@@ -16,7 +16,41 @@
             <a href="{{ route('contact') }}" class="scroll-header-link">Contact</a>
         </nav>
 
-        <a href="{{ route('job.post') }}" class="scroll-header-cta">Post a job</a>
+        <div class="scroll-header-actions" style="display:flex; align-items:center; gap:12px; flex-shrink:0;">
+            {{-- Theme toggle --}}
+            <div style="display:flex; align-items:center;">
+                @include('partials.theme-toggle')
+            </div>
+
+            {{-- Auth buttons --}}
+            @auth
+                <a href="{{ Auth::user()->isCustomer() ? route('dashboard.customer') : (Auth::user()->isProfessional() ? route('dashboard.professional') : route('admin.dashboard')) }}" class="flex items-center gap-2 text-[#1f2937] hover:text-[#E8823C] transition-colors whitespace-nowrap text-sm" style="text-decoration:none;">
+                    @if(Auth::user()->profile_photo)
+                        <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" class="w-8 h-8 rounded-full object-cover" alt="{{ Auth::user()->name }}">
+                    @else
+                        <div class="w-8 h-8 rounded-full bg-[#E8823C] flex items-center justify-center text-white font-bold text-xs">{{ substr(Auth::user()->name, 0, 1) }}</div>
+                    @endif
+                    <span class="font-medium">{{ Auth::user()->name }}</span>
+                </a>
+                <a href="{{ Auth::user()->isCustomer() ? route('dashboard.customer') : (Auth::user()->isProfessional() ? route('dashboard.professional') : route('admin.dashboard')) }}" class="bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap text-sm" style="text-decoration:none;">Dashboard</a>
+                <form method="POST" action="{{ route('logout') }}" style="margin:0;">
+                    @csrf
+                    <button type="submit" class="text-[#1f2937] font-medium hover:text-[#E8823C] transition-colors whitespace-nowrap text-sm">Log out</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="text-[#1f2937] font-medium hover:text-[#E8823C] transition-colors whitespace-nowrap text-sm" style="text-decoration:none;">Log in</a>
+                <div class="relative group">
+                    <button class="bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold px-5 py-2 rounded-lg transition-colors cursor-pointer flex items-center gap-1.5 text-sm">
+                        Sign up
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+                        <a href="{{ route('register') }}" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#E8823C] font-medium border-b border-gray-100">Sign up as Customer</a>
+                        <a href="{{ route('professionals.why-join') }}" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#E8823C] font-medium">Sign up as Professional</a>
+                    </div>
+                </div>
+            @endauth
+        </div>
 
     </div>
 </header>
@@ -94,24 +128,24 @@ html { scroll-padding-top: 76px; }
     border-bottom-color: #E8823C;
 }
 
-.scroll-header-cta {
-    flex-shrink: 0;
-    background: #e07b39;
-    color: #fff;
-    font-weight: 600;
-    font-size: 0.875rem;
-    padding: 9px 18px;
-    border-radius: 10px;
-    text-decoration: none;
-    transition: background 0.2s ease;
-    white-space: nowrap;
-}
-.scroll-header-cta:hover { background: #c96a2a; }
-
 @media (max-width: 768px) {
-    .scroll-header-inner { gap: 14px; padding: 0 14px; }
-    .scroll-header-nav { justify-content: flex-start; gap: 16px; }
-    .scroll-header-cta { display: none; }
+    .scroll-header-inner {
+        flex-wrap: wrap;
+        gap: 6px 14px;
+        padding: 6px 14px;
+        min-height: auto;
+        padding-bottom: 8px;
+    }
+    .scroll-header-nav {
+        order: 3;
+        flex-basis: 100%;
+        justify-content: flex-start;
+        gap: 16px;
+    }
+    .scroll-header-actions {
+        margin-left: auto;
+        gap: 10px;
+    }
 }
 @media (max-width: 480px) {
     .scroll-header-logo span { display: none; }
