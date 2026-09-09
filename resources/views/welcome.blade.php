@@ -194,6 +194,9 @@
     {{-- ======= HERO + SEARCH (navbar embedded inside) ======= --}}
     @include('components.hero', ['hero' => $hero, 'navData' => $navData, 'trades' => $trades])
 
+    {{-- ======= ON-SCROLL HEADER ======= --}}
+    @include('components.scroll-header')
+
     {{-- ======= STATS BAR ======= --}}
     @include('components.stats', ['statsBar' => $statsBar])
 
