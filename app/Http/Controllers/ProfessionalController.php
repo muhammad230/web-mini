@@ -54,7 +54,7 @@ class ProfessionalController extends Controller
         $newLeads = collect();
         if (!empty($trades)) {
             $leadsQuery = DB::table('customer_jobs')
-                ->where('status', 'pending_match')
+                ->whereIn('status', ['pending_match', 'quotes_received'])
                 ->whereIn('trade_category', $trades);
 
             $serviceArea = $pro->service_area ?? null;
