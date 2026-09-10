@@ -207,7 +207,7 @@ class CustomerController extends Controller
         $job->quotes()->delete();
         $job->delete();
 
-        return back()->with('success', 'Job deleted.');
+        return redirect()->route('dashboard.customer')->with('success', 'Job deleted.');
     }
 
     public function leaveReview(Request $request, CustomerJob $job)
