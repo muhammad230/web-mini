@@ -52,7 +52,7 @@ class CustomerController extends Controller
             'budget_type' => 'required|in:fixed,flexible',
             'budget_min' => 'nullable|numeric|min:0',
             'budget_max' => 'nullable|numeric|min:0',
-            'schedule' => 'required|string',
+            'schedule' => 'required|date',
         ]);
 
         $job = CustomerJob::create([
@@ -149,8 +149,20 @@ class CustomerController extends Controller
         if ($job->customer_id !== Auth::id()) {
             abort(403);
         }
-        $request->validate(['schedule' => 'required|string']);
+        $request->validate(['schedule' => 'required|date|after:now']);
         $job->update(['schedule' => $request->schedule]);
+
+        // Notify the assigned professional
+        if ($job->assigned_pro_id) {
+            Notification::create([
+                'user_id'       => $job->assigned_pro_id,
+                'type'          => 'job_rescheduled',
+                'title'         => 'Job rescheduled',
+                'message'       => Auth::user()->name . ' rescheduled your "' . $job->trade_category . '" job to ' . \Carbon\Carbon::parse($request->schedule)->format('M d, Y \a\t g:i A') . '.',
+                'related_job_id'=> $job->id,
+            ]);
+        }
+
         return back()->with('success', 'Job rescheduled!');
     }
 

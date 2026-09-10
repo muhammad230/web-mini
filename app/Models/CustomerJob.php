@@ -16,6 +16,7 @@ class CustomerJob extends Model
         'budget_min' => 'decimal:2',
         'budget_max' => 'decimal:2',
         'amount_paid' => 'decimal:2',
+        'schedule'   => 'datetime',
         'completed_at' => 'datetime'
     ];
 

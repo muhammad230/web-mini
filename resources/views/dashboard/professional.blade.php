@@ -357,15 +357,9 @@
                                 <h4 class="font-semibold text-[#16302A] text-sm">{{ $job->trade_category }}</h4>
                                 <p class="text-xs text-gray-600 mt-1">{{ $job->customer_name }} • @php
                                     try {
-                                        if (is_string($job->schedule)) {
-                                            echo \Illuminate\Support\Carbon::parse($job->schedule)->format('D, M j • g:i A');
-                                        } elseif (method_exists($job->schedule, 'format')) {
-                                            echo $job->schedule->format('D, M j • g:i A');
-                                        } else {
-                                            echo 'TBD';
-                                        }
+                                        echo \Carbon\Carbon::parse($job->schedule)->format('D, M j \a\t g:i A');
                                     } catch (\Exception $e) {
-                                        echo $job->schedule;
+                                        echo e($job->schedule);
                                     }
                                 @endphp</p>
                                 <p class="text-xs text-gray-500">{{ $job->location }}</p>
@@ -384,11 +378,14 @@
                                             <button class="text-xs bg-[#E8823C] text-white px-3 py-1.5 rounded-lg font-medium">Mark Complete</button>
                                         </form>
                                     @endif
-                                    <form method="POST" action="{{ route('dashboard.professional.jobs.reschedule', $job->id) }}" class="inline" onsubmit="return confirmReschedule(this)">
-                                        @csrf
-                                        <input type="hidden" name="schedule" id="reschedule_{{ $job->id }}">
-                                        <button type="button" onclick="promptReschedule({{ $job->id }})" class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Reschedule</button>
-                                    </form>
+                                    @php
+                                        try {
+                                            $prefillSchedule = \Carbon\Carbon::parse($job->schedule)->format('Y-m-d\TH:i');
+                                        } catch (\Exception $e) {
+                                            $prefillSchedule = '';
+                                        }
+                                    @endphp
+                                    <button type="button" onclick="openProRescheduleModal({{ $job->id }}, '{{ $prefillSchedule }}')" class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Reschedule</button>
                                 </div>
                             </div>
                             @endforeach
@@ -673,15 +670,9 @@
                             <h4 class="font-bold text-[#16302A] text-lg">{{ $job->trade_category }}</h4>
                             <p class="text-sm text-gray-600 mt-2">{{ $job->customer_name }} • @php
                                 try {
-                                    if (is_string($job->schedule)) {
-                                        echo \Illuminate\Support\Carbon::parse($job->schedule)->format('D, M j • g:i A');
-                                    } elseif (method_exists($job->schedule, 'format')) {
-                                        echo $job->schedule->format('D, M j • g:i A');
-                                    } else {
-                                        echo 'TBD';
-                                    }
+                                    echo \Carbon\Carbon::parse($job->schedule)->format('D, M j \a\t g:i A');
                                 } catch (\Exception $e) {
-                                    echo $job->schedule;
+                                    echo e($job->schedule);
                                 }
                             @endphp</p>
                             <p class="text-sm text-gray-500 mt-1">{{ $job->location }}</p>
@@ -700,11 +691,14 @@
                                         <button class="text-sm bg-[#E8823C] text-white px-4 py-2 rounded-lg font-medium">Mark Complete</button>
                                     </form>
                                 @endif
-                                <form method="POST" action="{{ route('dashboard.professional.jobs.reschedule', $job->id) }}" class="inline" onsubmit="return confirmReschedule(this)">
-                                    @csrf
-                                    <input type="hidden" name="schedule" id="reschedule_{{ $job->id }}">
-                                    <button type="button" onclick="promptReschedule({{ $job->id }})" class="text-sm bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200">Reschedule</button>
-                                </form>
+                                @php
+                                    try {
+                                        $prefillSchedule = \Carbon\Carbon::parse($job->schedule)->format('Y-m-d\TH:i');
+                                    } catch (\Exception $e) {
+                                        $prefillSchedule = '';
+                                    }
+                                @endphp
+                                <button type="button" onclick="openProRescheduleModal({{ $job->id }}, '{{ $prefillSchedule }}')" class="text-sm bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200">Reschedule</button>
                             </div>
                         </div>
                         @endforeach
@@ -1009,6 +1003,31 @@
     </div>
 </div>
 
+{{-- ── RESCHEDULE MODAL ── --}}
+<div id="proRescheduleModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md">
+        <div class="flex items-center justify-between mb-5">
+            <h3 class="text-lg font-bold text-[#16302A]">Reschedule Job</h3>
+            <button onclick="closeProRescheduleModal()" class="text-gray-400 hover:text-gray-600">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <p class="text-sm text-gray-500 mb-4">Pick a new date and time for this job.</p>
+        <form id="proRescheduleForm" method="POST">
+            @csrf
+            <div class="mb-5">
+                <label class="text-xs font-semibold text-gray-600 mb-1 block">New Date &amp; Time</label>
+                <input type="datetime-local" name="schedule" id="proRescheduleDateTime" required
+                       class="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] outline-none">
+            </div>
+            <div class="flex gap-3">
+                <button type="button" onclick="closeProRescheduleModal()" class="flex-1 py-2.5 border border-gray-300 text-gray-700 font-semibold rounded-lg text-sm">Cancel</button>
+                <button type="submit" class="flex-1 py-2.5 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold rounded-lg text-sm transition">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
 function openQuoteModal(jobId, trade) {
     document.getElementById('quoteModal').classList.remove('hidden');
@@ -1018,12 +1037,17 @@ function openQuoteModal(jobId, trade) {
 function closeQuoteModal() {
     document.getElementById('quoteModal').classList.add('hidden');
 }
-function promptReschedule(jobId) {
-    const dt = prompt('Enter new date/time (YYYY-MM-DD HH:MM):');
-    if (dt) {
-        document.getElementById('reschedule_' + jobId).value = dt;
-        document.getElementById('reschedule_' + jobId).closest('form').submit();
-    }
+
+/* ── Reschedule Modal ── */
+function openProRescheduleModal(jobId, currentSchedule) {
+    document.getElementById('proRescheduleForm').action = '/dashboard/professional/jobs/' + jobId + '/reschedule';
+    document.getElementById('proRescheduleDateTime').value = currentSchedule || '';
+    document.getElementById('proRescheduleModal').classList.remove('hidden');
+    document.getElementById('proRescheduleModal').classList.add('flex');
+}
+function closeProRescheduleModal() {
+    document.getElementById('proRescheduleModal').classList.add('hidden');
+    document.getElementById('proRescheduleModal').classList.remove('flex');
 }
     </script>
     <script src="/js/theme-toggle.js"></script>

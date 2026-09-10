@@ -224,15 +224,9 @@
                     @if($job->schedule)
                         @php
                             try {
-                                if (is_string($job->schedule)) {
-                                    echo \Illuminate\Support\Carbon::parse($job->schedule)->format('M d, Y h:i A');
-                                } elseif (method_exists($job->schedule, 'format')) {
-                                    echo $job->schedule->format('M d, Y h:i A');
-                                } else {
-                                    echo $job->schedule;
-                                }
+                                echo \Carbon\Carbon::parse($job->schedule)->format('M d, Y \a\t g:i A');
                             } catch (\Exception $e) {
-                                echo $job->schedule;
+                                echo e($job->schedule);
                             }
                         @endphp
                     @else

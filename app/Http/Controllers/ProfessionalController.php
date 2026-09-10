@@ -368,6 +368,18 @@ class ProfessionalController extends Controller
             ->where('assigned_pro_id', $pro->id)
             ->update(['schedule' => $request->schedule, 'updated_at' => now()]);
 
+        // Notify the customer
+        $job = DB::table('customer_jobs')->where('id', $jobId)->first();
+        if ($job) {
+            Notification::create([
+                'user_id'       => $job->customer_id,
+                'type'          => 'job_rescheduled',
+                'title'         => 'Job rescheduled',
+                'message'       => $pro->name . ' rescheduled your "' . $job->trade_category . '" job to ' . \Carbon\Carbon::parse($request->schedule)->format('M d, Y \a\t g:i A') . '.',
+                'related_job_id'=> $jobId,
+            ]);
+        }
+
         return back()->with('success', 'Booking rescheduled.');
     }
 

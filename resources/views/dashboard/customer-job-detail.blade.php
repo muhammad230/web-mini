@@ -60,7 +60,13 @@
                 <div><span class="info-label">Description:</span><p class="mt-0.5">{{ $job->description ?: 'N/A' }}</p></div>
                 <div><span class="info-label">Location:</span><p class="mt-0.5">{{ $job->location ?: 'N/A' }}</p></div>
                 <div><span class="info-label">Budget:</span><p class="mt-0.5">@if($job->budget_min && $job->budget_max)Rs. {{ number_format($job->budget_min) }} - Rs. {{ number_format($job->budget_max) }}@elseif($job->budget_min)Rs. {{ number_format($job->budget_min) }}+@else N/A @endif</p></div>
-                <div><span class="info-label">Schedule:</span><p class="mt-0.5">{{ $job->schedule ?: 'N/A' }}</p></div>
+                <div><span class="info-label">Schedule:</span><p class="mt-0.5">@php
+                    try {
+                        echo \Carbon\Carbon::parse($job->schedule)->format('M d, Y \a\t g:i A');
+                    } catch (\Exception $e) {
+                        echo e($job->schedule ?: 'N/A');
+                    }
+                @endphp</p></div>
                 <div><span class="info-label">Status:</span><p class="mt-0.5">{{ ucwords(str_replace('_', ' ', $job->status)) }}</p></div>
                 <div><span class="info-label">Created:</span><p class="mt-0.5">{{ $job->created_at->format('M d, Y') }}</p></div>
             </div>

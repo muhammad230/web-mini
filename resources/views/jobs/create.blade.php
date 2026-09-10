@@ -86,7 +86,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Schedule</label>
-                <input type="text" name="schedule" required placeholder="e.g. This weekend, Next week, Flexible" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                <input type="datetime-local" name="schedule" required class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
             </div>
 
             <button type="submit" class="w-full bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold py-3 px-6 rounded-lg transition-colors">

@@ -86,6 +86,21 @@
         [data-theme="dark"] #add-address-modal button[type="button"]:hover {
             background: rgba(255,255,255,0.05) !important;
         }
+        [data-theme="dark"] #rescheduleModal > div {
+            background: #1e293b !important;
+            border: 1px solid #374151 !important;
+        }
+        [data-theme="dark"] #rescheduleModal h3 {
+            color: #f3f4f6 !important;
+        }
+        [data-theme="dark"] #rescheduleModal label {
+            color: #d1d5db !important;
+        }
+        [data-theme="dark"] #rescheduleModal input[type="datetime-local"] {
+            background: #0f172a !important;
+            border-color: #374151 !important;
+            color: #e2e8f0 !important;
+        }
         [data-theme="dark"] #post-job-modal .text-gray-500,
         [data-theme="dark"] #add-address-modal .text-gray-500 {
             color: #9ca3af !important;
@@ -372,15 +387,9 @@
                             <div class="border-l-4 border-[#E8823C] pl-4 pb-4">
                                 <p class="text-xs text-gray-500 mb-1">@php
                                     try {
-                                        if (is_string($booking->schedule)) {
-                                            echo \Illuminate\Support\Carbon::parse($booking->schedule)->format('D, M j • g:i A');
-                                        } elseif (method_exists($booking->schedule, 'format')) {
-                                            echo $booking->schedule->format('D, M j • g:i A');
-                                        } else {
-                                            echo $booking->schedule;
-                                        }
+                                        echo \Carbon\Carbon::parse($booking->schedule)->format('D, M j \a\t g:i A');
                                     } catch (\Exception $e) {
-                                        echo $booking->schedule;
+                                        echo e($booking->schedule);
                                     }
                                 @endphp</p>
                                 <h4 class="font-semibold text-[#16302A]">{{ $booking->trade_category }}</h4>
@@ -388,9 +397,16 @@
                                     <p class="text-xs text-gray-600 mt-1">with {{ $booking->assignedPro->name }}</p>
                                 @endif
                                 <p class="text-xs text-gray-500 mt-1">{{ $booking->location }}</p>
+                                @php
+                                    try {
+                                        $prefillSchedule = \Carbon\Carbon::parse($booking->schedule)->format('Y-m-d\TH:i');
+                                    } catch (\Exception $e) {
+                                        $prefillSchedule = '';
+                                    }
+                                @endphp
                                 <div class="flex gap-2 mt-3">
                                     <a href="{{ route('messages.job', $booking->id) }}" class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Message Pro</a>
-                                    <button class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Reschedule</button>
+                                    <button type="button" onclick="openRescheduleModal({{ $booking->id }}, '{{ $prefillSchedule }}')" class="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200">Reschedule</button>
                                 </div>
                             </div>
                         @endforeach
@@ -582,6 +598,28 @@
                     <textarea name="comment" id="reviewComment" rows="3" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8823C]/50" placeholder="Share your experience..."></textarea>
                 </div>
                 <button type="submit" class="w-full bg-[#E8823C] text-white py-2.5 rounded-lg font-semibold hover:bg-[#c96a2a] transition-colors">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reschedule Modal -->
+    <div id="rescheduleModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 p-6 relative modal-inner">
+            <button type="button" onclick="closeRescheduleModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <h3 class="text-lg font-bold text-[#16302A] mb-2">Reschedule Job</h3>
+            <p class="text-sm text-gray-500 mb-4">Pick a new date and time for this job.</p>
+            <form method="POST" action="" id="rescheduleForm">
+                @csrf
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-[#16302A] mb-2">New Date &amp; Time</label>
+                    <input type="datetime-local" name="schedule" id="rescheduleDateTime" required class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeRescheduleModal()" class="flex-1 py-2.5 border border-gray-300 text-gray-700 font-semibold rounded-lg text-sm hover:bg-gray-50">Cancel</button>
+                    <button type="submit" class="flex-1 py-2.5 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold rounded-lg text-sm transition">Save</button>
+                </div>
             </form>
         </div>
     </div>
@@ -919,7 +957,7 @@
                     </div>
                     <div>
                         <label class="text-sm font-medium text-gray-700 mb-2 block">Preferred Schedule</label>
-                        <input type="text" name="schedule" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none" placeholder="ASAP or specific date/time" required>
+                        <input type="datetime-local" name="schedule" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#E8823C] focus:border-[#E8823C] outline-none" required>
                     </div>
                 </div>
                 <div class="flex justify-end gap-3 mt-6">
@@ -1054,6 +1092,23 @@
 
         document.getElementById('reviewModal').addEventListener('click', function(e) {
             if (e.target === this) closeReviewModal();
+        });
+
+        /* ── Reschedule Modal ── */
+        function openRescheduleModal(jobId, currentSchedule) {
+            document.getElementById('rescheduleForm').action = '{{ url("/dashboard/customer/jobs") }}/' + jobId + '/reschedule';
+            document.getElementById('rescheduleDateTime').value = currentSchedule || '';
+            document.getElementById('rescheduleModal').classList.remove('hidden');
+            document.getElementById('rescheduleModal').classList.add('flex');
+        }
+
+        function closeRescheduleModal() {
+            document.getElementById('rescheduleModal').classList.add('hidden');
+            document.getElementById('rescheduleModal').classList.remove('flex');
+        }
+
+        document.getElementById('rescheduleModal').addEventListener('click', function(e) {
+            if (e.target === this) closeRescheduleModal();
         });
     </script>
     <script src="/js/theme-toggle.js"></script>
