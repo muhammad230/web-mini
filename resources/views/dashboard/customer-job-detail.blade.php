@@ -70,6 +70,18 @@
                 <div><span class="info-label">Status:</span><p class="mt-0.5">{{ ucwords(str_replace('_', ' ', $job->status)) }}</p></div>
                 <div><span class="info-label">Created:</span><p class="mt-0.5">{{ $job->created_at->format('M d, Y') }}</p></div>
             </div>
+            @if(in_array($job->status, ['pending_match', 'quotes_received']))
+                <form method="POST" action="{{ route('dashboard.customer.jobs.delete', $job) }}" class="mt-5" onsubmit="return confirm('Are you sure? This cannot be undone.');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-sm text-red-600 font-semibold hover:text-red-800">Delete Job</button>
+                </form>
+            @elseif(in_array($job->status, ['scheduled', 'in_progress']))
+                <form method="POST" action="{{ route('dashboard.customer.jobs.cancel', $job) }}" class="mt-5" onsubmit="return confirm('Cancel this job? The assigned professional will be notified.');">
+                    @csrf
+                    <button type="submit" class="text-sm text-[#E8823C] font-semibold hover:text-[#c96a2a]">Cancel Job</button>
+                </form>
+            @endif
         </div>
 
         @if($job->assignedPro)
