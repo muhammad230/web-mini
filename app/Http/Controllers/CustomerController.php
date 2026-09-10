@@ -21,6 +21,7 @@ class CustomerController extends Controller
         $user = Auth::user();
         $activeJobs = $user->customerJobs()->whereNotIn('status', ['completed', 'cancelled'])->get();
         $completedJobs = $user->customerJobs()->where('status', 'completed')->with('quotes', 'review')->get();
+        $cancelledJobs = $user->customerJobs()->where('status', 'cancelled')->with('quotes', 'review')->get();
         $completedJobIds = $completedJobs->pluck('id');
         $payments = \App\Models\Payment::whereIn('job_id', $completedJobIds)->get()->keyBy('job_id');
         $totalSpent = $payments->where('status', 'paid')->sum('amount');
@@ -36,7 +37,7 @@ class CustomerController extends Controller
         $trades = $tradesData['trades'] ?? [];
 
         return view('dashboard.customer', compact(
-            'activeJobs', 'completedJobs', 'totalSpent', 'savedPros',
+            'activeJobs', 'completedJobs', 'cancelledJobs', 'totalSpent', 'savedPros',
             'quotesReceived', 'reviewsGiven', 'addresses', 'trades', 'payments'
         ));
     }
@@ -171,8 +172,42 @@ class CustomerController extends Controller
         if ($job->customer_id !== Auth::id()) {
             abort(403);
         }
+
+        if (!in_array($job->status, ['scheduled', 'in_progress'])) {
+            return back()->withErrors(['error' => 'Only jobs with an assigned professional can be cancelled.']);
+        }
+
         $job->update(['status' => 'cancelled']);
+
+        // Notify the assigned professional
+        if ($job->assigned_pro_id) {
+            Notification::create([
+                'user_id'       => $job->assigned_pro_id,
+                'type'          => 'job_cancelled',
+                'title'         => 'Job cancelled',
+                'message'       => Auth::user()->name . ' cancelled the "' . $job->trade_category . '" job in ' . $job->location . '.',
+                'related_job_id'=> $job->id,
+            ]);
+        }
+
         return back()->with('success', 'Job cancelled.');
+    }
+
+    public function deleteJob(CustomerJob $job)
+    {
+        if ($job->customer_id !== Auth::id()) {
+            abort(403);
+        }
+
+        if (!in_array($job->status, ['pending_match', 'quotes_received'])) {
+            return back()->withErrors(['error' => 'Only jobs with no professional assigned can be deleted.']);
+        }
+
+        // Permanently remove the job and its associated quotes
+        $job->quotes()->delete();
+        $job->delete();
+
+        return back()->with('success', 'Job deleted.');
     }
 
     public function leaveReview(Request $request, CustomerJob $job)

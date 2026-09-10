@@ -164,6 +164,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\
     Route::get('/customer/jobs/{job}', [CustomerController::class, 'showJob'])->name('customer.jobs.show');
     Route::post('/customer/jobs/{job}/reschedule', [CustomerController::class, 'rescheduleJob'])->name('customer.jobs.reschedule');
     Route::post('/customer/jobs/{job}/cancel', [CustomerController::class, 'cancelJob'])->name('customer.jobs.cancel');
+    Route::delete('/customer/jobs/{job}', [CustomerController::class, 'deleteJob'])->name('customer.jobs.delete');
     Route::post('/customer/jobs/{job}/rebook', [CustomerController::class, 'rebookJob'])->name('customer.jobs.rebook');
     Route::post('/customer/jobs/{job}/review', [CustomerController::class, 'leaveReview'])->name('customer.jobs.review');
     Route::get('/customer/jobs/{job}/pay', [\App\Http\Controllers\PaymentController::class, 'customerPayForm'])->name('customer.jobs.pay');

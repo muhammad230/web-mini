@@ -503,7 +503,11 @@
                         @forelse($jobHistory as $job)
                         <tr>
                             <td class="py-3 px-4 font-medium text-gray-800">{{ $job->customer_name }}</td>
-                            <td class="py-3 px-4 text-gray-700">{{ $job->trade_category }}</td>
+                            <td class="py-3 px-4 text-gray-700">{{ $job->trade_category }}
+                                @if($job->status === 'cancelled')
+                                    <span class="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium ml-1">Cancelled</span>
+                                @endif
+                            </td>
                             <td class="py-3 px-4 text-gray-600">@php
                                     try {
                                         echo \Illuminate\Support\Carbon::parse($job->updated_at)->format('M j, Y');
@@ -511,7 +515,13 @@
                                         echo $job->updated_at;
                                     }
                                 @endphp</td>
-                            <td class="py-3 px-4 font-bold text-gray-800">{{ $job->earned ? 'Rs. '.number_format($job->earned) : '—' }}</td>
+                            <td class="py-3 px-4 font-bold text-gray-800">
+                                @if($job->status === 'cancelled' || !$job->earned)
+                                    —
+                                @else
+                                    Rs. {{ number_format($job->earned) }}
+                                @endif
+                            </td>
                             <td class="py-3 px-4">
                                 @if($job->review_rating)
                                     <div class="flex items-center gap-0.5 text-[#D9A441]">
@@ -724,7 +734,11 @@
                             @forelse($jobHistory as $job)
                             <tr>
                                 <td class="py-4 px-4 font-medium text-gray-800">{{ $job->customer_name }}</td>
-                                <td class="py-4 px-4 text-gray-700">{{ $job->trade_category }}</td>
+                                <td class="py-4 px-4 text-gray-700">{{ $job->trade_category }}
+                                    @if($job->status === 'cancelled')
+                                        <span class="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium ml-1">Cancelled</span>
+                                    @endif
+                                </td>
                                 <td class="py-4 px-4 text-gray-600">@php
                                         try {
                                             echo \Illuminate\Support\Carbon::parse($job->updated_at)->format('M j, Y');
@@ -732,7 +746,13 @@
                                             echo $job->updated_at;
                                         }
                                     @endphp</td>
-                                <td class="py-4 px-4 font-bold text-gray-800">{{ $job->earned ? 'Rs. '.number_format($job->earned) : '—' }}</td>
+                                <td class="py-4 px-4 font-bold text-gray-800">
+                                    @if($job->status === 'cancelled' || !$job->earned)
+                                        —
+                                    @else
+                                        Rs. {{ number_format($job->earned) }}
+                                    @endif
+                                </td>
                                 <td class="py-4 px-4">
                                     @if($job->review_rating)
                                         <div class="flex items-center gap-0.5 text-[#D9A441]">

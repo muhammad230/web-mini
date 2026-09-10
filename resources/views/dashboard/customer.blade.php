@@ -311,7 +311,21 @@
                                         <p class="text-xs text-gray-600">{{ $job->description }}</p>
                                     </div>
                                 </div>
-                                <a href="{{ route('dashboard.customer.jobs.show', $job) }}" class="text-[#E8823C] text-xs font-semibold hover:text-[#c96a2a]">View Details</a>
+                                <div class="flex flex-col items-end gap-2 flex-shrink-0">
+                                    <a href="{{ route('dashboard.customer.jobs.show', $job) }}" class="text-[#E8823C] text-xs font-semibold hover:text-[#c96a2a]">View Details</a>
+                                    @if(in_array($job->status, ['pending_match', 'quotes_received']))
+                                        <form method="POST" action="{{ route('dashboard.customer.jobs.delete', $job) }}" onsubmit="return confirm('Are you sure? This cannot be undone.');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-xs text-red-600 font-semibold hover:text-red-800">Delete Job</button>
+                                        </form>
+                                    @elseif(in_array($job->status, ['scheduled', 'in_progress']))
+                                        <form method="POST" action="{{ route('dashboard.customer.jobs.cancel', $job) }}" onsubmit="return confirm('Cancel this job? The assigned professional will be notified.');">
+                                            @csrf
+                                            <button type="submit" class="text-xs text-[#E8823C] font-semibold hover:text-[#c96a2a]">Cancel Job</button>
+                                        </form>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                         @endforeach
@@ -464,8 +478,9 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
-                    @if(count($completedJobs) > 0)
-                        @foreach($completedJobs as $job)
+                    @php $historyJobs = $completedJobs->merge($cancelledJobs)->sortByDesc('updated_at'); @endphp
+                    @if(count($historyJobs) > 0)
+                        @foreach($historyJobs as $job)
                             <tr>
                                 <td class="py-4 px-4">
                                     <div class="flex items-center gap-2">
@@ -476,6 +491,9 @@
                                             </svg>
                                         </div>
                                         <span class="font-medium text-[#16302A] text-sm">{{ $job->trade_category }}</span>
+                                        @if($job->status === 'cancelled')
+                                            <span class="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">Cancelled</span>
+                                        @endif
                                     </div>
                                 </td>
                                 <td class="py-4 px-4 text-sm text-gray-700">
@@ -509,23 +527,31 @@
                                                 <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                                             @endfor
                                         </div>
-                                    @else
+                                    @elseif($job->status === 'completed')
                                         <button type="button" onclick="openReviewModal({{ $job->id }}, '{{ addslashes($job->assignedPro?->name ?? 'the professional') }}')" class="text-xs bg-[#E8823C] text-white px-3 py-1.5 rounded-lg font-semibold">Leave a Review</button>
+                                    @else
+                                        <span class="text-xs text-gray-400">—</span>
                                     @endif
                                 </td>
                                 @php $payment = $payments->get($job->id); @endphp
                                 <td class="py-4 px-4">
-                                    @if($payment && $payment->status === 'paid')
+                                    @if($job->status === 'cancelled')
+                                        <span class="text-xs text-gray-400">—</span>
+                                    @elseif($payment && $payment->status === 'paid')
                                         <span class="text-xs bg-green-100 text-green-700 px-3 py-1.5 rounded-lg font-semibold">Paid</span>
                                     @else
                                         <a href="{{ route('dashboard.customer.jobs.pay', $job) }}" class="text-xs bg-[#16302A] text-white px-3 py-1.5 rounded-lg font-semibold hover:bg-[#1e4238] inline-block">Pay Now</a>
                                     @endif
                                 </td>
                                 <td class="py-4 px-4">
-                                    <form method="POST" action="{{ route('dashboard.customer.jobs.rebook', $job) }}" class="inline-block">
-                                        @csrf
-                                        <button type="submit" class="text-xs text-[#E8823C] font-semibold hover:text-[#c96a2a]">Rebook</button>
-                                    </form>
+                                    @if($job->status === 'cancelled')
+                                        <span class="text-xs text-gray-400">—</span>
+                                    @else
+                                        <form method="POST" action="{{ route('dashboard.customer.jobs.rebook', $job) }}" class="inline-block">
+                                            @csrf
+                                            <button type="submit" class="text-xs text-[#E8823C] font-semibold hover:text-[#c96a2a]">Rebook</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -726,7 +752,7 @@
             <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">All Jobs</h2>
             <div class="space-y-4">
                 @php
-                    $allJobs = $activeJobs->merge($completedJobs);
+                    $allJobs = $activeJobs->merge($cancelledJobs)->merge($completedJobs);
                 @endphp
                 @if(count($allJobs) > 0)
                     @foreach($allJobs as $job)

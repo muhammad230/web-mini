@@ -171,7 +171,7 @@ class ProfessionalController extends Controller
                   ->where('quotes.status', 'accepted');
             })
             ->where('customer_jobs.assigned_pro_id', $pro->id)
-            ->where('customer_jobs.status', 'completed')
+            ->whereIn('customer_jobs.status', ['completed', 'cancelled'])
             ->select(
                 'customer_jobs.*',
                 'users.name as customer_name',
