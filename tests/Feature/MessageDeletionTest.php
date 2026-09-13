@@ -146,4 +146,23 @@ class MessageDeletionTest extends TestCase
         $message = collect($response->json())->firstWhere('id', $msg->id);
         $this->assertSame('from pro', $message['message_text']);
     }
+
+    public function test_created_at_uses_utc_zoned_timestamp_so_frontend_window_math_is_correct(): void
+    {
+        $msg = $this->sendMessage('fresh', $this->customer, 'customer');
+
+        $response = $this->actingAs($this->customer)
+            ->getJson("/messages/api/{$this->conversation->id}/messages");
+        $response->assertOk();
+
+        $message = collect($response->json())->firstWhere('id', $msg->id);
+        $createdAt = $message['created_at'];
+
+        // Must carry an explicit UTC timezone marker so the browser math is zone-independent
+        $this->assertMatchesRegularExpression('/Z$|[+-]\d{2}:?\d{2}$/', $createdAt);
+
+        // A just-sent message must appear ~0 minutes old, well inside the 10-minute window
+        $ageMinutes = \Illuminate\Support\Carbon::now()->diffInMinutes(\Illuminate\Support\Carbon::parse($createdAt), false);
+        $this->assertLessThanOrEqual(1, $ageMinutes);
+    }
 }

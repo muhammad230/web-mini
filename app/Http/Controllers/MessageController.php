@@ -137,7 +137,7 @@ class MessageController extends Controller
                     'sender_role' => $message->sender_role,
                     'sender_name' => $user->name,
                     'message_text' => $message->message_text,
-                    'created_at' => $message->created_at ? $message->created_at->toDateTimeString() : null,
+                    'created_at' => $message->created_at ? $message->created_at->toIso8601ZuluString() : null,
                     'created_at_human' => $message->created_at ? $message->created_at->format('g:i A • M j') : '',
                 ],
             ], 201);
@@ -275,7 +275,7 @@ class MessageController extends Controller
                 'deleted_for_sender' => (bool) $msg->deleted_for_sender,
                 'deleted_for_recipient' => (bool) $msg->deleted_for_recipient,
                 'deleted_for_everyone' => (bool) $msg->deleted_for_everyone,
-                'created_at' => $msg->created_at ? $msg->created_at->toDateTimeString() : null,
+                'created_at' => $msg->created_at ? $msg->created_at->toIso8601ZuluString() : null,
                 'created_at_human' => $msg->created_at ? $msg->created_at->format('g:i A • M j') : '',
             ];
         });

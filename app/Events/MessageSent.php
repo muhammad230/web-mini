@@ -59,7 +59,7 @@ class MessageSent implements ShouldBroadcastNow
                 'sender_role' => $this->message->sender_role,
                 'sender_name' => $this->message->sender ? $this->message->sender->name : null,
                 'message_text' => $this->message->message_text,
-                'created_at' => $this->message->created_at ? $this->message->created_at->toDateTimeString() : null,
+                'created_at' => $this->message->created_at ? $this->message->created_at->toIso8601ZuluString() : null,
                 'created_at_human' => $this->message->created_at ? $this->message->created_at->format('g:i A • M j') : '',
             ],
         ];

@@ -101,7 +101,7 @@
             <div class="msg-wrap flex items-end gap-2 group {{ $isOwn ? 'flex-row-reverse justify-start' : 'flex-row justify-start' }}"
                  data-message-id="{{ $msg->id }}"
                  data-is-own="{{ $isOwn ? '1' : '0' }}"
-                 data-created-at="{{ $msg->created_at }}">
+                 data-created-at="{{ $msg->created_at->toIso8601ZuluString() }}">
                 <button type="button" class="msg-menu-btn" aria-label="Message options">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
                 </button>
@@ -154,7 +154,14 @@ const pending = new Map();
 
 function parseServerDate(s) {
     if (!s) return null;
-    const d = new Date(String(s).replace(' ', 'T'));
+    // Server timestamps are UTC. If they carry no explicit zone marker
+    // (e.g. an old 'YYYY-MM-DD HH:MM:SS' value), treat them as UTC so the
+    // comparison with Date.now() is timezone-independent on every browser.
+    let str = String(s).trim();
+    if (!/Z$|[+-]\d{2}:?\d{2}$/.test(str)) {
+        str = str.replace(' ', 'T') + 'Z';
+    }
+    const d = new Date(str);
     return isNaN(d.getTime()) ? null : d;
 }
 
