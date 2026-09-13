@@ -98,11 +98,25 @@ class CustomerController extends Controller
             abort(403);
         }
         $job->load(['quotes.pro', 'assignedPro', 'review.customer']);
-        $conversationQuery = \App\Models\Conversation::where('job_id', $job->id)->with('messages.sender');
+        $conversationQuery = \App\Models\Conversation::where('job_id', $job->id);
         if ($job->assigned_pro_id) {
             $conversationQuery->where('professional_id', $job->assigned_pro_id);
         }
         $conversation = $conversationQuery->first();
+
+        // Soft-delete aware message thread for this customer
+        if ($conversation) {
+            $messages = $conversation->messages()
+                ->with('sender')
+                ->visibleTo(Auth::user())
+                ->get()
+                ->map(function ($msg) {
+                    $msg->display_text = $msg->textFor(Auth::user());
+                    return $msg;
+                });
+            $conversation->setRelation('messages', $messages);
+        }
+
         return view('dashboard.customer-job-detail', compact('job', 'conversation'));
     }
 

@@ -152,7 +152,19 @@ class AdminController extends Controller
     public function jobDetail($id)
     {
         $job = CustomerJob::with('customer', 'assignedPro', 'quotes.pro', 'review')->findOrFail($id);
-        $conversation = \App\Models\Conversation::where('job_id', $id)->with('messages.sender')->first();
+        $conversation = \App\Models\Conversation::where('job_id', $id)->first();
+
+        // Soft-delete aware message thread for admin review
+        if ($conversation) {
+            $messages = $conversation->messages()
+                ->with('sender')
+                ->get()
+                ->map(function ($msg) {
+                    $msg->display_text = $msg->deleted_for_everyone ? 'This message was deleted' : $msg->message_text;
+                    return $msg;
+                });
+            $conversation->setRelation('messages', $messages);
+        }
 
         return view('dashboard.admin.job-detail', compact('job', 'conversation'));
     }

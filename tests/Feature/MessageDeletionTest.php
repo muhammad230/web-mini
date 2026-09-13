@@ -15,6 +15,7 @@ class MessageDeletionTest extends TestCase
 
     private User $customer;
     private User $pro;
+    private CustomerJob $job;
     private Conversation $conversation;
 
     protected function setUp(): void
@@ -30,7 +31,7 @@ class MessageDeletionTest extends TestCase
             'password' => 'password', 'role' => 'professional',
         ]);
 
-        $job = CustomerJob::create([
+        $this->job = CustomerJob::create([
             'customer_id' => $this->customer->id,
             'trade_category' => 'Plumbing',
             'description' => 'Fix leak',
@@ -40,7 +41,7 @@ class MessageDeletionTest extends TestCase
         ]);
 
         $this->conversation = Conversation::create([
-            'job_id' => $job->id,
+            'job_id' => $this->job->id,
             'customer_id' => $this->customer->id,
             'professional_id' => $this->pro->id,
         ]);
@@ -164,5 +165,48 @@ class MessageDeletionTest extends TestCase
         // A just-sent message must appear ~0 minutes old, well inside the 10-minute window
         $ageMinutes = \Illuminate\Support\Carbon::now()->diffInMinutes(\Illuminate\Support\Carbon::parse($createdAt), false);
         $this->assertLessThanOrEqual(1, $ageMinutes);
+    }
+
+    public function test_customer_job_detail_page_shows_placeholder_after_delete_for_everyone(): void
+    {
+        $msg = $this->sendMessage('job page secret', $this->pro, 'professional');
+
+        $this->deleteMessage($msg->id, $this->pro, 'everyone')->assertOk();
+
+        $response = $this->actingAs($this->customer)
+            ->get("/dashboard/customer/jobs/{$this->job->id}");
+        $response->assertOk();
+        $response->assertSee('This message was deleted');
+        $response->assertDontSee('job page secret');
+    }
+
+    public function test_customer_job_detail_page_hides_recipient_delete_for_me(): void
+    {
+        $msg = $this->sendMessage('job page private', $this->pro, 'professional');
+
+        $this->deleteMessage($msg->id, $this->customer, 'me')->assertOk();
+
+        $response = $this->actingAs($this->customer)
+            ->get("/dashboard/customer/jobs/{$this->job->id}");
+        $response->assertOk();
+        $response->assertDontSee('job page private');
+    }
+
+    public function test_admin_job_detail_page_shows_placeholder_after_delete_for_everyone(): void
+    {
+        $msg = $this->sendMessage('admin page secret', $this->pro, 'professional');
+
+        $this->deleteMessage($msg->id, $this->pro, 'everyone')->assertOk();
+
+        $admin = User::create([
+            'name' => 'Admin', 'email' => 'admin@example.com', 'phone' => '333',
+            'password' => 'password', 'role' => 'admin',
+        ]);
+
+        $response = $this->actingAs($admin)
+            ->get("/admin/jobs/{$this->job->id}");
+        $response->assertOk();
+        $response->assertSee('This message was deleted');
+        $response->assertDontSee('admin page secret');
     }
 }

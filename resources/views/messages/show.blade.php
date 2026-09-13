@@ -501,9 +501,37 @@ if (typeof Echo !== 'undefined') {
     }
 }
 
-// Live polling check every 1 second
+// Reconcile DOM against server state: apply placeholders and remove deleted-for-me bubbles
+function reconcileDeletions(serverMessages) {
+    const byId = new Map();
+    serverMessages.forEach(m => byId.set(String(m.id), m));
+
+    messagesContainer.querySelectorAll('.msg-wrap[data-message-id]').forEach(wrap => {
+        const id = wrap.dataset.messageId;
+        if (!id || !/^\d+$/.test(id)) return;          // skip pending optimistic bubbles
+        if (wrap.dataset.deleted === 'everyone') return; // already reconciled
+
+        if (byId.has(id)) {
+            const server = byId.get(id);
+            if (server.deleted_for_everyone) {
+                const p = wrap.querySelector('.chat-bubble p.text-sm');
+                if (p && p.textContent !== DELETED_PLACEHOLDER) {
+                    wrap.dataset.deleted = 'everyone';
+                    p.textContent = DELETED_PLACEHOLDER;
+                    const btn = wrap.querySelector('.msg-menu-btn');
+                    if (btn) btn.remove();
+                    closeAllMenus();
+                }
+            }
+        } else {
+            wrap.remove(); // message hidden from this user (deleted-for-me by other party)
+        }
+    });
+}
+
+// Live polling: fetch full visible list every second, append new + reconcile deletions
 function checkNewMessages() {
-    fetch(`/messages/api/{{ $conversation->id }}/messages?after_id=${lastMessageId}`, {
+    fetch(`/messages/api/{{ $conversation->id }}/messages`, {
         headers: {
             'Accept': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -512,9 +540,8 @@ function checkNewMessages() {
     .then(res => res.ok ? res.json() : [])
     .then(messages => {
         if (Array.isArray(messages)) {
-            messages.forEach(msg => {
-                appendIncoming(msg);
-            });
+            messages.forEach(msg => appendIncoming(msg));
+            reconcileDeletions(messages);
         }
     })
     .catch(() => {});
