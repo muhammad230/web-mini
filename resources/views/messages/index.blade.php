@@ -87,8 +87,8 @@
                                 @endif
                             @endif
                             <p class="text-xs text-gray-600 truncate msg-card-text">
-                                @if($conv->lastMessage)
-                                    {{ $conv->lastMessage->message_text }}
+                                @if($conv->lastMessage && $conv->lastMessage->preview_text)
+                                    {{ $conv->lastMessage->preview_text }}
                                 @else
                                     No messages yet
                                 @endif

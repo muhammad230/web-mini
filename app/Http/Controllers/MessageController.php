@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageDeleted;
 use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\CustomerJob;
@@ -28,6 +29,23 @@ class MessageController extends Controller
             ->latest()
             ->get();
 
+        // Make last-message previews soft-delete aware for this user
+        $conversations->each(function ($conv) use ($user) {
+            if (!$conv->lastMessage) {
+                return;
+            }
+            $last = $conv->lastMessage;
+            $isOwn = (int) $last->sender_id === (int) $user->id;
+
+            if ($last->deleted_for_everyone) {
+                $last->preview_text = 'This message was deleted';
+            } elseif (($isOwn && $last->deleted_for_sender) || (!$isOwn && $last->deleted_for_recipient)) {
+                $last->preview_text = null;
+            } else {
+                $last->preview_text = $last->message_text;
+            }
+        });
+
         return view('messages.index', compact('conversations'));
     }
 
@@ -53,7 +71,17 @@ class MessageController extends Controller
             $msg->update(['is_read' => true]);
         }
 
-        return view('messages.show', compact('conversation'));
+        // Only show messages the current user is allowed to see (soft-delete aware)
+        $messages = $conversation->messages()
+            ->with('sender')
+            ->visibleTo($user)
+            ->get()
+            ->map(function ($msg) use ($user) {
+                $msg->display_text = $msg->textFor($user);
+                return $msg;
+            });
+
+        return view('messages.show', compact('conversation', 'messages'));
     }
 
     public function store(Request $request, $conversationId)
@@ -229,24 +257,86 @@ class MessageController extends Controller
             abort(403);
         }
 
-        $query = $conversation->messages()->with('sender');
+        $query = $conversation->messages()
+            ->with('sender')
+            ->visibleTo($user);
         if ($request->has('after_id')) {
             $query->where('id', '>', (int) $request->after_id);
         }
 
-        $messages = $query->get()->map(function ($msg) {
+        $messages = $query->get()->map(function ($msg) use ($user) {
             return [
                 'id' => $msg->id,
                 'conversation_id' => $msg->conversation_id,
                 'sender_id' => $msg->sender_id,
                 'sender_role' => $msg->sender_role,
                 'sender_name' => $msg->sender ? $msg->sender->name : null,
-                'message_text' => $msg->message_text,
+                'message_text' => $msg->textFor($user),
+                'deleted_for_sender' => (bool) $msg->deleted_for_sender,
+                'deleted_for_recipient' => (bool) $msg->deleted_for_recipient,
+                'deleted_for_everyone' => (bool) $msg->deleted_for_everyone,
                 'created_at' => $msg->created_at ? $msg->created_at->toDateTimeString() : null,
                 'created_at_human' => $msg->created_at ? $msg->created_at->format('g:i A • M j') : '',
             ];
         });
 
         return response()->json($messages);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $user = Auth::user();
+        $message = Message::with('conversation')->findOrFail($id);
+        $conversation = $message->conversation;
+
+        // Check if user is part of this conversation
+        if ($user->isCustomer() && (int) $conversation->customer_id !== (int) $user->id) {
+            abort(403);
+        }
+        if ($user->isProfessional() && (int) $conversation->professional_id !== (int) $user->id) {
+            abort(403);
+        }
+
+        $request->validate([
+            'mode' => 'required|in:me,everyone',
+        ]);
+        $mode = $request->input('mode');
+        $isSender = (int) $message->sender_id === (int) $user->id;
+
+        if ($mode === 'everyone') {
+            // Only the sender can delete a message for everyone
+            if (!$isSender) {
+                abort(403);
+            }
+
+            if ($message->deleted_for_everyone) {
+                return response()->json(['success' => true]);
+            }
+
+            if ($message->created_at->lte(now()->subMinutes(Message::DELETE_EVERYONE_WINDOW_MINUTES))) {
+                return response()->json([
+                    'error' => 'The ' . Message::DELETE_EVERYONE_WINDOW_MINUTES . '-minute window for "Delete for everyone" has expired.',
+                ], 422);
+            }
+
+            $message->update(['deleted_for_everyone' => true]);
+
+            try {
+                broadcast(new MessageDeleted($message));
+            } catch (\Throwable $e) {
+                report($e);
+            }
+
+            return response()->json(['success' => true]);
+        }
+
+        // Delete for me
+        if ($isSender) {
+            $message->update(['deleted_for_sender' => true]);
+        } else {
+            $message->update(['deleted_for_recipient' => true]);
+        }
+
+        return response()->json(['success' => true]);
     }
 }
