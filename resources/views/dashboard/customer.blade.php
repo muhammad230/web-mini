@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Dashboard - Fixly</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    @include('partials.assets')
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
-        body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; background: #F5F1EA; color: #1f2937; }
         .heading-underline { position: relative; display: inline-block; }
         .heading-underline::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 40px; height: 3px; background: #E8823C; border-radius: 2px; }
         .tab-active { background: #E8823C; color: white; }
@@ -929,7 +928,7 @@
     </div>
 
     <!-- Post Job Modal -->
-    <div id="post-job-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[1000] overflow-y-auto">
+    <div id="post-job-modal" class="hidden fixed inset-0 bg-black/50 z-[1000] overflow-y-auto">
         <div class="bg-white rounded-2xl p-8 w-full max-w-md modal-inner" style="margin: 2rem auto;">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-2xl font-bold text-[#16302A]">Post a New Job</h3>
@@ -995,7 +994,7 @@
     </div>
 
     <!-- Add Address Modal -->
-    <div id="add-address-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[1000] overflow-y-auto">
+    <div id="add-address-modal" class="hidden fixed inset-0 bg-black/50 z-[1000] overflow-y-auto">
         <div class="bg-white rounded-2xl p-8 w-full max-w-md modal-inner" style="margin: 2rem auto;">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-2xl font-bold text-[#16302A]">Add New Address</h3>

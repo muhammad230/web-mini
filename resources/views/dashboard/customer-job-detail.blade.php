@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Detail - Fixly</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    @include('partials.assets')
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
-        body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; background: #F5F1EA; color: #1f2937; }
         .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; display: inline-block; }
         .status-completed { background: #dcfce7; color: #15803d; }
         .status-in_progress { background: #fff7ed; color: #c2410c; }

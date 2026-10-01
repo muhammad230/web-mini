@@ -4,14 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fixly – Website Content</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    @include('partials.assets')
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; display: flex; min-height: 100vh; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; background: #F5F1EA; color: #1f2937; display: flex; min-height: 100vh; }
 
         .sidebar { width: 240px; height: 100vh; background: #16302A; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; z-index: 100; transition: width 0.2s; overflow: hidden; }
         .sidebar.collapsed { width: 64px; }
@@ -61,7 +58,7 @@
 
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: #374151; margin-bottom: 6px; }
-        .form-control { width: 100%; padding: 10px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 0.85rem; color: #374151; outline: none; background: #fff; transition: border 0.15s; font-family: 'Inter', sans-serif; }
+        .form-control { width: 100%; padding: 10px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 0.85rem; color: #374151; outline: none; background: #fff; transition: border 0.15s; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; }
         .form-control:focus { border-color: #E8823C; box-shadow: 0 0 0 3px rgba(232,130,60,0.1); }
         textarea.form-control { min-height: 80px; resize: vertical; }
 
@@ -203,7 +200,7 @@
 
     <div class="sidebar-bottom">
         <div class="admin-profile">
-            <img src="https://randomuser.me/api/portraits/men/10.jpg" class="admin-avatar" alt="Admin">
+            <img src="{{ asset('images/avatar-placeholder.svg') }}" class="admin-avatar" alt="Admin">
             <div class="admin-info">
                 <div class="name">{{ Auth::user()->name }}</div>
                 <div class="role">Super Admin</div>
@@ -235,7 +232,7 @@
         <div class="topbar-right">
             @include('partials.theme-toggle')
             <div class="admin-topbar">
-                <img src="https://randomuser.me/api/portraits/men/10.jpg" alt="Admin">
+                <img src="{{ asset('images/avatar-placeholder.svg') }}" alt="Admin">
                 <div>
                     <div class="tname">{{ Auth::user()->name }}</div>
                     <div class="trole">Super Admin</div>

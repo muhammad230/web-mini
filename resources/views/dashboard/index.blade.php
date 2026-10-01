@@ -4,15 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fixly – Admin Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    @include('partials.assets')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; display: flex; min-height: 100vh; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; background: #F5F1EA; color: #1f2937; display: flex; min-height: 100vh; }
 
         /* Sidebar Overlay for Mobile */
         .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 90; }
@@ -264,7 +261,7 @@
 
     <div class="sidebar-bottom">
         <div class="admin-profile">
-            <img src="https://randomuser.me/api/portraits/men/10.jpg" class="admin-avatar" alt="Admin">
+            <img src="{{ asset('images/avatar-placeholder.svg') }}" class="admin-avatar" alt="Admin">
             <div class="admin-info">
                 <div class="name">{{ Auth::user()->name }}</div>
                 <div class="role">Super Admin</div>
@@ -308,7 +305,7 @@
             </div>
             <div class="admin-topbar-wrapper">
                 <div class="admin-topbar" onclick="toggleAdminDropdown(event)">
-                    <img src="https://randomuser.me/api/portraits/men/10.jpg" alt="Admin">
+                    <img src="{{ asset('images/avatar-placeholder.svg') }}" alt="Admin">
                     <div>
                         <div class="tname">{{ Auth::user()->name }}</div>
                         <div class="trole">Super Admin</div>
@@ -559,7 +556,7 @@
                             </div>
                             <div class="review-text">{{ $review->comment }}</div>
                             <div class="review-author">
-                                <img src="https://randomuser.me/api/portraits/men/{{ rand(1, 99) }}.jpg" alt="">
+                                <img src="{{ asset('images/avatar-placeholder.svg') }}" alt="">
                                 <div>
                                     <div class="rname">{{ $review->customer ? $review->customer->name : 'N/A' }}</div>
                                     <div class="rservice">→ {{ $review->pro ? $review->pro->name : 'N/A' }} · {{ $review->job ? $review->job->trade_category : 'N/A' }}</div>
@@ -579,7 +576,7 @@
                 @if($topPros->count() > 0)
                     @foreach($topPros as $pro)
                         <div class="pro-mini">
-                            <img src="https://randomuser.me/api/portraits/men/{{ rand(1, 99) }}.jpg" alt="">
+                            <img src="{{ asset('images/avatar-placeholder.svg') }}" alt="">
                             <div>
                                 <div class="pname">{{ $pro->name }}</div>
                                 <div class="ptrade">{{ $pro->trade ?: 'N/A' }}</div>
@@ -649,6 +646,22 @@ document.addEventListener('click', function(e) {
 });
 
 // --- Chart helpers: theme-aware colors + live update ---
+// Chart.js comes from a CDN. When it cannot be loaded (no internet) the chart
+// canvases are replaced by a short notice rather than letting this script
+// throw, so the rest of the dashboard keeps working.
+(function () {
+if (typeof Chart === 'undefined') {
+    ['lineChart', 'barChart'].forEach(function (id) {
+        var cv = document.getElementById(id);
+        if (!cv) return;
+        cv.style.display = 'none';
+        var note = document.createElement('p');
+        note.textContent = 'Charts need an internet connection to load.';
+        note.style.cssText = 'font-size:12px;color:#9ca3af;text-align:center;padding:24px 8px;';
+        cv.parentNode.insertBefore(note, cv.nextSibling);
+    });
+    return;
+}
 var _lineChart, _barChart, _tradeLabels, _tradeData, _last12Months;
 function _tc(dark) {
     return {
@@ -743,6 +756,7 @@ _barChart = new Chart(document.getElementById('barChart').getContext('2d'), {
         }
     }
 });
+})();
 </script>
 </body>
 </html>

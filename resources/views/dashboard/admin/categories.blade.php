@@ -4,15 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fixly – Categories / Trades</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    @include('partials.assets')
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { max-width: 100vw; overflow-x: hidden; }
-        body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; display: flex; min-height: 100vh; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; background: #F5F1EA; color: #1f2937; display: flex; min-height: 100vh; }
 
         /* Sidebar Overlay for Mobile */
         .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 90; }
@@ -202,7 +199,7 @@
     </nav>
     <div class="sidebar-bottom">
         <div class="admin-profile">
-            <img src="https://randomuser.me/api/portraits/men/10.jpg" class="admin-avatar" alt="Admin">
+            <img src="{{ asset('images/avatar-placeholder.svg') }}" class="admin-avatar" alt="Admin">
             <div class="admin-info">
                 <div class="name">{{ Auth::user()->name }}</div>
                 <div class="role">Super Admin</div>
@@ -240,7 +237,7 @@
             </div>
         <div class="topbar-right">
             <div class="admin-topbar">
-                <img src="https://randomuser.me/api/portraits/men/10.jpg" alt="Admin">
+                <img src="{{ asset('images/avatar-placeholder.svg') }}" alt="Admin">
                 <div>
                     <div class="tname">{{ Auth::user()->name }}</div>
                     <div class="trole">Super Admin</div>

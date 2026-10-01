@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms of Service - Fixly</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    @include('partials.assets')
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F5F1EA; color: #1f2937; }
+        body { font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; background: #F5F1EA; color: #1f2937; }
         .legal-content h2 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; }
         .legal-content p, .legal-content li { font-size: 0.88rem; color: #4b5563; line-height: 1.8; }
         .legal-content ul { padding-left: 20px; margin: 8px 0; }

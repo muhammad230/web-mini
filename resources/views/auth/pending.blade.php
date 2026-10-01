@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application Received – Fixly</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style> body { font-family: 'Inter', sans-serif; }     </style>
+    @include('partials.assets')
+    <style> body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; }     </style>
     <link rel="stylesheet" href="/css/dark-mode.css">
 </head>
 <body class="min-h-screen bg-[#F5F1EA] flex items-center justify-center px-4 py-12">

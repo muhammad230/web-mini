@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messages - Fixly</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    @include('partials.assets')
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
-        body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; background: #F5F1EA; color: #1f2937; }
         .heading-underline { position: relative; display: inline-block; }
         .heading-underline::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 40px; height: 3px; background: #E8823C; border-radius: 2px; }
         .unread-dot { width: 8px; height: 8px; background: #E8823C; border-radius: 50%; }

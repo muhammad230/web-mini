@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Conversation - Fixly</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @include('partials.assets')
     <script src="https://js.pusher.com/8.x/pusher.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/laravel-echo@8/dist/echo.iife.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/dark-mode.css">
     <style>
-        body { font-family: 'Inter', sans-serif; background: #F5F1EA; color: #1f2937; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; background: #F5F1EA; color: #1f2937; }
         .message-sent { background-color: #E8823C; color: white; border-bottom-right-radius: 4px; }
         .message-received { background-color: white; color: #1f2937; border-bottom-left-radius: 4px; }
         .msg-menu-btn {

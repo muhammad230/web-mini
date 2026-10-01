@@ -12,6 +12,9 @@ and writes hidden latitude/longitude inputs into the surrounding form.
 Exposes window.lp_{prefix}_refresh() to fix rendering after the container is shown.
 --}}
 @once
+    {{-- Leaflet loads from a CDN so online use still gets the interactive map.
+         Offline the script fails to load and the manual coordinate inputs
+         below take over, so the surrounding form still works. --}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -28,6 +31,16 @@ Exposes window.lp_{prefix}_refresh() to fix rendering after the container is sho
         </button>
     </div>
     <div id="lp-map-{{ $prefix }}" style="height:{{ $height ?? '260px' }};width:100%;border-radius:12px;border:1px solid #e5e7eb;z-index:0;"></div>
+
+    {{-- Revealed only when Leaflet could not be loaded (offline), so the user
+         can still enter coordinates by hand and the form submits valid values. --}}
+    <div id="lp-manual-{{ $prefix }}" style="display:none;gap:8px;flex-wrap:wrap;margin-top:8px;">
+        <input type="number" step="any" placeholder="Latitude" id="lp-man-lat-{{ $prefix }}" value="{{ $initialLat ?? '' }}"
+               style="flex:1;min-width:120px;padding:8px 10px;border:1px solid #e5e7eb;border-radius:8px;font-size:0.78rem;">
+        <input type="number" step="any" placeholder="Longitude" id="lp-man-lng-{{ $prefix }}" value="{{ $initialLng ?? '' }}"
+               style="flex:1;min-width:120px;padding:8px 10px;border:1px solid #e5e7eb;border-radius:8px;font-size:0.78rem;">
+    </div>
+
     <p id="lp-status-{{ $prefix }}" style="font-size:0.72rem;color:#9ca3af;margin-top:6px;">No pin dropped yet.</p>
     <input type="hidden" name="latitude"  id="lp-lat-{{ $prefix }}" value="{{ $initialLat ?? '' }}">
     <input type="hidden" name="longitude" id="lp-lng-{{ $prefix }}" value="{{ $initialLng ?? '' }}">
@@ -43,6 +56,58 @@ Exposes window.lp_{prefix}_refresh() to fix rendering after the container is sho
 
     var initialLat = document.getElementById('lp-lat-' + prefix).value;
     var initialLng = document.getElementById('lp-lng-' + prefix).value;
+
+    // Offline / blocked CDN: Leaflet never loaded. Fall back to manual entry
+    // instead of throwing a ReferenceError that would kill the whole script.
+    if (typeof L === 'undefined') {
+        var mapEl = document.getElementById(elId);
+        var manualBox = document.getElementById('lp-manual-' + prefix);
+        if (mapEl) mapEl.style.display = 'none';
+        if (manualBox) manualBox.style.display = 'flex';
+
+        var st = document.getElementById('lp-status-' + prefix);
+        var mLat = document.getElementById('lp-man-lat-' + prefix);
+        var mLng = document.getElementById('lp-man-lng-' + prefix);
+        var hLat = document.getElementById('lp-lat-' + prefix);
+        var hLng = document.getElementById('lp-lng-' + prefix);
+
+        var sync = function () {
+            hLat.value = mLat.value;
+            hLng.value = mLng.value;
+            if (!st) return;
+            if (mLat.value !== '' && mLng.value !== '') {
+                st.textContent = 'Using coordinates ' + mLat.value + ', ' + mLng.value;
+                st.style.color = '#15803d';
+            } else {
+                st.textContent = 'Map unavailable offline \u2014 enter coordinates manually.';
+                st.style.color = '#9ca3af';
+            }
+        };
+        mLat.addEventListener('input', sync);
+        mLng.addEventListener('input', sync);
+
+        window['lp_' + prefix + '_locate'] = function () {
+            if (!navigator.geolocation) {
+                if (st) { st.textContent = 'Geolocation is not supported by this browser.'; st.style.color = '#b91c1c'; }
+                return;
+            }
+            if (st) { st.textContent = 'Locating\u2026'; }
+            navigator.geolocation.getCurrentPosition(
+                function (pos) {
+                    mLat.value = pos.coords.latitude.toFixed(7);
+                    mLng.value = pos.coords.longitude.toFixed(7);
+                    sync();
+                },
+                function () {
+                    if (st) { st.textContent = 'Could not get your location \u2014 enter coordinates manually.'; st.style.color = '#b91c1c'; }
+                },
+                { enableHighAccuracy: true, timeout: 10000 }
+            );
+        };
+        window['lp_' + prefix + '_refresh'] = function () {};
+        sync();
+        return;
+    }
 
     L.Icon.Default.mergeOptions({
         iconUrl:       'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',

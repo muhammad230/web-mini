@@ -4,36 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fixly – Get Your Home Jobs Done Fast & Reliably</title>
+    @include('partials.assets')
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS via CDN (no build step required) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
-                    },
-                    colors: {
-                        brand: {
-                            dark:   '#1a2e2a',
-                            darker: '#243d37',
-                            orange: '#e07b39',
-                            'orange-dark': '#c96a2a',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; overflow-x: hidden; }
 
         /* ── Responsive: Hero ── */
         @media (max-width: 768px) {
@@ -186,10 +162,12 @@
     </style>
     <link rel="stylesheet" href="/css/dark-mode.css">
 
-    <!-- AOS (Animate On Scroll) -->
+    <!-- AOS is an optional enhancement. aos.css hides [data-aos] elements until
+         JS animates them, so when the CDN is unreachable we must reveal them
+         explicitly or the sections stay invisible. -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
-<body style="margin:0; padding:0; font-family:'Inter',sans-serif; background:#fff; color:#1f2937;">
+<body style="margin:0; padding:0; font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; background:#fff; color:#1f2937;">
 
     {{-- ======= HERO + SEARCH (navbar embedded inside) ======= --}}
     @include('components.hero', ['hero' => $hero, 'navData' => $navData, 'trades' => $trades])
@@ -228,6 +206,18 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // If the AOS CDN was unreachable the library never loaded and
+            // aos.css leaves every [data-aos] element at opacity:0. Show them
+            // all and skip the animations instead of leaving blank sections.
+            if (typeof AOS === 'undefined') {
+                var nodes = document.querySelectorAll('[data-aos]');
+                for (var i = 0; i < nodes.length; i++) {
+                    nodes[i].style.opacity = '1';
+                    nodes[i].style.transform = 'none';
+                    nodes[i].style.transition = 'none';
+                }
+                return;
+            }
             AOS.init({
                 duration: 800,
                 once: true,
