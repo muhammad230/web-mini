@@ -956,6 +956,45 @@
                             <p class="text-sm text-gray-400 mt-2">Max 2MB. JPG or PNG.</p>
                         </div>
                         <div class="mb-6">
+                            <label class="text-sm font-medium text-gray-500 mb-2 block">Verification Documents</label>
+                            <div class="space-y-2 mb-3 text-xs">
+                                <div class="flex items-center justify-between p-2.5 rounded-lg border border-gray-200 bg-gray-50">
+                                    <span class="font-medium text-gray-700">National ID / CNIC Photo</span>
+                                    @if($pro->id_document_path)
+                                        <span class="text-green-600 font-semibold flex items-center gap-1">✓ Uploaded</span>
+                                    @else
+                                        <span class="text-amber-600 font-medium">Not uploaded</span>
+                                    @endif
+                                </div>
+                                <div class="flex items-center justify-between p-2.5 rounded-lg border border-gray-200 bg-gray-50">
+                                    <span class="font-medium text-gray-700">Selfie Holding ID</span>
+                                    @if($pro->selfie_document_path)
+                                        <span class="text-green-600 font-semibold flex items-center gap-1">✓ Uploaded</span>
+                                    @else
+                                        <span class="text-gray-400">Optional</span>
+                                    @endif
+                                </div>
+                                <div class="flex items-center justify-between p-2.5 rounded-lg border border-gray-200 bg-gray-50">
+                                    <span class="font-medium text-gray-700">Trade Certification</span>
+                                    @if($pro->certification_document_path)
+                                        <span class="text-green-600 font-semibold flex items-center gap-1">✓ Uploaded</span>
+                                    @else
+                                        <span class="text-gray-400">Optional</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <select name="document_type" class="px-3 py-2 border border-gray-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-[#E8823C]">
+                                    <option value="">Select document type to upload</option>
+                                    <option value="id">National ID / CNIC Photo</option>
+                                    <option value="selfie">Selfie Holding ID</option>
+                                    <option value="certification">Trade Certification / License</option>
+                                </select>
+                                <input type="file" name="document_file" accept="image/*" class="text-xs text-gray-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-[#16302A] file:text-white file:font-semibold file:text-xs hover:file:bg-[#1e4238]">
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">Select document type, choose an image (max 10MB), then click Save Changes.</p>
+                        </div>
+                        <div class="mb-6">
                             <label class="text-sm font-medium text-gray-500 mb-2 block">Portfolio / Work Photos</label>
                             <div class="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center bg-[#F5F1EA]">
                                 <p class="text-sm text-gray-400">Portfolio uploads coming soon</p>

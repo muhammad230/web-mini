@@ -402,6 +402,8 @@ class ProfessionalController extends Controller
             'latitude'        => 'nullable|numeric|between:-90,90',
             'longitude'       => 'nullable|numeric|between:-180,180',
             'profile_photo'   => 'nullable|image|max:2048',
+            'document_type'   => 'nullable|in:id,selfie,certification',
+            'document_file'   => 'nullable|image|max:10240',
         ]);
 
         $data = $request->only([
@@ -416,6 +418,16 @@ class ProfessionalController extends Controller
         if ($request->hasFile('profile_photo')) {
             $path = $request->file('profile_photo')->store('profiles', 'public');
             $data['profile_photo'] = $path;
+        }
+
+        if ($request->hasFile('document_file') && $request->filled('document_type')) {
+            $field = match ($request->document_type) {
+                'id'            => 'id_document_path',
+                'selfie'        => 'selfie_document_path',
+                'certification' => 'certification_document_path',
+            };
+            $docPath = $request->file('document_file')->store('verification-docs', 'local');
+            $data[$field] = $docPath;
         }
 
         $pro->fill($data)->save();
