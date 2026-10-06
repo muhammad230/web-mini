@@ -85,6 +85,16 @@
         [data-theme="dark"] #add-address-modal button[type="button"]:hover {
             background: rgba(255,255,255,0.05) !important;
         }
+        [data-theme="dark"] #post-job-modal input[type="datetime-local"] {
+            background: #0f172a !important;
+            border-color: #374151 !important;
+            color: #e2e8f0 !important;
+            color-scheme: dark;
+        }
+        [data-theme="dark"] #post-job-modal input[type="datetime-local"]::-webkit-datetime-edit {
+            background: transparent;
+            color: #e2e8f0;
+        }
         [data-theme="dark"] #rescheduleModal > div {
             background: #1e293b !important;
             border: 1px solid #374151 !important;
