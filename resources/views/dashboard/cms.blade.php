@@ -351,11 +351,9 @@
                                     <label>Icon</label>
                                     <div class="icon-select">
                                         @foreach(['shield','lightning','briefcase','star','users','clock','check','thumbsup'] as $ic)
-                                        <label>
-                                            <input type="radio" name="stats[{{ $i }}][icon]" value="{{ $ic }}" {{ ($stat['icon'] ?? '') === $ic ? 'checked' : '' }}>
-                                            <label for="stats_{{ $i }}_icon_{{ $ic }}" style="border-color:{{ ($stat['icon'] ?? '') === $ic ? '#E8823C' : '#e2e8f0' }};background:{{ ($stat['icon'] ?? '') === $ic ? 'rgba(232,130,60,0.1)' : 'transparent' }};">
-                                                {!! $iconLibrary[$ic] !!}
-                                            </label>
+                                        <input type="radio" id="stats_{{ $i }}_icon_{{ $ic }}" name="stats[{{ $i }}][icon]" value="{{ $ic }}" {{ ($stat['icon'] ?? '') === $ic ? 'checked' : '' }}>
+                                        <label for="stats_{{ $i }}_icon_{{ $ic }}">
+                                            {!! $iconLibrary[$ic] !!}
                                         </label>
                                         @endforeach
                                     </div>
