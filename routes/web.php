@@ -235,7 +235,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 $lastMonth = now()->subMonth()->startOfMonth();
                 $jobsThisMonth = \App\Models\CustomerJob::where('created_at', '>=', $currentMonth)->count();
                 $completedJobs = \App\Models\CustomerJob::where('status', 'completed');
-                $platformRevenue = $completedJobs->sum('amount_paid');
+                $platformRevenue = \App\Models\Payment::where('status', 'paid')->sum('platform_fee');
                 $avgRating = \App\Models\Review::avg('rating');
                 
                 // Charts data
