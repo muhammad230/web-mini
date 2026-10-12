@@ -906,3 +906,33 @@ html, body {
   color: #E8823C !important;
   font-weight: 600 !important;
 }
+
+/* ═════════════════════════════════════════════════════════════════════
+   46. CUSTOMER PAYMENT PAGE (payments/customer-pay.blade.php)
+   Software-hardcoded inline <style> colors → dark equivalents
+   ═════════════════════════════════════════════════════════════════════ */
+[data-theme="dark"] .card {
+  background-color: #1E2A28 !important;
+  border-color: #374151 !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4) !important;
+}
+[data-theme="dark"] .fee-breakdown { background-color: #1a2422 !important; }
+[data-theme="dark"] .fee-row { color: #d1d5db !important; }
+[data-theme="dark"] .fee-row.total { border-top-color: #4a5568 !important; color: #f3f4f6 !important; }
+[data-theme="dark"] .card label { color: #d1d5db !important; }
+
+/* Default info banner (light amber) → dark amber, no !important so the
+   inline green/red variants below keep using their own colors */
+[data-theme="dark"] .info-banner { background-color: #78350f; color: #fbbf24; }
+
+/* Inline-styled success (green) / error (red) banners */
+[data-theme="dark"] [style*="background: #d1fae5"],
+[data-theme="dark"] [style*="background:#d1fae5"] {
+  background-color: #064e3b !important;
+  color: #6ee7b7 !important;
+}
+[data-theme="dark"] [style*="background: #fee2e2"],
+[data-theme="dark"] [style*="background:#fee2e2"] {
+  background-color: #7f1d1d !important;
+  color: #fca5a5 !important;
+}
