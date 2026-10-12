@@ -178,6 +178,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\
     Route::delete('/customer/addresses/{address}', [CustomerController::class, 'deleteAddress'])->name('customer.addresses.delete');
     Route::post('/customer/pros/save', [CustomerController::class, 'savePro'])->name('customer.pros.save');
     Route::post('/customer/pros/remove', [CustomerController::class, 'removeSavedPro'])->name('customer.pros.remove');
+    Route::delete('/customer/account', [CustomerController::class, 'deleteAccount'])->name('customer.account.delete');
 });
 
 // ── Professional Dashboard ────────────────────────────────────────────────────
@@ -192,6 +193,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware([App\Http\Middleware\
     Route::post('/professional/profile',               [\App\Http\Controllers\ProfessionalController::class, 'updateProfile'])->name('professional.profile.update');
     Route::post('/professional/password',              [\App\Http\Controllers\ProfessionalController::class, 'changePassword'])->name('professional.password.update');
     Route::post('/professional/payout-request',        [\App\Http\Controllers\PaymentController::class, 'requestPayout'])->name('professional.payout-request');
+    Route::delete('/professional/account',             [\App\Http\Controllers\ProfessionalController::class, 'deleteAccount'])->name('professional.account.delete');
 });
 
 // ── Notifications ─────────────────────────────────────────────────────────────

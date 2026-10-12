@@ -751,6 +751,16 @@
                 </div>
             </div>
         </div>
+
+        <div class="mt-8 pt-6 border-t border-red-200">
+            <h3 class="font-semibold text-red-600 mb-2">Danger Zone</h3>
+            <p class="text-sm text-gray-500 mb-4">Once you delete your account, there is no going back. All your data will be permanently removed.</p>
+            <form method="POST" action="{{ route('dashboard.customer.account.delete') }}" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg text-sm transition">Delete Account</button>
+            </form>
+        </div>
     </section>
     </div>
 
@@ -933,6 +943,16 @@
                         </form>
                     </div>
                 </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-red-200">
+                <h3 class="font-semibold text-red-600 mb-2">Danger Zone</h3>
+                <p class="text-sm text-gray-500 mb-4">Once you delete your account, there is no going back. All your data will be permanently removed.</p>
+                <form method="POST" action="{{ route('dashboard.customer.account.delete') }}" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg text-sm transition">Delete Account</button>
+                </form>
             </div>
         </section>
     </div>

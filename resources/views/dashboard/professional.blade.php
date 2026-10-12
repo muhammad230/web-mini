@@ -1026,6 +1026,16 @@
                 </div>
             </form>
         </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-red-200 p-6 mb-8">
+            <h3 class="font-semibold text-red-600 mb-2">Danger Zone</h3>
+            <p class="text-sm text-gray-500 mb-4">Once you delete your account, there is no going back. All your data will be permanently removed.</p>
+            <form method="POST" action="{{ route('dashboard.professional.account.delete') }}" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg text-sm transition">Delete Account</button>
+            </form>
+        </section>
     @endif
 
 {{-- ── SEND QUOTE MODAL ── --}}

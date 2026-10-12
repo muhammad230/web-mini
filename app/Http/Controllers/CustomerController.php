@@ -293,6 +293,19 @@ class CustomerController extends Controller
         return back()->with('success', 'Password changed!');
     }
 
+    public function deleteAccount(Request $request)
+    {
+        $user = Auth::user();
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        $user->delete();
+
+        return redirect()->route('home')->with('success', 'Your account has been deleted.');
+    }
+
     public function storeAddress(Request $request)
     {
         $request->validate([

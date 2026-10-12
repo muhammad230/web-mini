@@ -454,6 +454,20 @@ class ProfessionalController extends Controller
         return back()->with('success', 'Password changed successfully.');
     }
 
+    // ── Delete account ─────────────────────────────────────────────
+    public function deleteAccount(Request $request)
+    {
+        $pro = Auth::user();
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        $pro->delete();
+
+        return redirect()->route('home')->with('success', 'Your account has been deleted.');
+    }
+
     // ── Helper: human time ago ─────────────────────────────────────
     private function timeAgo(?string $datetime): string
     {
