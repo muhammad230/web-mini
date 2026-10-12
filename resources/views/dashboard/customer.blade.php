@@ -752,14 +752,20 @@
             </div>
         </div>
 
-        <div class="mt-8 pt-6 border-t border-red-200">
-            <h3 class="font-semibold text-red-600 mb-2">Danger Zone</h3>
-            <p class="text-sm text-gray-500 mb-4">Once you delete your account, there is no going back. All your data will be permanently removed.</p>
-            <form method="POST" action="{{ route('dashboard.customer.account.delete') }}" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg text-sm transition">Delete Account</button>
-            </form>
+        <div class="mt-8 rounded-xl border border-red-200 bg-red-50/60 p-5">
+            <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-11 h-11 rounded-full bg-red-100 flex items-center justify-center">
+                    <svg width="22" height="22" fill="none" stroke="#dc2626" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h3 class="font-semibold text-red-700">Delete Account</h3>
+                    <p class="text-sm text-gray-600 mt-1 mb-4">Permanently delete your account and all associated data — jobs, messages, reviews and saved items. This action is irreversible.</p>
+                    <button type="button" onclick="openDeleteAccountModal()" class="inline-flex items-center gap-2 px-5 py-2.5 border border-red-300 text-red-600 bg-white hover:bg-red-600 hover:text-white hover:border-red-600 font-semibold rounded-lg text-sm transition">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        Delete Account
+                    </button>
+                </div>
+            </div>
         </div>
     </section>
     </div>
@@ -945,14 +951,20 @@
                 </div>
             </div>
 
-            <div class="mt-8 pt-6 border-t border-red-200">
-                <h3 class="font-semibold text-red-600 mb-2">Danger Zone</h3>
-                <p class="text-sm text-gray-500 mb-4">Once you delete your account, there is no going back. All your data will be permanently removed.</p>
-                <form method="POST" action="{{ route('dashboard.customer.account.delete') }}" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg text-sm transition">Delete Account</button>
-                </form>
+            <div class="mt-8 rounded-xl border border-red-200 bg-red-50/60 p-5">
+                <div class="flex items-start gap-4">
+                    <div class="flex-shrink-0 w-11 h-11 rounded-full bg-red-100 flex items-center justify-center">
+                        <svg width="22" height="22" fill="none" stroke="#dc2626" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-semibold text-red-700">Delete Account</h3>
+                        <p class="text-sm text-gray-600 mt-1 mb-4">Permanently delete your account and all associated data — jobs, messages, reviews and saved items. This action is irreversible.</p>
+                        <button type="button" onclick="openDeleteAccountModal()" class="inline-flex items-center gap-2 px-5 py-2.5 border border-red-300 text-red-600 bg-white hover:bg-red-600 hover:text-white hover:border-red-600 font-semibold rounded-lg text-sm transition">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            Delete Account
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
@@ -1049,6 +1061,27 @@
                 <div class="flex justify-end gap-3 mt-6">
                     <button type="button" onclick="document.getElementById('add-address-modal').classList.add('hidden')" class="px-5 py-2.5 border border-gray-300 text-gray-700 font-semibold rounded-lg text-sm hover:bg-gray-50">Cancel</button>
                     <button type="submit" class="px-5 py-2.5 bg-[#E8823C] hover:bg-[#c96a2a] text-white font-semibold rounded-lg text-sm transition">Add Address</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div id="delete-account-modal" class="fixed inset-0 z-[1000] hidden items-center justify-center bg-black/50 p-4">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative modal-inner">
+            <div class="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
+                <svg width="28" height="28" fill="none" stroke="#dc2626" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold text-[#16302A] text-center mb-2">Delete your account?</h3>
+            <p class="text-sm text-gray-500 text-center mb-5">This will permanently erase your profile and all related data. This action cannot be undone.</p>
+            <form method="POST" action="{{ route('dashboard.customer.account.delete') }}">
+                @csrf
+                @method('DELETE')
+                <label class="block text-xs font-medium text-gray-500 mb-1.5">Type <span class="font-bold text-red-600">DELETE</span> to confirm</label>
+                <input type="text" id="deleteAccountConfirm" autocomplete="off" placeholder="DELETE" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 mb-5">
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeDeleteAccountModal()" class="flex-1 py-2.5 border border-gray-300 text-gray-700 font-semibold rounded-lg text-sm hover:bg-gray-50 transition">Cancel</button>
+                    <button type="submit" id="deleteAccountSubmit" disabled class="flex-1 py-2.5 bg-red-600 text-white font-semibold rounded-lg text-sm transition opacity-50 cursor-not-allowed">Delete Account</button>
                 </div>
             </form>
         </div>
@@ -1164,6 +1197,35 @@
 
         document.getElementById('rescheduleModal').addEventListener('click', function(e) {
             if (e.target === this) closeRescheduleModal();
+        });
+
+        /* ── Delete Account Modal ── */
+        function openDeleteAccountModal() {
+            document.getElementById('delete-account-modal').classList.remove('hidden');
+            document.getElementById('delete-account-modal').classList.add('flex');
+            var input = document.getElementById('deleteAccountConfirm');
+            input.value = '';
+            toggleDeleteAccountSubmit();
+            input.focus();
+        }
+
+        function closeDeleteAccountModal() {
+            document.getElementById('delete-account-modal').classList.add('hidden');
+            document.getElementById('delete-account-modal').classList.remove('flex');
+        }
+
+        function toggleDeleteAccountSubmit() {
+            var ok = document.getElementById('deleteAccountConfirm').value.trim().toUpperCase() === 'DELETE';
+            var btn = document.getElementById('deleteAccountSubmit');
+            btn.disabled = !ok;
+            btn.classList.toggle('opacity-50', !ok);
+            btn.classList.toggle('cursor-not-allowed', !ok);
+        }
+
+        document.getElementById('deleteAccountConfirm').addEventListener('input', toggleDeleteAccountSubmit);
+
+        document.getElementById('delete-account-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeDeleteAccountModal();
         });
     </script>
     <script src="/js/theme-toggle.js"></script>
