@@ -1,3 +1,17 @@
+<style>
+@media (max-width: 640px) {
+    #notificationDropdown {
+        position: fixed !important;
+        top: 76px !important;
+        left: 12px !important;
+        right: 12px !important;
+        width: auto !important;
+        max-width: none !important;
+        margin-top: 0 !important;
+    }
+}
+</style>
+
 <!-- Notification Bell -->
 <div class="relative notification-bell" x-data="{ open: false }">
     <button id="notificationBellBtn" onclick="toggleNotificationDropdown()" class="relative p-2 text-gray-600 hover:bg-black/5 rounded-lg transition">
