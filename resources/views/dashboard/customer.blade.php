@@ -170,7 +170,7 @@
 
         <!-- Profile Dropdown -->
         <div class="relative group">
-            <div class="flex items-center gap-2 cursor-pointer">
+            <div id="cust-profile-trigger" onclick="toggleCustProfileMenu(event)" class="flex items-center gap-2 cursor-pointer">
                 @if(Auth::user()->profile_photo)
                     <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" class="w-10 h-10 rounded-full object-cover">
                 @else
@@ -185,7 +185,7 @@
             </div>
             
             <!-- Dropdown Menu -->
-            <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div id="cust-profile-menu" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 <a href="#profile" data-tab="profile" class="dropdown-link flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0z"/>
@@ -1157,6 +1157,7 @@
                     e.preventDefault();
                     switchToTab(targetTab);
                     document.querySelector('.relative.group').classList.remove('group');
+                    if (typeof closeCustProfileMenu === 'function') closeCustProfileMenu();
                 });
             });
         });
@@ -1283,6 +1284,32 @@
             if (link) link.click();
             closeCustHamburger();
         }
+        /* Customer Profile Dropdown (mobile tap support) */
+        function toggleCustProfileMenu(e) {
+            if (e) e.stopPropagation();
+            var menu = document.getElementById('cust-profile-menu');
+            if (!menu) return;
+            if (menu.style.visibility !== 'visible') {
+                menu.style.opacity = '1';
+                menu.style.visibility = 'visible';
+            } else {
+                closeCustProfileMenu();
+            }
+        }
+        function closeCustProfileMenu() {
+            var menu = document.getElementById('cust-profile-menu');
+            if (!menu) return;
+            menu.style.opacity = '';
+            menu.style.visibility = '';
+        }
+        document.addEventListener('click', function(e) {
+            var menu = document.getElementById('cust-profile-menu');
+            var trigger = document.getElementById('cust-profile-trigger');
+            if (!menu || !trigger) return;
+            if (!menu.contains(e.target) && !trigger.contains(e.target)) {
+                closeCustProfileMenu();
+            }
+        });
         document.addEventListener('click', function(e) {
             var menu = document.getElementById('cust-hamburger-menu');
             var btn = document.getElementById('cust-hamburger-btn');
