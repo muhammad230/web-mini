@@ -134,8 +134,8 @@
         </a>
     </div>
 
-    <!-- Navigation Tabs -->
-    <nav class="flex items-center gap-1 overflow-x-auto">
+    <!-- Navigation Tabs (Desktop) -->
+    <nav class="hidden md:flex items-center gap-1 overflow-x-auto">
         <a href="#dashboard" class="tab-link px-2 py-2 rounded-lg tab-active text-xs sm:text-sm font-semibold whitespace-nowrap" data-tab="dashboard">Dashboard</a>
         <a href="#my-jobs" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap" data-tab="my-jobs">My Jobs</a>
         <a href="#find-pro" class="tab-link px-2 py-2 rounded-lg tab-inactive text-xs sm:text-sm whitespace-nowrap" data-tab="find-pro">Find a Pro</a>
@@ -149,6 +149,24 @@
         <!-- Notifications -->
                         @include('partials.theme-toggle')
                         @include('partials.notification-bell')
+
+        <!-- Mobile Hamburger for Nav -->
+        <div class="md:hidden relative">
+            <button id="cust-hamburger-btn" onclick="toggleCustHamburger(event)" class="w-9 h-9 rounded-lg flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors" aria-label="Menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+            <div id="cust-hamburger-backdrop" onclick="closeCustHamburger()" class="hidden fixed inset-0 bg-black/30 z-[60]"></div>
+            <div id="cust-hamburger-menu" class="hidden fixed top-16 right-3 w-56 bg-white rounded-xl shadow-xl z-[70] overflow-hidden">
+                <div class="py-1">
+                    <a href="#dashboard" onclick="custMobileTab(event, 'dashboard')" data-mob-tab="dashboard" class="cust-mob-tab block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Dashboard</a>
+                    <a href="#my-jobs" onclick="custMobileTab(event, 'my-jobs')" data-mob-tab="my-jobs" class="cust-mob-tab block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">My Jobs</a>
+                    <a href="#find-pro" onclick="custMobileTab(event, 'find-pro')" data-mob-tab="find-pro" class="cust-mob-tab block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Find a Pro</a>
+                    <a href="{{ route('messages.index') }}" onclick="closeCustHamburger()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Messages</a>
+                    <a href="#payments" onclick="custMobileTab(event, 'payments')" data-mob-tab="payments" class="cust-mob-tab block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Payments</a>
+                    <a href="#profile" onclick="custMobileTab(event, 'profile')" data-mob-tab="profile" class="cust-mob-tab block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Profile</a>
+                </div>
+            </div>
+        </div>
 
         <!-- Profile Dropdown -->
         <div class="relative group">
@@ -1226,6 +1244,55 @@
 
         document.getElementById('delete-account-modal').addEventListener('click', function(e) {
             if (e.target === this) closeDeleteAccountModal();
+        });
+
+        /* Customer Dashboard Hamburger Menu */
+        function toggleCustHamburger(event) {
+            if (event) event.stopPropagation();
+            var menu = document.getElementById('cust-hamburger-menu');
+            var backdrop = document.getElementById('cust-hamburger-backdrop');
+            if (!menu || !backdrop) return;
+            if (menu.classList.contains('hidden')) {
+                syncCustMobActive();
+                menu.classList.remove('hidden');
+                backdrop.classList.remove('hidden');
+            } else {
+                closeCustHamburger();
+            }
+        }
+        function closeCustHamburger() {
+            var menu = document.getElementById('cust-hamburger-menu');
+            var backdrop = document.getElementById('cust-hamburger-backdrop');
+            if (!menu || !backdrop) return;
+            menu.classList.add('hidden');
+            backdrop.classList.add('hidden');
+        }
+        function syncCustMobActive() {
+            var active = document.querySelector('.tab-link.tab-active[data-tab]');
+            var activeTab = active ? active.getAttribute('data-tab') : null;
+            document.querySelectorAll('.cust-mob-tab').forEach(function(el) {
+                var isActive = activeTab && el.getAttribute('data-mob-tab') === activeTab;
+                el.classList.toggle('text-[#E8823C]', isActive);
+                el.classList.toggle('font-semibold', isActive);
+                el.classList.toggle('text-gray-700', !isActive);
+            });
+        }
+        function custMobileTab(e, tab) {
+            e.preventDefault();
+            var link = document.querySelector('.tab-link[data-tab="' + tab + '"]');
+            if (link) link.click();
+            closeCustHamburger();
+        }
+        document.addEventListener('click', function(e) {
+            var menu = document.getElementById('cust-hamburger-menu');
+            var btn = document.getElementById('cust-hamburger-btn');
+            if (!menu || !btn) return;
+            if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                closeCustHamburger();
+            }
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeCustHamburger();
         });
     </script>
     <script src="/js/theme-toggle.js"></script>
