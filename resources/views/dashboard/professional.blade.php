@@ -87,7 +87,7 @@
 
         <!-- Profile Dropdown -->
         <div class="relative group">
-            <div class="flex items-center gap-2 cursor-pointer">
+            <div id="pro-profile-trigger" onclick="toggleProProfileMenu(event)" class="flex items-center gap-2 cursor-pointer">
                 @if(Auth::user()->profile_photo)
                     <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" class="w-10 h-10 rounded-full object-cover">
                 @else
@@ -102,7 +102,7 @@
             </div>
             
             <!-- Dropdown Menu -->
-            <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div id="pro-profile-menu" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 <a href="{{ route('dashboard.professional', ['tab' => 'profile']) }}" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0z"/>
@@ -1211,16 +1211,38 @@ function closeProHamburger() {
     menu.classList.add('hidden');
     backdrop.classList.add('hidden');
 }
+/* Professional Profile Dropdown (mobile tap support) */
+function toggleProProfileMenu(e) {
+    if (e) e.stopPropagation();
+    var menu = document.getElementById('pro-profile-menu');
+    if (!menu) return;
+    if (menu.style.visibility !== 'visible') {
+        menu.style.opacity = '1';
+        menu.style.visibility = 'visible';
+    } else {
+        closeProProfileMenu();
+    }
+}
+function closeProProfileMenu() {
+    var menu = document.getElementById('pro-profile-menu');
+    if (!menu) return;
+    menu.style.opacity = '';
+    menu.style.visibility = '';
+}
 document.addEventListener('click', function(e) {
     const menu = document.getElementById('pro-hamburger-menu');
     const btn = document.getElementById('pro-hamburger-btn');
-    if (!menu || !btn) return;
-    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+    if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
         closeProHamburger();
+    }
+    const pMenu = document.getElementById('pro-profile-menu');
+    const pTrigger = document.getElementById('pro-profile-trigger');
+    if (pMenu && pTrigger && !pMenu.contains(e.target) && !pTrigger.contains(e.target)) {
+        closeProProfileMenu();
     }
 });
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeProHamburger();
+    if (e.key === 'Escape') { closeProHamburger(); closeProProfileMenu(); }
 });
     </script>
     <script src="/js/theme-toggle.js"></script>
