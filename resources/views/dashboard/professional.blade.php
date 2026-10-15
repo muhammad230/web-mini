@@ -51,8 +51,8 @@
         </a>
     </div>
 
-    <!-- Navigation Tabs -->
-    <nav class="flex items-center gap-1 overflow-x-auto">
+    <!-- Navigation Tabs (Desktop) -->
+    <nav class="hidden md:flex items-center gap-1 overflow-x-auto">
         <a href="{{ route('dashboard.professional', ['tab' => 'dashboard']) }}" class="px-2 py-2 rounded-lg {{ request('tab', 'dashboard') === 'dashboard' ? 'tab-active' : 'tab-inactive' }} text-xs sm:text-sm font-semibold whitespace-nowrap">Dashboard</a>
         <a href="{{ route('dashboard.professional', ['tab' => 'leads']) }}" class="px-2 py-2 rounded-lg {{ request('tab') === 'leads' ? 'tab-active' : 'tab-inactive' }} text-xs sm:text-sm whitespace-nowrap">Leads</a>
         <a href="{{ route('dashboard.professional', ['tab' => 'jobs']) }}" class="px-2 py-2 rounded-lg {{ request('tab') === 'jobs' ? 'tab-active' : 'tab-inactive' }} text-xs sm:text-sm whitespace-nowrap">My Jobs</a>
@@ -66,6 +66,24 @@
         <!-- Notifications -->
         @include('partials.theme-toggle')
         @include('partials.notification-bell')
+
+        <!-- Mobile Hamburger for Nav -->
+        <div class="md:hidden relative">
+            <button id="pro-hamburger-btn" onclick="toggleProHamburger(event)" class="w-9 h-9 rounded-lg flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors" aria-label="Menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+            <div id="pro-hamburger-backdrop" onclick="closeProHamburger()" class="hidden fixed inset-0 bg-black/30 z-[60]"></div>
+            <div id="pro-hamburger-menu" class="hidden fixed top-16 right-3 w-56 bg-white rounded-xl shadow-xl z-[70] overflow-hidden">
+                <div class="py-1">
+                    <a href="{{ route('dashboard.professional', ['tab' => 'dashboard']) }}" onclick="closeProHamburger()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 {{ request('tab', 'dashboard') === 'dashboard' ? 'text-[#E8823C] font-semibold' : '' }}">Dashboard</a>
+                    <a href="{{ route('dashboard.professional', ['tab' => 'leads']) }}" onclick="closeProHamburger()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 {{ request('tab') === 'leads' ? 'text-[#E8823C] font-semibold' : '' }}">Leads</a>
+                    <a href="{{ route('dashboard.professional', ['tab' => 'jobs']) }}" onclick="closeProHamburger()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 {{ request('tab') === 'jobs' ? 'text-[#E8823C] font-semibold' : '' }}">My Jobs</a>
+                    <a href="{{ route('dashboard.professional', ['tab' => 'earnings']) }}" onclick="closeProHamburger()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 {{ request('tab') === 'earnings' ? 'text-[#E8823C] font-semibold' : '' }}">Earnings</a>
+                    <a href="{{ route('messages.index') }}" onclick="closeProHamburger()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Messages</a>
+                    <a href="{{ route('dashboard.professional', ['tab' => 'profile']) }}" onclick="closeProHamburger()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 {{ request('tab') === 'profile' || request('tab') === 'settings' ? 'text-[#E8823C] font-semibold' : '' }}">Profile</a>
+                </div>
+            </div>
+        </div>
 
         <!-- Profile Dropdown -->
         <div class="relative group">
@@ -1170,6 +1188,39 @@ function toggleDeleteAccountSubmit() {
 document.getElementById('proDeleteAccountConfirm').addEventListener('input', toggleDeleteAccountSubmit);
 document.getElementById('deleteAccountModal').addEventListener('click', function(e) {
     if (e.target === this) closeDeleteAccountModal();
+});
+
+/* Professional Dashboard Hamburger Menu */
+function toggleProHamburger(event) {
+    if (event) event.stopPropagation();
+    const menu = document.getElementById('pro-hamburger-menu');
+    const backdrop = document.getElementById('pro-hamburger-backdrop');
+    if (!menu || !backdrop) return;
+    const isHidden = menu.classList.contains('hidden');
+    if (isHidden) {
+        menu.classList.remove('hidden');
+        backdrop.classList.remove('hidden');
+    } else {
+        closeProHamburger();
+    }
+}
+function closeProHamburger() {
+    const menu = document.getElementById('pro-hamburger-menu');
+    const backdrop = document.getElementById('pro-hamburger-backdrop');
+    if (!menu || !backdrop) return;
+    menu.classList.add('hidden');
+    backdrop.classList.add('hidden');
+}
+document.addEventListener('click', function(e) {
+    const menu = document.getElementById('pro-hamburger-menu');
+    const btn = document.getElementById('pro-hamburger-btn');
+    if (!menu || !btn) return;
+    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+        closeProHamburger();
+    }
+});
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeProHamburger();
 });
     </script>
     <script src="/js/theme-toggle.js"></script>
