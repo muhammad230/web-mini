@@ -216,7 +216,7 @@
 </header>
 
 <!-- Main Content -->
-<main class="max-w-7xl mx-auto px-6 py-8">
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
     @if(session('success'))
         <div class="mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 px-4 py-3 rounded-lg">{{ session('success') }}</div>
     @endif
@@ -678,16 +678,16 @@
     </div>
 
     <!-- Profile Section -->
-    <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+    <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6">
         <h2 class="text-xl font-bold text-[#16302A] mb-6 heading-underline">Profile & Settings</h2>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             <div>
                 <h3 class="font-semibold text-[#16302A] mb-4">Personal Information</h3>
                 <form method="POST" action="{{ route('dashboard.customer.profile.update') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="space-y-4">
-                        <div class="flex items-center gap-4 mb-4">
+                        <div class="flex flex-wrap items-center gap-4 mb-4">
                             @if(Auth::user()->profile_photo)
                                 <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" class="w-20 h-20 rounded-full object-cover">
                             @else
@@ -879,14 +879,14 @@
     <!-- Profile Tab -->
     <div id="profile" class="tab-content hidden">
         <h1 class="text-3xl font-extrabold text-[#16302A] mb-8 heading-underline">Profile & Settings</h1>
-        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                 <div>
                     <h3 class="font-semibold text-[#16302A] mb-4">Personal Information</h3>
                     <form method="POST" action="{{ route('dashboard.customer.profile.update') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="space-y-4">
-                            <div class="flex items-center gap-4 mb-4">
+                            <div class="flex flex-wrap items-center gap-4 mb-4">
                                 @if(Auth::user()->profile_photo)
                                     <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" class="w-20 h-20 rounded-full object-cover">
                                 @else
