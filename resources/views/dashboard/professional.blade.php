@@ -63,10 +63,6 @@
 
     <!-- Right Side -->
     <div class="flex items-center gap-2 sm:gap-4" style="color:#fff;">
-        <!-- Notifications -->
-        @include('partials.theme-toggle')
-        @include('partials.notification-bell')
-
         <!-- Mobile Hamburger for Nav -->
         <div class="md:hidden relative">
             <button id="pro-hamburger-btn" onclick="toggleProHamburger(event)" class="w-9 h-9 rounded-lg flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors" aria-label="Menu">
@@ -84,6 +80,10 @@
                 </div>
             </div>
         </div>
+
+        <!-- Notifications -->
+        @include('partials.notification-bell')
+        @include('partials.theme-toggle')
 
         <!-- Profile Dropdown -->
         <div class="relative group">
