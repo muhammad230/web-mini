@@ -63,6 +63,7 @@ html.theme-transitioning *::after {
 [data-theme="dark"] .bg-gray-50 { background-color: #1a2422 !important; }
 [data-theme="dark"] .bg-gray-100 { background-color: #1a2422 !important; }
 [data-theme="dark"] .bg-orange-50\/50 { background-color: rgba(232,130,60,0.08) !important; }
+[data-theme="dark"] .bg-\[\#e8f4f1\] { background-color: #1a2e2a !important; }
 [data-theme="dark"] [style*="background:#fff"],
 [data-theme="dark"] [style*="background: #fff"],
 [data-theme="dark"] [style*="background:white"],
