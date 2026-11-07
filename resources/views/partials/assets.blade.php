@@ -6,3 +6,5 @@
       After editing resources/css/app.css run:  npm run build
 --}}
 @vite(['resources/css/app.css'])
+<link rel="icon" type="image/png" href="{{ asset('images/fixly-favicon.png') }}">
+<link rel="apple-touch-icon" href="{{ asset('images/fixly-favicon.png') }}">
