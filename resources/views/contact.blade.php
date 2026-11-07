@@ -76,17 +76,29 @@
                 <div class="mt-8">
                     <p class="font-semibold text-gray-800 mb-3">Follow Us</p>
                     <div class="flex gap-3">
-                        @php $social = $footerData['social'] ?? []; @endphp
-                        <a href="{{ $social['facebook'] ?? '#' }}" target="_blank" class="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:border-[#E8823C] transition-colors group">
+                        @php
+                            $social = $footerData['social'] ?? [];
+                            $socialDefaults = [
+                                'facebook' => 'https://www.facebook.com',
+                                'instagram' => 'https://www.instagram.com',
+                                'twitter' => 'https://twitter.com',
+                                'youtube' => 'https://www.youtube.com',
+                            ];
+                            $socialLink = function ($key) use ($social, $socialDefaults) {
+                                $url = $social[$key] ?? '';
+                                return ($url === '' || $url === '#') ? $socialDefaults[$key] : $url;
+                            };
+                        @endphp
+                        <a href="{{ $socialLink('facebook') }}" target="_blank" class="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:border-[#E8823C] transition-colors group">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="#9ca3af" class="group-hover:fill-[#E8823C] transition-colors"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
                         </a>
-                        <a href="{{ $social['instagram'] ?? '#' }}" target="_blank" class="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:border-[#E8823C] transition-colors group">
+                        <a href="{{ $socialLink('instagram') }}" target="_blank" class="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:border-[#E8823C] transition-colors group">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" class="group-hover:stroke-[#E8823C] transition-colors"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#9ca3af"/></svg>
                         </a>
-                        <a href="{{ $social['twitter'] ?? '#' }}" target="_blank" class="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:border-[#E8823C] transition-colors group">
+                        <a href="{{ $socialLink('twitter') }}" target="_blank" class="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:border-[#E8823C] transition-colors group">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="#9ca3af" class="group-hover:fill-[#E8823C] transition-colors"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
                         </a>
-                        <a href="{{ $social['youtube'] ?? '#' }}" target="_blank" class="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:border-[#E8823C] transition-colors group">
+                        <a href="{{ $socialLink('youtube') }}" target="_blank" class="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:border-[#E8823C] transition-colors group">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" class="group-hover:stroke-[#E8823C] transition-colors"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#9ca3af" stroke="none"/></svg>
                         </a>
                     </div>
