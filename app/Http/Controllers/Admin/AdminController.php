@@ -8,7 +8,6 @@ use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -196,35 +195,20 @@ class AdminController extends Controller
     {
         $admin = Auth::user();
 
-        Log::debug('updateSettings START', [
-            'admin_id' => $admin?->id,
-            'admin_name_from_db' => $admin?->name,
-            'name_input' => $request->name,
-            'email_input' => $request->email,
-        ]);
-
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $admin->id,
+            'password' => 'nullable|string|min:6|confirmed',
         ]);
 
-        $admin->name = $request->name;
-        $admin->email = $request->email;
+        $admin->name = $validated['name'];
+        $admin->email = $validated['email'];
 
-        if ($request->filled('password')) {
-            $request->validate([
-                'password' => 'required|string|min:6|confirmed',
-            ]);
-            $admin->password = bcrypt($request->password);
+        if (! empty($validated['password'])) {
+            $admin->password = $validated['password'];
         }
 
-        $saved = $admin->save();
-
-        Log::debug('updateSettings END', [
-            'save_returned' => $saved,
-            'name_in_object' => $admin->name,
-            'email_in_object' => $admin->email,
-        ]);
+        $admin->save();
 
         return redirect()->route('admin.settings')->with('success', 'Settings updated!');
     }

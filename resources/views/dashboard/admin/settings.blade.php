@@ -50,6 +50,8 @@
         .form-input:focus { outline: none; border-color: #E8823C; box-shadow: 0 0 0 3px rgba(232, 130, 60, 0.1); }
         .btn-primary { background: #E8823C; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
         .alert-success { background: #dcfce7; color: #15803d; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 0.85rem; font-weight: 600; }
+        .alert-error { background: #fee2e2; color: #b91c1c; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 0.85rem; font-weight: 600; }
+        .alert-error ul { margin: 6px 0 0 18px; }
         @media (max-width: 768px) { .content { padding: 20px 16px; } .topbar { padding: 12px 16px; } }
         .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 90; }
         .sidebar-overlay.active { display: block; }
@@ -171,25 +173,36 @@
             </div>
         @endif
 
+        @if($errors->any())
+            <div class="alert-error">
+                Please fix the following:
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="card">
             <div class="card-title">Account Settings</div>
             <form method="POST" action="{{ route('admin.settings.update') }}">
                 @csrf
                 <div class="form-group">
                     <label class="form-label" for="name">Name</label>
-                    <input type="text" id="name" name="name" value="{{ $admin->name }}" class="form-input" required>
+                    <input type="text" id="name" name="name" value="{{ old('name', $admin->name) }}" class="form-input" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="email">Email</label>
-                    <input type="email" id="email" name="email" value="{{ $admin->email }}" class="form-input" required>
+                    <input type="email" id="email" name="email" value="{{ old('email', $admin->email) }}" class="form-input" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="password">New Password (leave blank to keep current)</label>
-                    <input type="password" id="password" name="password" class="form-input">
+                    <input type="password" id="password" name="password" class="form-input" autocomplete="new-password">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="password_confirmation">Confirm New Password</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-input">
+                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-input" autocomplete="new-password">
                 </div>
                 <button type="submit" class="btn-primary">Save Changes</button>
             </form>
